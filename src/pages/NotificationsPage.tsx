@@ -157,18 +157,6 @@ export const NotificationsPage: React.FC = () => {
                 <div className="w-11 h-11 rounded-btn bg-[#0088cc]/15 border border-[#0088cc]/30 flex items-center justify-center text-[#0088cc] shadow-xs">
                   <TelegramIcon size={24} />
                 </div>
-                <span
-                  className={`text-mini font-mono px-2.5 py-1 rounded border flex items-center gap-1.5 font-bold ${telegramActive
-                      ? 'bg-emerald-100 text-emerald-800 border-emerald-300'
-                      : 'bg-white/80 text-teal-800 border-teal-200'
-                    }`}
-                >
-                  <span
-                    className={`w-1.5 h-1.5 rounded-full ${telegramActive ? 'bg-emerald-600 animate-pulse' : 'bg-slate-400'
-                      }`}
-                  />
-                  <span>{telegramActive ? 'CONNECTED' : 'DISCONNECTED'}</span>
-                </span>
               </div>
 
               <div>
@@ -257,18 +245,6 @@ export const NotificationsPage: React.FC = () => {
                 <div className="w-11 h-11 rounded-btn bg-[#5865f2]/15 border border-[#5865f2]/30 flex items-center justify-center text-[#4752c4] shadow-xs">
                   <DiscordIcon size={24} />
                 </div>
-                <span
-                  className={`text-mini font-mono px-2.5 py-1 rounded border flex items-center gap-1.5 font-bold ${discordActive
-                      ? 'bg-emerald-100 text-emerald-800 border-emerald-300'
-                      : 'bg-white/80 text-teal-800 border-teal-200'
-                    }`}
-                >
-                  <span
-                    className={`w-1.5 h-1.5 rounded-full ${discordActive ? 'bg-emerald-600 animate-pulse' : 'bg-slate-400'
-                      }`}
-                  />
-                  <span>{discordActive ? 'CONNECTED' : 'DISCONNECTED'}</span>
-                </span>
               </div>
 
               <div>
