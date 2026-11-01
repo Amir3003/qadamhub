@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import { PageHeader } from '../components/PageHeader';
 import { SuggestOpportunityModal } from '../components/SuggestOpportunityModal';
-import { availableIn, profileCountry } from '../db/location';
 import {
   SearchIcon,
   RefreshIcon,
@@ -16,7 +15,7 @@ import {
   PlusIcon,
 } from '../components/Icons';
 
-type RadarFilter = 'All' | 'Hackathons' | 'Grants' | 'Internships' | 'Near me' | 'Match >80%';
+type RadarFilter = 'All' | 'Hackathons' | 'Grants' | 'Internships';
 
 export const RadarPage: React.FC = () => {
   const navigate = useNavigate();
@@ -31,15 +30,9 @@ export const RadarPage: React.FC = () => {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState<RadarFilter>('All');
-  // The radar is global; the country filter appears only when the profile has a country.
-  const country = profileCountry(userProfile.location || '');
-
-  const [showMoreFilters, setShowMoreFilters] = useState(false);
   const [isSuggestOpen, setIsSuggestOpen] = useState(false);
 
-  const primaryFilters: RadarFilter[] = ['All', 'Hackathons', 'Grants', 'Internships'];
-  const secondaryFilters: RadarFilter[] = [...(country ? (['Near me'] as RadarFilter[]) : []), 'Match >80%'];
-  const secondaryActive = secondaryFilters.includes(activeFilter);
+  const filters: RadarFilter[] = ['All', 'Hackathons', 'Grants', 'Internships'];
 
   const renderChip = (filter: RadarFilter) => {
     const isActive = activeFilter === filter;
@@ -56,7 +49,7 @@ export const RadarPage: React.FC = () => {
           }
         `}
       >
-        {filter === 'Near me' ? `Open from ${country}` : filter}
+        {filter}
       </button>
     );
   };
@@ -66,12 +59,10 @@ export const RadarPage: React.FC = () => {
 
   const filteredOpportunities = useMemo(() => {
     return opportunities.filter((opp) => {
-      // Filter by type or match threshold
+      // Filter by type
       if (activeFilter === 'Hackathons' && opp.type !== 'HACKATHON') return false;
       if (activeFilter === 'Grants' && opp.type !== 'GRANT') return false;
       if (activeFilter === 'Internships' && opp.type !== 'INTERNSHIP') return false;
-      if (activeFilter === 'Match >80%' && opp.match < 80) return false;
-      if (activeFilter === 'Near me' && !availableIn(opp, country)) return false;
 
       // Filter by search query
       if (searchQuery.trim() !== '') {
@@ -86,7 +77,7 @@ export const RadarPage: React.FC = () => {
 
       return true;
     });
-  }, [opportunities, activeFilter, searchQuery, country]);
+  }, [opportunities, activeFilter, searchQuery]);
 
   return (
     <div className="flex-1 flex flex-col min-w-0 bg-transparent relative z-10 text-slate-100">
@@ -156,25 +147,11 @@ export const RadarPage: React.FC = () => {
             />
           </div>
 
-          {/* Filter chips: type filters up front, the rest behind a secondary control.
-              On mobile the row scrolls and the last chip peeks out. */}
+          {/* Filter chips. On mobile the row scrolls and the last chip peeks out. */}
           <div className="min-w-0 md:max-w-[60%]">
             <div className="flex flex-nowrap md:flex-wrap items-center gap-2 overflow-x-auto md:overflow-visible -mx-4 px-4 sm:-mx-6 sm:px-6 md:mx-0 md:px-0 pb-1 md:pb-0 snap-x snap-proximity scroll-px-4 sm:scroll-px-6 md:scroll-px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              {primaryFilters.map((filter) => renderChip(filter))}
-              <button
-                type="button"
-                onClick={() => setShowMoreFilters((v) => !v)}
-                aria-expanded={showMoreFilters || secondaryActive}
-                className={`snap-start flex-shrink-0 min-h-[44px] h-10 px-4 rounded-xl text-mini font-mono transition-all border cursor-pointer active:scale-95 ${secondaryActive ? 'border-emerald-500 text-emerald-300' : 'bg-transparent text-teal-200/80 border-dashed border-teal-500/40 hover:text-white hover:border-teal-400'}`}
-              >
-                {showMoreFilters || secondaryActive ? 'Fewer filters' : 'More filters'}
-              </button>
+              {filters.map((filter) => renderChip(filter))}
             </div>
-            {(showMoreFilters || secondaryActive) && (
-              <div className="animate-fadeIn flex flex-wrap items-center gap-2 mt-2">
-                {secondaryFilters.map((filter) => renderChip(filter))}
-              </div>
-            )}
           </div>
         </div>
 
@@ -330,8 +307,6 @@ export const RadarPage: React.FC = () => {
             <p className="text-[14px] text-teal-200 leading-relaxed mb-1">
               {opportunities.length === 0
                 ? 'We only publish listings with a confirmed future deadline and an official source link. New verified listings are added every day.'
-                : !searchQuery.trim() && activeFilter === 'Near me'
-                  ? `Nothing is confirmed open from ${country} yet. A listing shows here when its source says online, worldwide or names ${country}.`
                 : !searchQuery.trim() && (activeFilter === 'Grants' || activeFilter === 'Internships')
                   ? `No ${activeFilter.toLowerCase()} on the radar yet. The daily scan adds new ones with an official link.`
                   : 'No matching opportunities found for current criteria.'}

@@ -99,6 +99,15 @@ test("learner opens CV gaps from the Radar and starts the matching quiz", async 
   await page.goto("/");
   await expect(page.getByText("Smoke Test AI Research Grant").first()).toBeVisible();
   await expectRendered(page);
+  // Only the four type filters; no country or match filters.
+  for (const name of ["All", "Hackathons", "Grants", "Internships"]) {
+    await expect(page.getByRole("button", { name, exact: true })).toBeVisible();
+  }
+  await expect(page.getByRole("button", { name: /More filters|Open from|Match/ })).toHaveCount(0);
+  await page.getByRole("button", { name: "Internships", exact: true }).click();
+  await expect(page.getByText("Smoke Test AI Research Grant")).toHaveCount(0);
+  await page.getByRole("button", { name: "Grants", exact: true }).click();
+  await expect(page.getByText("Smoke Test AI Research Grant").first()).toBeVisible();
   await page.screenshot({ path: path.join(SHOTS, `${info.project.name}-radar.png`) });
 
   await page.getByRole("button", { name: "Analyze CV Gaps" }).first().click();
