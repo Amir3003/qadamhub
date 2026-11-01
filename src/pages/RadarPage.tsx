@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import { PageHeader } from '../components/PageHeader';
 import { SuggestOpportunityModal } from '../components/SuggestOpportunityModal';
+import { OpportunityDetailsPanel } from '../components/OpportunityDetailsPanel';
 import { destinationRank } from '../db/location';
 import {
   SearchIcon,
@@ -24,7 +25,6 @@ export const RadarPage: React.FC = () => {
     opportunities,
     runTavilySearch,
     isTavilyScanning,
-    setSelectedOpportunityForDetails,
     setSelectedOpportunityForGaps,
     userProfile,
   } = useApp();
@@ -32,6 +32,8 @@ export const RadarPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState<RadarFilter>('All');
   const [isSuggestOpen, setIsSuggestOpen] = useState(false);
+  // The card whose details are open. It grows into a full-width panel in place.
+  const [expandedId, setExpandedId] = useState<string | null>(null);
 
   const filters: RadarFilter[] = ['All', 'Hackathons', 'Grants', 'Internships'];
 
@@ -180,6 +182,9 @@ export const RadarPage: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
           {filteredOpportunities.map((opp) => {
             const isHighMatch = opp.match >= 80;
+            if (opp.id === expandedId) {
+              return <OpportunityDetailsPanel key={opp.id} opp={opp} onClose={() => setExpandedId(null)} />;
+            }
             return (
               <div
                 key={opp.id}
@@ -289,7 +294,7 @@ export const RadarPage: React.FC = () => {
 
                   <button
                     type="button"
-                    onClick={() => setSelectedOpportunityForDetails(opp)}
+                    onClick={() => setExpandedId(opp.id)}
                     aria-label={`View details for ${opp.title}`}
                     className="h-10 px-3.5 bg-white hover:bg-slate-50 border border-teal-200 text-teal-950 rounded-btn text-[13px] font-semibold transition-colors flex items-center gap-1.5 whitespace-nowrap shadow-xs cursor-pointer"
                   >

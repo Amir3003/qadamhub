@@ -343,13 +343,15 @@ test("pilot request, suggestion and details windows ignore Escape and clicks on 
   );
   await page.goto("/");
   await page.getByRole("button", { name: /View details for Smoke Test AI Research Grant/ }).click();
-  const details = page.getByRole("dialog", { name: "Smoke Test AI Research Grant" });
+  // The details open in place as a panel, not as a dimmed overlay.
+  const details = page.getByRole("region", { name: "Smoke Test AI Research Grant" });
   await expect(details).toBeVisible();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
   await page.keyboard.press("Escape");
   await page.mouse.click(4, 4);
   await expect(details).toBeVisible();
-  await page.screenshot({ path: path.join(SHOTS, `${info.project.name}-details-outside-click.png`) });
-  await details.getByRole("button", { name: "Close" }).first().click();
+  await page.screenshot({ path: path.join(SHOTS, `${info.project.name}-details-panel.png`) });
+  await details.getByRole("button", { name: "Close details" }).click();
   await expect(details).toBeHidden();
 
   await page.getByRole("button", { name: /Suggest it/ }).click();
@@ -432,7 +434,14 @@ test("catalog programs show on the Radar with their usual timing instead of a de
   await expect(card).toBeVisible();
   // A past deadline is ignored: the badge is short and the usual timing leads the description.
   await expect(card.getByText("Yearly call")).toBeVisible();
-  await expect(card.getByText(/Applications: Every September/)).toBeVisible();
+  // The usual timing and the eligibility are in the details panel, not on the card.
+  await expect(card.getByText("Every September")).toHaveCount(0);
+  await card.getByRole("button", { name: /View details/ }).click();
+  const panel = page.getByRole("region", { name: "Catalog Fixture Scholarship" });
+  await expect(panel.getByText("Every September")).toBeVisible();
+  await expect(panel.getByText("Under 25.")).toBeVisible();
+  await expect(panel.getByText("Undergraduate")).toBeVisible();
+  await expect(panel.getByRole("link", { name: /Official page/ })).toHaveAttribute("href", "https://example.com/gks");
   await expect(page.getByText("No official link")).toHaveCount(0);
   await page.screenshot({ path: path.join(SHOTS, `${info.project.name}-radar-catalog.png`) });
   expect(errors).toEqual([]);

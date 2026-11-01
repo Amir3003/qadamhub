@@ -16,7 +16,7 @@ export interface CatalogProgram {
   summary: string;
   eligibility: string;
   cycle: 'annual' | 'rolling' | 'one-off';
-  /** Free text: when applications usually open, or what to check. Shown first in the description. */
+  /** Free text: when applications usually open, or what to check. Shown in the details panel. */
   opens: string;
   /** ISO date of the next confirmed deadline, or null. A past date is ignored. */
   nextDeadline: string | null;
@@ -43,16 +43,19 @@ export function catalogToOpportunities(programs: unknown, today: string): Opport
       deadline: upcoming ? `Due ${item.nextDeadline}` : item.cycle === 'rolling' ? 'Open all year' : item.cycle === 'one-off' ? 'See dates' : 'Yearly call',
       deadlineDate: upcoming ? (item.nextDeadline as string) : '',
       match: 0,
-      description: [
-        item.opens ? `Applications: ${item.opens.replace(/\.$/, '')}.` : '',
-        item.summary,
-        item.eligibility ? `Who can apply: ${item.eligibility}` : '',
-      ].filter(Boolean).join(' '),
+      description: item.summary || 'Details and eligibility are on the official page.',
       skills: [],
       url: item.url,
       location: item.location || '',
       countries: Array.isArray(item.countries) ? item.countries : [],
       award: '',
+      details: {
+        about: item.summary,
+        eligibility: item.eligibility,
+        timing: [item.opens ? `${item.opens.replace(/\.$/, '')}.` : '', upcoming ? `Next deadline: ${item.nextDeadline}.` : ''].filter(Boolean).join(' '),
+        level: Array.isArray(item.level) ? item.level : [],
+        verified: item.lastVerified,
+      },
     });
   }
   return out;
