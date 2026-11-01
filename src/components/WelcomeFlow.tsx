@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
+import { DESTINATION_CHOICES } from '../db/userProfile';
 import { BarChartIcon, BellIcon, ChevronRightIcon, CloseIcon, FlaskIcon } from './Icons';
 
 // First-run welcome for individual students: what the app does, then a first name and goals.
@@ -32,6 +33,7 @@ export const WelcomeFlow: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [step, setStep] = useState<1 | 2>(1);
   const [name, setName] = useState(userProfile.name?.trim().toLowerCase() === 'candidate' ? '' : userProfile.name || '');
   const [goals, setGoals] = useState<string[]>(userProfile.goals || []);
+  const [destinations, setDestinations] = useState<string[]>(userProfile.destinations || []);
 
   const cleanName = name.trim();
   const nameValid = cleanName.length >= 2 && cleanName.length <= 40 && NAME_PATTERN.test(cleanName) && cleanName.toLowerCase() !== 'candidate';
@@ -40,10 +42,13 @@ export const WelcomeFlow: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const toggleGoal = (goal: string) =>
     setGoals((prev) => (prev.includes(goal) ? prev.filter((item) => item !== goal) : [...prev, goal]));
 
+  const toggleDestination = (place: string) =>
+    setDestinations((prev) => (prev.includes(place) ? prev.filter((item) => item !== place) : [...prev, place]));
+
   const finish = (event: React.FormEvent) => {
     event.preventDefault();
     if (!canStart) return;
-    updateUserProfile({ name: cleanName, goals, role: userProfile.role || 'Student / Learner' });
+    updateUserProfile({ name: cleanName, goals, destinations, role: userProfile.role || 'Student / Learner' });
   };
 
   return (
@@ -148,6 +153,30 @@ export const WelcomeFlow: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                   </button>
                 );
               })}
+            </div>
+            <div>
+              <span className="block text-mini font-mono uppercase text-teal-900 font-semibold mb-1">Where do you want to go?</span>
+              <p className="text-[13px] text-slate-600 mb-2">Optional. We show these first. Skip it to see everything.</p>
+              <div role="group" aria-label="Destinations" className="flex flex-wrap gap-2">
+                {DESTINATION_CHOICES.map((place) => {
+                  const selected = destinations.includes(place);
+                  return (
+                    <button
+                      key={place}
+                      type="button"
+                      aria-pressed={selected}
+                      onClick={() => toggleDestination(place)}
+                      className={`min-h-[40px] px-3.5 rounded-full text-[13px] font-mono border transition-colors cursor-pointer ${
+                        selected
+                          ? 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold border-emerald-600 shadow-xs'
+                          : 'bg-white border-teal-200/90 text-slate-700 hover:border-emerald-500'
+                      }`}
+                    >
+                      {place}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
             <div className="flex items-center gap-3">
               <button

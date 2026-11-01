@@ -24,6 +24,8 @@ export interface UserProfile {
   role: string;
   skills: string[];
   goals: string[];
+  // Where the person wants to study or work. Empty means anywhere.
+  destinations?: string[];
   cvText?: string;
   resumeFileName?: string;
   avatarUrl?: string;
@@ -32,6 +34,21 @@ export interface UserProfile {
   isOnboarded: boolean;
   notifications?: NotificationSettings;
 }
+
+// Where a student may want to go. Each name is matched against the countries and location a
+// listing's source states (see destinationRank in location.ts).
+export const DESTINATION_CHOICES = [
+  'Japan',
+  'United States',
+  'United Kingdom',
+  'Europe',
+  'South Korea',
+  'Canada',
+  'Australia',
+  'Singapore',
+  'China',
+  'Online',
+] as const;
 
 export const USER_ROLES = [
   'Student / Learner',
@@ -153,6 +170,7 @@ export const EMPTY_USER_PROFILE: UserProfile = {
   role: 'Student / Learner',
   skills: [],
   goals: [],
+  destinations: [],
   cvText: '',
   avatarUrl: '',
   avatarPreset: 'emerald',

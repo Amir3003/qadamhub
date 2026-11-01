@@ -20,3 +20,38 @@ export function availableIn(opp: Opportunity, country: string): boolean {
   if ((opp.countries || []).some((x) => x.toLowerCase() === c)) return true;
   return OPEN_ANYWHERE.test(opp.location) || opp.location.toLowerCase().includes(c);
 }
+
+const EUROPE = [
+  'austria', 'belgium', 'bulgaria', 'croatia', 'cyprus', 'czech republic', 'czechia', 'denmark', 'estonia',
+  'finland', 'france', 'germany', 'greece', 'hungary', 'iceland', 'ireland', 'italy', 'latvia', 'lithuania',
+  'luxembourg', 'malta', 'netherlands', 'norway', 'poland', 'portugal', 'romania', 'slovakia', 'slovenia',
+  'spain', 'sweden', 'switzerland', 'europe', 'european',
+];
+const ALIASES: Record<string, string[]> = {
+  'united states': ['united states', 'usa', 'u.s.', 'america'],
+  'united kingdom': ['united kingdom', 'uk', 'england', 'scotland', 'wales', 'britain'],
+  'south korea': ['south korea', 'korea'],
+  europe: EUROPE,
+  online: ['online', 'virtual', 'remote', 'worldwide', 'global'],
+};
+
+function namesFor(destination: string): string[] {
+  const key = destination.toLowerCase();
+  return ALIASES[key] || [key];
+}
+
+// Whole-word match without building a pattern from data: "uk" must not match "Dubuque".
+function mentions(text: string, name: string): boolean {
+  const normalize = (value: string) => ` ${value.toLowerCase().replace(/[^a-z.]+/g, ' ').trim()} `;
+  return normalize(text).includes(normalize(name));
+}
+
+// 2 when the listing names one of the chosen destinations, 1 when it is open from anywhere
+// (online or worldwide), 0 otherwise. No chosen destination means no preference, so 0.
+export function destinationRank(opp: Opportunity, destinations: string[]): number {
+  if (!destinations.length) return 0;
+  const text = [opp.location, ...(opp.countries || [])].join(' | ');
+  const named = destinations.some((d) => d !== 'Online' && namesFor(d).some((n) => mentions(text, n)));
+  if (named) return 2;
+  return OPEN_ANYWHERE.test(opp.location) ? 1 : 0;
+}

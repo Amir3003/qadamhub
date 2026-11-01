@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import { PageHeader } from '../components/PageHeader';
 import { SuggestOpportunityModal } from '../components/SuggestOpportunityModal';
+import { destinationRank } from '../db/location';
 import {
   SearchIcon,
   RefreshIcon,
@@ -57,8 +58,9 @@ export const RadarPage: React.FC = () => {
   // Check if candidate profile has been configured with skills
   const isProfileReady = userProfile.isOnboarded && userProfile.skills && userProfile.skills.length > 0;
 
+  const destinations = userProfile.destinations;
   const filteredOpportunities = useMemo(() => {
-    return opportunities.filter((opp) => {
+    const visible = opportunities.filter((opp) => {
       // Filter by type
       if (activeFilter === 'Hackathons' && opp.type !== 'HACKATHON') return false;
       if (activeFilter === 'Grants' && opp.type !== 'GRANT') return false;
@@ -77,7 +79,11 @@ export const RadarPage: React.FC = () => {
 
       return true;
     });
-  }, [opportunities, activeFilter, searchQuery]);
+    // The chosen destinations come first. Array.sort is stable, so the feed order is kept within a group.
+    const wanted = destinations || [];
+    if (!wanted.length) return visible;
+    return [...visible].sort((a, b) => destinationRank(b, wanted) - destinationRank(a, wanted));
+  }, [opportunities, activeFilter, searchQuery, destinations]);
 
   return (
     <div className="flex-1 flex flex-col min-w-0 bg-transparent relative z-10 text-slate-100">
