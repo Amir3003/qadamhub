@@ -203,7 +203,7 @@ test("a student starts in two steps without an invite code and lands on the Rada
     profile: JSON.parse(localStorage.getItem("qadam_user") || "{}"),
     membership: localStorage.getItem("qadam_cohort_membership"),
   }));
-  expect(stored.profile).toMatchObject({ name: "Aigerim", isOnboarded: true, goals: ["MEXT Scholarship (Japan)", "University Admissions Abroad"] });
+  expect(stored.profile).toMatchObject({ name: "Aigerim", isOnboarded: true, goals: ["MEXT Scholarship (Japan)", "University Admissions Abroad"], destinations: [] });
   expect(stored.membership).toBeNull();
   expect(errors).toEqual([]);
 });
@@ -360,5 +360,42 @@ test("pilot request, suggestion and details windows ignore Escape and clicks on 
   await suggest.getByRole("button", { name: "Close" }).first().click();
   await expect(suggest).toBeHidden();
 
+  expect(errors).toEqual([]);
+});
+
+test("a student who picks Japan sees Japanese listings first on the Radar", async ({ page }, info) => {
+  const errors = await watch(page);
+  const listing = (id: string, title: string, location: string, countries: string[]) => ({
+    id, type: "GRANT", title, organization: "Smoke Test", deadline: "2099-01-01", url: "https://example.com/" + id,
+    eligibility: "check source", summary: "Fixture listing.", skills: [], location, countries,
+  });
+  await page.route("**/data/opportunities.json", (route) =>
+    route.fulfill({
+      json: [
+        listing("de", "Berlin Fixture Grant", "Berlin, Germany", ["Germany"]),
+        listing("us", "Boston Fixture Grant", "Boston, United States", ["United States"]),
+        listing("jp", "Tokyo Fixture Grant", "Tokyo, Japan", ["Japan"]),
+        listing("web", "Online Fixture Grant", "Online", []),
+      ],
+    }),
+  );
+  await page.addInitScript(() => localStorage.setItem("qadam_consent_analytics_v1", "denied"));
+  await page.goto("/start");
+  const welcome = page.getByRole("dialog", { name: "Welcome to QADAM Hub" });
+  await welcome.getByRole("button", { name: "Continue" }).click();
+  await welcome.getByPlaceholder("What should we call you?").fill("Aigerim");
+  await welcome.getByRole("button", { name: "MEXT Scholarship (Japan)" }).click();
+  await welcome.getByRole("button", { name: "Japan", exact: true }).click();
+  await expect(welcome.getByRole("button", { name: "Japan", exact: true })).toHaveAttribute("aria-pressed", "true");
+  await page.waitForTimeout(400); // let the chip colour transition finish before the screenshot
+  await page.screenshot({ path: path.join(SHOTS, `${info.project.name}-welcome-destinations.png`) });
+  await welcome.getByRole("button", { name: "Start exploring" }).click();
+
+  await expect(page.getByText("Tokyo Fixture Grant")).toBeVisible();
+  const titles = await page.locator("h3").allInnerTexts();
+  const order = titles.filter((t) => t.includes("Fixture Grant"));
+  // Japan first, then the online listing (open from anywhere), then the rest in feed order.
+  expect(order).toEqual(["Tokyo Fixture Grant", "Online Fixture Grant", "Berlin Fixture Grant", "Boston Fixture Grant"]);
+  await page.screenshot({ path: path.join(SHOTS, `${info.project.name}-radar-japan-first.png`) });
   expect(errors).toEqual([]);
 });

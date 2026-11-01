@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import {
   USER_ROLES,
+  DESTINATION_CHOICES,
   CAREER_OBJECTIVES,
 } from '../db/userProfile';
 import { VALID_CITIES } from '../db/cities';
@@ -107,6 +108,7 @@ export const AccountPortalPage: React.FC = () => {
   const [role, setRole] = useState(userProfile.role || USER_ROLES[0]);
   const [selectedSkills, setSelectedSkills] = useState<string[]>(userProfile.skills || []);
   const [selectedGoals, setSelectedGoals] = useState<string[]>(userProfile.goals || []);
+  const [selectedDestinations, setSelectedDestinations] = useState<string[]>(userProfile.destinations || []);
   const [cvText, setCvText] = useState(userProfile.cvText || '');
   const [avatarUrl, setAvatarUrl] = useState(userProfile.avatarUrl || '');
   const [profileSaved, setProfileSaved] = useState(false);
@@ -126,6 +128,7 @@ export const AccountPortalPage: React.FC = () => {
     setRole(userProfile.role || USER_ROLES[0]);
     setSelectedSkills(userProfile.skills || []);
     setSelectedGoals(userProfile.goals || []);
+    setSelectedDestinations(userProfile.destinations || []);
     setCvText(userProfile.cvText || '');
     setAvatarUrl(userProfile.avatarUrl || '');
   }, [userProfile]);
@@ -146,6 +149,7 @@ export const AccountPortalPage: React.FC = () => {
       role,
       skills: selectedSkills,
       goals: selectedGoals,
+      destinations: selectedDestinations,
       cvText,
       avatarUrl,
     });
@@ -163,6 +167,12 @@ export const AccountPortalPage: React.FC = () => {
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const toggleDestination = (place: string) => {
+    setSelectedDestinations((prev) =>
+      prev.includes(place) ? prev.filter((p) => p !== place) : [...prev, place]
+    );
   };
 
   const toggleGoal = (goal: string) => {
@@ -765,6 +775,30 @@ export const AccountPortalPage: React.FC = () => {
                     </button>
                   );
                 })}
+              </div>
+              <div className="pt-2">
+                <h3 className="text-subheading text-slate-900 font-semibold">Where do you want to go?</h3>
+                <p className="text-[13px] text-slate-600 mt-1 mb-3">The Radar shows these destinations first. Leave empty to see everything.</p>
+                <div role="group" aria-label="Destinations" className="flex flex-wrap gap-2">
+                  {DESTINATION_CHOICES.map((place) => {
+                    const isSelected = selectedDestinations.includes(place);
+                    return (
+                      <button
+                        key={place}
+                        type="button"
+                        aria-pressed={isSelected}
+                        onClick={() => toggleDestination(place)}
+                        className={`min-h-[40px] px-3.5 rounded-full text-[13px] border transition-colors cursor-pointer ${
+                          isSelected
+                            ? 'bg-teal-50 text-teal-900 border-teal-300 font-medium shadow-xs'
+                            : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border-slate-200/80'
+                        }`}
+                      >
+                        {place}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             </div>
 
