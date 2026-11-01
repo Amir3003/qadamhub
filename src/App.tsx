@@ -24,7 +24,6 @@ import { LearnerSync } from './components/LearnerSync';
 import { OnboardingWizard } from './components/OnboardingWizard';
 import { CvGapsModal } from './components/CvGapsModal';
 import { QuizModal } from './components/QuizModal';
-import { OpportunityDetailsModal } from './components/OpportunityDetailsModal';
 import { useApp } from './context/AppContext';
 import { isProfileValid } from './db/userProfile';
 
@@ -143,7 +142,6 @@ export const App: React.FC = () => {
       <OnboardingWizard />
       <CvGapsModal />
       <QuizModal />
-      <OpportunityDetailsModal />
       <FeedbackWidget />
     </div>
   );

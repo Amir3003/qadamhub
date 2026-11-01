@@ -149,7 +149,7 @@ export const DataRequestForm: React.FC = () => {
         <button
           type="submit"
           disabled={status.state === 'sending'}
-          className="h-11 px-5 rounded-btn bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white text-[13px] font-mono font-semibold transition-colors cursor-pointer disabled:opacity-60"
+          className="h-11 px-5 rounded-btn bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white text-[13px] font-mono font-semibold transition-colors cursor-pointer disabled:opacity-60"
         >
           {status.state === 'sending' ? 'Sending' : 'Send request'}
         </button>

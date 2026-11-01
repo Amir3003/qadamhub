@@ -433,7 +433,7 @@ export const AccountPortalPage: React.FC = () => {
               h-9 sm:h-8 px-3.5 rounded-btn text-mini font-mono font-medium transition-all flex items-center gap-1.5 cursor-pointer flex-shrink-0
               ${
                 activeTab === 'profile'
-                  ? 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold shadow-xs'
+                  ? 'bg-gradient-to-r from-emerald-600 to-teal-700 text-white font-semibold shadow-xs'
                   : 'text-teal-200/80 hover:text-white hover:bg-slate-700/60'
               }
             `}
@@ -449,7 +449,7 @@ export const AccountPortalPage: React.FC = () => {
               h-9 sm:h-8 px-3.5 rounded-btn text-mini font-mono font-medium transition-all flex items-center gap-1.5 cursor-pointer flex-shrink-0
               ${
                 activeTab === 'settings'
-                  ? 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold shadow-xs'
+                  ? 'bg-gradient-to-r from-emerald-600 to-teal-700 text-white font-semibold shadow-xs'
                   : 'text-teal-200/80 hover:text-white hover:bg-slate-700/60'
               }
             `}
@@ -465,7 +465,7 @@ export const AccountPortalPage: React.FC = () => {
               h-9 sm:h-8 px-3.5 rounded-btn text-mini font-mono font-medium transition-all flex items-center gap-1.5 cursor-pointer flex-shrink-0
               ${
                 activeTab === 'support'
-                  ? 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold shadow-xs'
+                  ? 'bg-gradient-to-r from-emerald-600 to-teal-700 text-white font-semibold shadow-xs'
                   : 'text-teal-200/80 hover:text-white hover:bg-slate-700/60'
               }
             `}
@@ -519,7 +519,7 @@ export const AccountPortalPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={handleSaveProfile}
-                  className="h-10 px-6 rounded-btn bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-semibold text-mini font-mono transition-all shadow-md shadow-emerald-900/20 cursor-pointer"
+                  className="h-10 px-6 rounded-btn bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white font-semibold text-mini font-mono transition-all shadow-md shadow-emerald-900/20 cursor-pointer"
                 >
                   Save Profile Changes
                 </button>
@@ -543,7 +543,7 @@ export const AccountPortalPage: React.FC = () => {
                   )}
                   <label
                     htmlFor="avatar-file-input"
-                    className="absolute inset-0 rounded-full bg-slate-900/60 opacity-0 group-hover:opacity-100 flex items-center justify-center text-[11px] font-mono text-white cursor-pointer transition-opacity"
+                    className="absolute inset-0 rounded-full bg-slate-900/60 opacity-0 group-hover:opacity-100 flex items-center justify-center text-[12px] font-mono text-white cursor-pointer transition-opacity"
                   >
                     Change
                   </label>
@@ -560,8 +560,8 @@ export const AccountPortalPage: React.FC = () => {
                   <h3 className="text-lg font-semibold text-slate-900">
                     {name ? `${name} ${surname}`.trim() : 'Candidate Profile'}
                   </h3>
-                  <div className="text-mini font-mono text-emerald-600 font-semibold mt-0.5">{role}</div>
-                  <div className="text-[13px] text-slate-500 mt-1">
+                  <div className="text-mini font-mono text-emerald-700 font-semibold mt-0.5">{role}</div>
+                  <div className="text-[13px] text-slate-600 mt-1">
                     {university ? `${university} · ${major || 'AI & Machine Learning'}` : 'Institution not configured'}
                   </div>
                 </div>
@@ -601,7 +601,7 @@ export const AccountPortalPage: React.FC = () => {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
                 <div>
-                  <label className="block text-mini font-mono uppercase text-slate-500 mb-1.5">
+                  <label className="block text-mini font-mono uppercase text-slate-700 mb-1.5">
                     First Name
                   </label>
                   <input
@@ -614,7 +614,7 @@ export const AccountPortalPage: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-mini font-mono uppercase text-slate-500 mb-1.5">
+                  <label className="block text-mini font-mono uppercase text-slate-700 mb-1.5">
                     Last Name
                   </label>
                   <input
@@ -627,7 +627,7 @@ export const AccountPortalPage: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-mini font-mono uppercase text-slate-500 mb-1.5">
+                  <label className="block text-mini font-mono uppercase text-slate-700 mb-1.5">
                     Academic Email
                   </label>
                   <input
@@ -640,7 +640,7 @@ export const AccountPortalPage: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-mini font-mono uppercase text-slate-500 mb-1.5">
+                  <label className="block text-mini font-mono uppercase text-slate-700 mb-1.5">
                     Institution / University
                   </label>
                   <input
@@ -653,7 +653,7 @@ export const AccountPortalPage: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-mini font-mono uppercase text-slate-500 mb-1.5">
+                  <label className="block text-mini font-mono uppercase text-slate-700 mb-1.5">
                     Major / Field of Study
                   </label>
                   <input
@@ -666,7 +666,7 @@ export const AccountPortalPage: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-mini font-mono uppercase text-slate-500 mb-1.5">
+                  <label className="block text-mini font-mono uppercase text-slate-700 mb-1.5">
                     Primary Track / Role
                   </label>
                   <select
@@ -683,7 +683,7 @@ export const AccountPortalPage: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-mini font-mono uppercase text-slate-500 mb-1.5">
+                  <label className="block text-mini font-mono uppercase text-slate-700 mb-1.5">
                     Degree Level
                   </label>
                   <input
@@ -696,7 +696,7 @@ export const AccountPortalPage: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-mini font-mono uppercase text-slate-500 mb-1.5">
+                  <label className="block text-mini font-mono uppercase text-slate-700 mb-1.5">
                     Graduation Year Span
                   </label>
                   <input
@@ -709,7 +709,7 @@ export const AccountPortalPage: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-mini font-mono uppercase text-slate-500 mb-1.5">
+                  <label className="block text-mini font-mono uppercase text-slate-700 mb-1.5">
                     Location / City
                   </label>
                   <input
@@ -740,7 +740,7 @@ export const AccountPortalPage: React.FC = () => {
                     Type to search the skill catalog. These shape your match scoring in Opportunity Radar.
                   </p>
                 </div>
-                <span className="text-mini font-mono text-emerald-600 font-semibold">
+                <span className="text-mini font-mono text-emerald-700 font-semibold">
                   {selectedSkills.length} selected
                 </span>
               </div>
@@ -811,7 +811,7 @@ export const AccountPortalPage: React.FC = () => {
                     Plaintext representation used for ATS gap analysis and tailored proposals.
                   </p>
                 </div>
-                <span className="text-mini font-mono text-slate-400">
+                <span className="text-mini font-mono text-slate-600">
                   {cvText.length} characters
                 </span>
               </div>
@@ -833,7 +833,7 @@ export const AccountPortalPage: React.FC = () => {
                     Stored client-side to safeguard your local sandbox sessions.
                   </p>
                 </div>
-                <span className="text-mini font-mono text-emerald-600 font-semibold">PROTECTED</span>
+                <span className="text-mini font-mono text-emerald-700 font-semibold">PROTECTED</span>
               </div>
 
               {pwStage === 'idle' && (
@@ -850,7 +850,7 @@ export const AccountPortalPage: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setPwStage('verify')}
-                    className="h-10 px-4 rounded-btn bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white text-mini font-mono font-semibold cursor-pointer shadow-xs"
+                    className="h-10 px-4 rounded-btn bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white text-mini font-mono font-semibold cursor-pointer shadow-xs"
                   >
                     Change Password
                   </button>
@@ -863,7 +863,7 @@ export const AccountPortalPage: React.FC = () => {
                     <strong>Step 1 of 2.</strong> Confirm this is your account by entering your current password.
                   </div>
                   <div>
-                    <label className="block text-mini font-mono uppercase text-slate-500 mb-1.5">Current Password</label>
+                    <label className="block text-mini font-mono uppercase text-slate-700 mb-1.5">Current Password</label>
                     <input
                       type="password"
                       value={currentPwInput}
@@ -877,14 +877,14 @@ export const AccountPortalPage: React.FC = () => {
                       className="w-full h-11 pl-3.5 pr-10 bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 focus:border-teal-500 focus:ring-1 focus:ring-teal-500 rounded-btn text-[13px] text-slate-900 placeholder:text-slate-400 outline-none font-mono transition-colors"
                     />
                     {currentPwError && (
-                      <div className="text-[11px] font-mono text-rose-600 mt-1.5">{currentPwError}</div>
+                      <div className="text-[12px] font-mono text-rose-600 mt-1.5">{currentPwError}</div>
                     )}
                   </div>
                   <div className="flex items-center gap-2">
                     <button
                       type="submit"
                       disabled={!currentPwInput}
-                      className="h-10 px-4 rounded-btn bg-gradient-to-r from-emerald-500 to-teal-600 text-white text-mini font-mono font-semibold cursor-pointer shadow-xs disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="h-10 px-4 rounded-btn bg-gradient-to-r from-emerald-600 to-teal-700 text-white text-mini font-mono font-semibold cursor-pointer shadow-xs disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       Verify
                     </button>
@@ -905,7 +905,7 @@ export const AccountPortalPage: React.FC = () => {
                     <strong>Step 2 of 2.</strong> Identity confirmed. Choose a new password.
                   </div>
                   <div>
-                    <label className="block text-mini font-mono uppercase text-slate-500 mb-1.5">New Password</label>
+                    <label className="block text-mini font-mono uppercase text-slate-700 mb-1.5">New Password</label>
                     <div className="relative">
                       <input
                         type={showNewPw ? 'text' : 'password'}
@@ -927,7 +927,7 @@ export const AccountPortalPage: React.FC = () => {
                     </div>
                   </div>
                   <div>
-                    <label className="block text-mini font-mono uppercase text-slate-500 mb-1.5">Confirm New Password</label>
+                    <label className="block text-mini font-mono uppercase text-slate-700 mb-1.5">Confirm New Password</label>
                     <input
                       type={showNewPw ? 'text' : 'password'}
                       value={confirmPw}
@@ -953,7 +953,7 @@ export const AccountPortalPage: React.FC = () => {
                     <button
                       type="submit"
                       disabled={!isNewPwValid}
-                      className="h-10 px-4 rounded-btn bg-gradient-to-r from-emerald-500 to-teal-600 text-white text-mini font-mono font-semibold cursor-pointer shadow-xs disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="h-10 px-4 rounded-btn bg-gradient-to-r from-emerald-600 to-teal-700 text-white text-mini font-mono font-semibold cursor-pointer shadow-xs disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       Save New Password
                     </button>
@@ -1005,7 +1005,7 @@ export const AccountPortalPage: React.FC = () => {
                 </p>
                 <div className="flex flex-wrap items-center gap-1.5 pt-1">
                   {['Name', 'Email', 'Phone', 'National ID'].map((f) => (
-                    <span key={f} className="px-2.5 py-0.5 rounded text-[11px] font-mono text-emerald-700 bg-emerald-50 border border-emerald-200/60 font-medium">
+                    <span key={f} className="px-2.5 py-0.5 rounded text-[12px] font-mono text-emerald-700 bg-emerald-50 border border-emerald-200/60 font-medium">
                       {f}: MASKED
                     </span>
                   ))}
@@ -1017,13 +1017,13 @@ export const AccountPortalPage: React.FC = () => {
                   <div className="text-[28px] font-mono font-bold text-emerald-600 leading-none">
                     {fieldsMaskedPerRequest}
                   </div>
-                  <div className="text-[11px] font-mono text-slate-400 mt-1">fields masked / req</div>
+                  <div className="text-[12px] font-mono text-slate-400 mt-1">fields masked / req</div>
                 </div>
                 <div>
                   <div className="text-[28px] font-mono font-bold text-slate-900 leading-none">
                     {maskedCountThisSession}
                   </div>
-                  <div className="text-[11px] font-mono text-slate-400 mt-1">masked this session</div>
+                  <div className="text-[12px] font-mono text-slate-400 mt-1">masked this session</div>
                 </div>
               </div>
             </div>
@@ -1048,7 +1048,7 @@ export const AccountPortalPage: React.FC = () => {
                 <div className="p-4 rounded-card bg-slate-50 border border-slate-200/70 flex items-center justify-between gap-4">
                   <div>
                     <div className="text-[14px] font-medium text-slate-900">Restrict agent execution to OpenShell sandbox</div>
-                    <div className="text-mini font-mono text-emerald-600 font-semibold mt-0.5">Strict Jail Confinement: /workspace/qadam</div>
+                    <div className="text-mini font-mono text-emerald-700 font-semibold mt-0.5">Strict Jail Confinement: /workspace/qadam</div>
                   </div>
                   <TogglePill
                     checked={privacySettings.restrictOpenShellSandbox}
@@ -1060,7 +1060,7 @@ export const AccountPortalPage: React.FC = () => {
                 <div className="p-4 rounded-card bg-slate-50 border border-slate-200/70 opacity-60 flex items-center justify-between gap-4">
                   <div>
                     <div className="text-[14px] font-medium text-slate-500">Send unmasked contact details to cloud APIs</div>
-                    <div className="text-mini font-mono text-slate-400 mt-0.5">Permanently locked by client-side policy</div>
+                    <div className="text-mini font-mono text-slate-600 mt-0.5">Permanently locked by client-side policy</div>
                   </div>
                   <TogglePill checked={false} disabled onChange={() => {}} label="Send unmasked contact details" />
                 </div>
@@ -1089,15 +1089,15 @@ export const AccountPortalPage: React.FC = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
                 <div className="p-4 rounded-btn bg-slate-900 border border-slate-800 space-y-2">
-                  <div className="text-mini font-mono text-slate-400 uppercase">Raw Local Payload (Protected)</div>
-                  <pre className="text-[11px] font-mono text-slate-200 leading-relaxed overflow-x-auto max-h-48">
+                  <div className="text-mini font-mono text-slate-600 uppercase">Raw Local Payload (Protected)</div>
+                  <pre className="text-[12px] font-mono text-slate-200 leading-relaxed overflow-x-auto max-h-48">
                     {testPayload}
                   </pre>
                 </div>
 
                 <div className="p-4 rounded-btn bg-slate-900 border border-slate-800 space-y-2">
                   <div className="text-mini font-mono text-emerald-400 uppercase font-semibold">Tokenized Dispatch (External LLM)</div>
-                  <pre className="text-[11px] font-mono text-emerald-400 leading-relaxed overflow-x-auto max-h-48">
+                  <pre className="text-[12px] font-mono text-emerald-400 leading-relaxed overflow-x-auto max-h-48">
                     {testResult.maskedJsonString}
                   </pre>
                 </div>
@@ -1121,7 +1121,7 @@ export const AccountPortalPage: React.FC = () => {
                       type="button"
                       onClick={() => setActiveLogFilter(filter)}
                       className={`
-                        h-7 px-2.5 rounded text-[11px] font-mono transition-colors cursor-pointer
+                        h-7 px-2.5 rounded text-[12px] font-mono transition-colors cursor-pointer
                         ${
                           activeLogFilter === filter
                             ? 'bg-emerald-600 text-white font-semibold'
@@ -1137,7 +1137,7 @@ export const AccountPortalPage: React.FC = () => {
 
               {/* Terminal Screen */}
               <div className="rounded-card bg-slate-950 border border-slate-800 overflow-hidden shadow-inner">
-                <div className="px-4 py-2.5 bg-slate-900 border-b border-slate-800 flex items-center justify-between text-mini font-mono text-slate-400">
+                <div className="px-4 py-2.5 bg-slate-900 border-b border-slate-800 flex items-center justify-between text-mini font-mono text-slate-600">
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                     <span>Live Confinement Session</span>
@@ -1155,7 +1155,7 @@ export const AccountPortalPage: React.FC = () => {
 
                     return (
                       <div key={log.id} className="flex items-baseline gap-2 leading-relaxed">
-                        <span className="text-slate-500 text-[10px]">{log.time}</span>
+                        <span className="text-slate-500 text-[12px]">{log.time}</span>
                         <span className={`w-28 flex-shrink-0 ${tagColor}`}>[{log.tag}]</span>
                         <span className={isWarning ? 'text-amber-300' : 'text-slate-200'}>{log.message}</span>
                       </div>
@@ -1232,12 +1232,12 @@ export const AccountPortalPage: React.FC = () => {
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center justify-between gap-2">
                     <h4 className="text-[15px] font-semibold text-slate-900">Discord Community</h4>
-                    <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">Fastest</span>
+                    <span className="text-[12px] font-mono uppercase px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">Fastest</span>
                   </div>
                   <p className="text-[12px] text-slate-600 mt-1 leading-relaxed">
                     Ask quick questions, find teammates, and get help from other QADAM users and the maintainer.
                   </p>
-                  <span className="inline-block text-mini font-mono text-emerald-600 font-semibold mt-3 group-hover:underline">
+                  <span className="inline-block text-mini font-mono text-emerald-700 font-semibold mt-3 group-hover:underline">
                     Join the server →
                   </span>
                 </div>
@@ -1253,12 +1253,12 @@ export const AccountPortalPage: React.FC = () => {
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center justify-between gap-2">
                     <h4 className="text-[15px] font-semibold text-slate-900">Email Support</h4>
-                    <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200">Reply in 1 to 2 days</span>
+                    <span className="text-[12px] font-mono uppercase px-2 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200">Reply in 1 to 2 days</span>
                   </div>
                   <p className="text-[12px] text-slate-600 mt-1 leading-relaxed">
                     Account problems, broken opportunity links, or anything you prefer to discuss privately.
                   </p>
-                  <span className="inline-block text-mini font-mono text-emerald-600 font-semibold mt-3 group-hover:underline break-all">
+                  <span className="inline-block text-mini font-mono text-emerald-700 font-semibold mt-3 group-hover:underline break-all">
                     {SUPPORT_EMAIL} →
                   </span>
                 </div>
@@ -1307,7 +1307,7 @@ export const AccountPortalPage: React.FC = () => {
                 <form onSubmit={handleSendSupportTicket} className="space-y-4">
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div>
-                      <label className="block text-mini font-mono uppercase text-slate-500 mb-1.5">
+                      <label className="block text-mini font-mono uppercase text-slate-700 mb-1.5">
                         Ticket Category
                       </label>
                       <select
@@ -1324,7 +1324,7 @@ export const AccountPortalPage: React.FC = () => {
                     </div>
 
                     <div className="sm:col-span-2">
-                      <label className="block text-mini font-mono uppercase text-slate-500 mb-1.5">
+                      <label className="block text-mini font-mono uppercase text-slate-700 mb-1.5">
                         Subject / Brief Summary
                       </label>
                       <input
@@ -1339,7 +1339,7 @@ export const AccountPortalPage: React.FC = () => {
                   </div>
 
                   <div>
-                    <label className="block text-mini font-mono uppercase text-slate-500 mb-1.5">
+                    <label className="block text-mini font-mono uppercase text-slate-700 mb-1.5">
                       Detailed Description & Reproduction Steps
                     </label>
                     <textarea

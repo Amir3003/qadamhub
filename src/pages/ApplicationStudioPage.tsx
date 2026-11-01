@@ -88,7 +88,7 @@ export const ApplicationStudioPage: React.FC = () => {
               <button
                 type="button"
                 onClick={() => navigate('/')}
-                className="mt-5 h-10 px-4 rounded-btn bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white text-[13px] font-semibold cursor-pointer"
+                className="mt-5 h-10 px-4 rounded-btn bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white text-[13px] font-semibold cursor-pointer"
               >
                 Open Opportunity Radar
               </button>
@@ -290,7 +290,7 @@ const ApplicationPrep: React.FC<{ currentOpp: Opportunity }> = ({ currentOpp }) 
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={handleGoToOfficial}
-                  className="w-full h-11 rounded-btn bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white text-[13px] font-mono font-bold flex items-center justify-center gap-2 transition-all shadow-xs"
+                  className="w-full h-11 rounded-btn bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white text-[13px] font-mono font-bold flex items-center justify-center gap-2 transition-all shadow-xs"
                 >
                   <span>Go to Official Site</span>
                   <ExternalLinkIcon size={13} />
@@ -302,7 +302,7 @@ const ApplicationPrep: React.FC<{ currentOpp: Opportunity }> = ({ currentOpp }) 
                 </div>
               )}
               {currentOpp.url && (
-                <div className="text-[11px] font-mono text-teal-800 text-center break-all">
+                <div className="text-[12px] font-mono text-teal-800 text-center break-all">
                   {new URL(currentOpp.url).hostname}
                 </div>
               )}
@@ -338,7 +338,7 @@ const ApplicationPrep: React.FC<{ currentOpp: Opportunity }> = ({ currentOpp }) 
                       </span>
                     ))}
                   </div>
-                  <div className="text-[11px] font-mono text-teal-800 mt-1.5">
+                  <div className="text-[12px] font-mono text-teal-800 mt-1.5">
                     {verifiedCount} verified · {matchedSkills.length - verifiedCount} self-reported · {missingSkills.length} missing
                   </div>
                 </div>
@@ -411,7 +411,7 @@ const ApplicationPrep: React.FC<{ currentOpp: Opportunity }> = ({ currentOpp }) 
                           className={`relative z-10 w-6 h-6 rounded-md border flex items-center justify-center flex-shrink-0 cursor-pointer transition-colors ${
                             isDone
                               ? 'bg-emerald-500 border-emerald-600 text-white'
-                              : 'bg-white border-teal-300 text-teal-700 text-[11px] font-mono font-bold'
+                              : 'bg-white border-teal-300 text-teal-700 text-[12px] font-mono font-bold'
                           }`}
                         >
                           {isDone ? <CheckIcon size={13} /> : i + 1}
@@ -485,13 +485,13 @@ const ApplicationPrep: React.FC<{ currentOpp: Opportunity }> = ({ currentOpp }) 
                 {profileFields.map((f) => (
                   <div key={f.label} className="p-2.5 rounded-btn bg-white/80 border border-teal-200/80">
                     <div className="flex items-center justify-between gap-2">
-                      <span className="text-[10px] font-mono uppercase tracking-wider text-teal-800">{f.label}</span>
+                      <span className="text-[12px] font-mono uppercase tracking-wider text-teal-800">{f.label}</span>
                       {f.value ? (
                         <button
                           type="button"
                           onClick={() => handleCopy(f.label, f.value)}
                           aria-label={`Copy ${f.label}`}
-                          className="h-6 px-2 rounded text-[10px] font-mono text-teal-800 hover:text-emerald-800 hover:bg-emerald-50 flex items-center gap-1 cursor-pointer"
+                          className="h-6 px-2 rounded text-[12px] font-mono text-teal-800 hover:text-emerald-800 hover:bg-emerald-50 flex items-center gap-1 cursor-pointer"
                         >
                           {copiedField === f.label ? <CheckIcon size={11} /> : <CopyIcon size={11} />}
                           {copiedField === f.label ? 'Copied' : 'Copy'}
@@ -500,7 +500,7 @@ const ApplicationPrep: React.FC<{ currentOpp: Opportunity }> = ({ currentOpp }) 
                         <button
                           type="button"
                           onClick={() => navigate('/account?tab=profile')}
-                          className="h-6 px-2 rounded text-[10px] font-mono text-amber-700 hover:underline cursor-pointer"
+                          className="h-6 px-2 rounded text-[12px] font-mono text-amber-700 hover:underline cursor-pointer"
                         >
                           Add
                         </button>

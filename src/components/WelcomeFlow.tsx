@@ -79,7 +79,7 @@ export const WelcomeFlow: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           </button>
         </div>
         <div className="h-1 bg-teal-100" aria-hidden="true">
-          <div className={`h-full bg-gradient-to-r from-emerald-500 to-teal-600 transition-[width] duration-500 ease-out-expo ${step === 1 ? 'w-1/2' : 'w-full'}`} />
+          <div className={`h-full bg-gradient-to-r from-emerald-600 to-teal-700 transition-[width] duration-500 ease-out-expo ${step === 1 ? 'w-1/2' : 'w-full'}`} />
         </div>
 
         {step === 1 ? (
@@ -99,7 +99,7 @@ export const WelcomeFlow: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                   <span className="min-w-0">
                     <span className="flex items-center gap-2 text-[14px] font-bold text-indigo-950">
                       {title}
-                      {soon && <span className="px-2 py-0.5 rounded-full border border-amber-300 bg-amber-100 text-amber-800 text-[11px] font-mono font-semibold">Coming soon</span>}
+                      {soon && <span className="px-2 py-0.5 rounded-full border border-amber-300 bg-amber-100 text-amber-800 text-[12px] font-mono font-semibold">Coming soon</span>}
                     </span>
                     <span className="mt-0.5 block text-[13px] leading-relaxed text-slate-600">{text}</span>
                   </span>
@@ -110,7 +110,7 @@ export const WelcomeFlow: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               type="button"
               autoFocus
               onClick={() => setStep(2)}
-              className="w-full min-h-[48px] rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white text-[15px] font-semibold shadow-md shadow-emerald-900/20 transition-colors cursor-pointer inline-flex items-center justify-center gap-2"
+              className="w-full min-h-[48px] rounded-xl bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white text-[15px] font-semibold shadow-md shadow-emerald-900/20 transition-colors cursor-pointer inline-flex items-center justify-center gap-2"
             >
               Continue
               <ChevronRightIcon size={16} />
@@ -168,7 +168,7 @@ export const WelcomeFlow: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                       onClick={() => toggleDestination(place)}
                       className={`min-h-[40px] px-3.5 rounded-full text-[13px] font-mono border transition-colors cursor-pointer ${
                         selected
-                          ? 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold border-emerald-600 shadow-xs'
+                          ? 'bg-gradient-to-r from-emerald-600 to-teal-700 text-white font-semibold border-emerald-600 shadow-xs'
                           : 'bg-white border-teal-200/90 text-slate-700 hover:border-emerald-500'
                       }`}
                     >
@@ -189,7 +189,7 @@ export const WelcomeFlow: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               <button
                 type="submit"
                 disabled={!canStart}
-                className="flex-1 min-h-[48px] rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 disabled:from-slate-200 disabled:to-slate-200 disabled:text-slate-400 text-white text-[15px] font-semibold shadow-md shadow-emerald-900/20 transition-colors cursor-pointer disabled:cursor-not-allowed disabled:shadow-none inline-flex items-center justify-center gap-2"
+                className="flex-1 min-h-[48px] rounded-xl bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 disabled:from-slate-200 disabled:to-slate-200 disabled:text-slate-400 text-white text-[15px] font-semibold shadow-md shadow-emerald-900/20 transition-colors cursor-pointer disabled:cursor-not-allowed disabled:shadow-none inline-flex items-center justify-center gap-2"
               >
                 Start exploring
                 <ChevronRightIcon size={16} />

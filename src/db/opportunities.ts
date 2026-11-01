@@ -32,6 +32,15 @@ export interface Opportunity {
   award: string;
   /** Countries the source names as eligible or as the host. Empty when not stated. */
   countries?: string[];
+  /** Longer facts for the details panel. The card itself shows only the short description. */
+  details?: {
+    about?: string;
+    eligibility?: string;
+    timing?: string;
+    level?: string[];
+    /** ISO date the listing was last checked against its official page (catalog programs). */
+    verified?: string;
+  };
 }
 
 export const OPPORTUNITIES_DATABASE: Opportunity[] = [

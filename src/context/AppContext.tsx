@@ -42,7 +42,6 @@ interface AppContextType {
   radarReady: boolean;
   activeQuizSkill: SkillItem | null;
   selectedOpportunityForDraft: Opportunity | null;
-  selectedOpportunityForDetails: Opportunity | null;
   selectedOpportunityForGaps: Opportunity | null;
   isOnboardingOpen: boolean;
 
@@ -67,7 +66,6 @@ interface AppContextType {
   addLog: (tag: LogEntry['tag'], message: string, isWarning?: boolean) => void;
   triggerBlockedSandboxAction: () => void;
   setSelectedOpportunityForDraft: (opp: Opportunity | null) => void;
-  setSelectedOpportunityForDetails: (opp: Opportunity | null) => void;
   setSelectedOpportunityForGaps: (opp: Opportunity | null) => void;
   incrementMaskedCount: (count?: number) => void;
   getRawMemoryMarkdown: () => string;
@@ -161,7 +159,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [radarReady, setRadarReady] = useState(false);
   const [activeQuizSkill, setActiveQuizSkill] = useState<SkillItem | null>(null);
   const [selectedOpportunityForDraft, setSelectedOpportunityForDraft] = useState<Opportunity | null>(null);
-  const [selectedOpportunityForDetails, setSelectedOpportunityForDetails] = useState<Opportunity | null>(null);
   const [selectedOpportunityForGaps, setSelectedOpportunityForGaps] = useState<Opportunity | null>(null);
   const [maskedCountThisSession, setMaskedCountThisSession] = useState<number>(0);
   const fieldsMaskedPerRequest = 0;
@@ -339,10 +336,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       if (!response.ok) throw new Error(`Radar data responded ${response.status}`);
       const data = await response.json() as { results?: Array<{
         id: string; type: Opportunity['type']; title: string; organization: string;
-        deadline: string | null; url: string; eligibility: string; skills: string[]; summary?: string; location?: string; countries?: string[];
+        deadline: string | null; url: string; eligibility: string; skills: string[]; summary?: string; location?: string; countries?: string[]; deadlineEvidence?: string;
       }> } | Array<{
         id: string; type: Opportunity['type']; title: string; organization: string;
-        deadline: string | null; url: string; eligibility: string; skills: string[]; summary?: string; location?: string; countries?: string[];
+        deadline: string | null; url: string; eligibility: string; skills: string[]; summary?: string; location?: string; countries?: string[]; deadlineEvidence?: string;
       }>;
       const results = Array.isArray(data) ? data : data.results;
       if (!Array.isArray(results)) throw new Error('Radar data format is invalid');
@@ -375,18 +372,20 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         deadline: item.deadline ? `Due ${item.deadline}` : 'Deadline: see official page',
         deadlineDate: item.deadline || '',
         match: 0,
-        // The scan keeps eligibility only as an exact quote from the source page.
-        // Both texts are exact excerpts from the source page.
-        description: [
-          item.summary,
-          item.eligibility && item.eligibility !== 'check source' ? `Who can apply: ${item.eligibility}` : '',
-        ].filter(Boolean).join(' ') || 'Details and eligibility are on the official page.',
+        // The card shows the short summary. The eligibility quote and the deadline quote from the
+        // source page go to the details panel.
+        description: item.summary || 'Details and eligibility are on the official page.',
         skills: item.skills || [],
         url: item.url,
         // Location and countries come from the source text; empty when not stated.
         location: item.location || '',
         countries: item.countries || [],
         award: '',
+        details: {
+          about: item.summary,
+          eligibility: item.eligibility && item.eligibility !== 'check source' ? item.eligibility : undefined,
+          timing: item.deadlineEvidence ? `The source page says: "${item.deadlineEvidence}"` : undefined,
+        },
       }));
       // Dated feed items first, then the catalog. A catalog entry with the same link as a feed item is skipped.
       const feedUrls = new Set(mapped.map((item) => item.url));
@@ -517,7 +516,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         radarReady,
         activeQuizSkill,
         selectedOpportunityForDraft,
-        selectedOpportunityForDetails,
         selectedOpportunityForGaps,
         isOnboardingOpen,
         openShellStatus,
@@ -538,7 +536,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         addLog,
         triggerBlockedSandboxAction,
         setSelectedOpportunityForDraft,
-        setSelectedOpportunityForDetails,
         setSelectedOpportunityForGaps,
         incrementMaskedCount,
         getRawMemoryMarkdown,

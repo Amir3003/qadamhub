@@ -136,7 +136,7 @@ export function NetworkAccess({
         )}
         <button
           disabled={busy}
-          className="w-full h-11 rounded-btn bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white text-[13px] font-mono font-semibold transition-all shadow-md shadow-emerald-900/20 cursor-pointer disabled:opacity-60 disabled:cursor-wait"
+          className="w-full h-11 rounded-btn bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white text-[13px] font-mono font-semibold transition-all shadow-md shadow-emerald-900/20 cursor-pointer disabled:opacity-60 disabled:cursor-wait"
         >
           {busy
             ? "Please wait..."

@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import { PageHeader } from '../components/PageHeader';
 import { SuggestOpportunityModal } from '../components/SuggestOpportunityModal';
+import { OpportunityDetailsPanel } from '../components/OpportunityDetailsPanel';
 import { destinationRank } from '../db/location';
 import {
   SearchIcon,
@@ -24,7 +25,6 @@ export const RadarPage: React.FC = () => {
     opportunities,
     runTavilySearch,
     isTavilyScanning,
-    setSelectedOpportunityForDetails,
     setSelectedOpportunityForGaps,
     userProfile,
   } = useApp();
@@ -32,6 +32,8 @@ export const RadarPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState<RadarFilter>('All');
   const [isSuggestOpen, setIsSuggestOpen] = useState(false);
+  // The card whose details are open. It grows into a full-width panel in place.
+  const [expandedId, setExpandedId] = useState<string | null>(null);
 
   const filters: RadarFilter[] = ['All', 'Hackathons', 'Grants', 'Internships'];
 
@@ -45,7 +47,7 @@ export const RadarPage: React.FC = () => {
         className={`
           snap-start flex-shrink-0 min-h-[44px] h-10 px-4 rounded-xl text-mini font-mono transition-all border cursor-pointer active:scale-95
           ${isActive
-            ? 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white border-emerald-500 font-bold shadow-xs'
+            ? 'bg-gradient-to-r from-emerald-600 to-teal-700 text-white border-emerald-500 font-bold shadow-xs'
             : 'bg-slate-900/80 text-teal-200/80 border-teal-500/30 hover:bg-slate-800/80 hover:text-white hover:border-teal-400 shadow-xs'
           }
         `}
@@ -125,7 +127,7 @@ export const RadarPage: React.FC = () => {
             <div className="flex items-center gap-2">
               <Link
                 to="/account?tab=profile"
-                className="min-h-[38px] px-3.5 py-1.5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white text-[12px] font-semibold font-mono rounded-lg transition-all flex items-center gap-1.5 shadow-xs whitespace-nowrap active:scale-95"
+                className="min-h-[38px] px-3.5 py-1.5 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white text-[12px] font-semibold font-mono rounded-lg transition-all flex items-center gap-1.5 shadow-xs whitespace-nowrap active:scale-95"
               >
                 <UserIcon size={13} />
                 <span>Configure Stack</span>
@@ -169,7 +171,7 @@ export const RadarPage: React.FC = () => {
           <button
             type="button"
             onClick={() => setIsSuggestOpen(true)}
-            className="min-h-[44px] px-4 inline-flex items-center justify-center gap-2 flex-shrink-0 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-mono text-mini font-semibold rounded-xl shadow-xs cursor-pointer active:scale-95 transition-all"
+            className="min-h-[44px] px-4 inline-flex items-center justify-center gap-2 flex-shrink-0 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white font-mono text-mini font-semibold rounded-xl shadow-xs cursor-pointer active:scale-95 transition-all"
           >
             <PlusIcon size={14} className="text-white" />
             <span>Suggest it</span>
@@ -180,6 +182,9 @@ export const RadarPage: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
           {filteredOpportunities.map((opp) => {
             const isHighMatch = opp.match >= 80;
+            if (opp.id === expandedId) {
+              return <OpportunityDetailsPanel key={opp.id} opp={opp} onClose={() => setExpandedId(null)} />;
+            }
             return (
               <div
                 key={opp.id}
@@ -193,10 +198,10 @@ export const RadarPage: React.FC = () => {
                         <CompanyBadgeIcon orgKey={opp.orgKey} size={18} />
                       </div>
                       <div className="min-w-0">
-                        <span className="text-[11px] font-mono font-bold text-indigo-950 tracking-wider uppercase block truncate">
+                        <span className="text-[12px] font-mono font-bold text-indigo-950 tracking-wider uppercase block truncate">
                           {opp.organization}
                         </span>
-                        <span className="text-[10px] font-mono text-teal-700 block truncate">
+                        <span className="text-[12px] font-mono text-teal-800 block truncate">
                           {opp.type}
                         </span>
                       </div>
@@ -272,7 +277,7 @@ export const RadarPage: React.FC = () => {
                       onClick={() => {
                         navigate(`/application-studio?id=${opp.id}`);
                       }}
-                      className="h-10 px-3.5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white rounded-btn text-[13px] font-semibold transition-all flex items-center gap-1.5 shadow-xs cursor-pointer"
+                      className="h-10 px-3.5 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white rounded-btn text-[13px] font-semibold transition-all flex items-center gap-1.5 shadow-xs cursor-pointer"
                     >
                       <FileTextIcon size={14} className="text-white" />
                       <span>Prepare &amp; Apply</span>
@@ -289,7 +294,7 @@ export const RadarPage: React.FC = () => {
 
                   <button
                     type="button"
-                    onClick={() => setSelectedOpportunityForDetails(opp)}
+                    onClick={() => setExpandedId(opp.id)}
                     aria-label={`View details for ${opp.title}`}
                     className="h-10 px-3.5 bg-white hover:bg-slate-50 border border-teal-200 text-teal-950 rounded-btn text-[13px] font-semibold transition-colors flex items-center gap-1.5 whitespace-nowrap shadow-xs cursor-pointer"
                   >
@@ -323,7 +328,7 @@ export const RadarPage: React.FC = () => {
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 w-full sm:w-auto">
               <Link
                 to="/cv"
-                className="min-h-[44px] px-5 inline-flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-mono text-mini font-semibold rounded-xl shadow-xs cursor-pointer active:scale-95 transition-all"
+                className="min-h-[44px] px-5 inline-flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white font-mono text-mini font-semibold rounded-xl shadow-xs cursor-pointer active:scale-95 transition-all"
               >
                 <FileTextIcon size={14} className="text-white" />
                 <span>Open CV &amp; Skill Lab</span>

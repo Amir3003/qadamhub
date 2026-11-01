@@ -50,13 +50,13 @@ const NAV_LINKS = [
 ];
 
 const StatusChip: React.FC<{ status: Status }> = ({ status }) => (
-  <span className={`inline-flex items-center h-6 px-2.5 rounded-full border text-[11px] font-mono font-semibold ${STATUS_CLASS[status]}`}>
+  <span className={`inline-flex items-center h-6 px-2.5 rounded-full border text-[12px] font-mono font-semibold ${STATUS_CLASS[status]}`}>
     {STATUS_LABEL[status]}
   </span>
 );
 
 const SampleBadge: React.FC = () => (
-  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-teal-800 bg-white/80 border border-teal-200/80 rounded-full px-2.5 py-1 whitespace-nowrap">
+  <span className="text-[12px] font-mono font-bold uppercase tracking-wider text-teal-800 bg-white/80 border border-teal-200/80 rounded-full px-2.5 py-1 whitespace-nowrap">
     Sample data
   </span>
 );
@@ -195,7 +195,7 @@ const LearnerList: React.FC<{ rows?: number }> = ({ rows = 4 }) => (
     {SAMPLE_LEARNERS.slice(0, rows).map((learner) => (
       <li key={learner.name} className="flex items-center justify-between gap-3 px-4 py-2.5">
         <div className="flex items-center gap-3 min-w-0">
-          <span className="w-8 h-8 shrink-0 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 text-white text-[11px] font-mono font-bold flex items-center justify-center">
+          <span className="w-8 h-8 shrink-0 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 text-white text-[12px] font-mono font-bold flex items-center justify-center">
             {learner.name.split(' ').map((part) => part[0]).join('')}
           </span>
           <div className="min-w-0">
@@ -204,11 +204,11 @@ const LearnerList: React.FC<{ rows?: number }> = ({ rows = 4 }) => (
               <span className="w-14 h-1.5 rounded-full bg-teal-100 overflow-hidden">
                 <span className="block h-full bg-gradient-to-r from-emerald-500 to-teal-600" style={{ width: `${learner.profile}%` }} />
               </span>
-              <span className="text-[10px] font-mono text-teal-800">{learner.profile}% profile</span>
+              <span className="text-[12px] font-mono text-teal-800">{learner.profile}% profile</span>
             </div>
           </div>
         </div>
-        <span className={`shrink-0 inline-flex items-center h-6 px-2.5 rounded-full border text-[11px] font-mono font-semibold ${LEARNER_STATE_CLASS[learner.state]}`}>
+        <span className={`shrink-0 inline-flex items-center h-6 px-2.5 rounded-full border text-[12px] font-mono font-semibold ${LEARNER_STATE_CLASS[learner.state]}`}>
           {learner.state}
         </span>
       </li>
@@ -273,7 +273,7 @@ const StageVisual: React.FC<{ stage: Stage }> = ({ stage }) => {
           ].map((stat) => (
             <div key={stat.label} className="p-2.5 rounded-xl bg-white/80 border border-teal-200/80 text-center">
               <div className="text-lg sm:text-xl font-mono font-bold text-indigo-950">{stat.value}</div>
-              <div className="text-[10px] font-mono text-teal-800 uppercase">{stat.label}</div>
+              <div className="text-[12px] font-mono text-teal-800 uppercase">{stat.label}</div>
             </div>
           ))}
         </div>
@@ -489,7 +489,7 @@ export const WelcomePage: React.FC = () => {
           type="button"
           onClick={() => onPick(s)}
           aria-label={`Step ${s + 1}`}
-          className={`h-8 px-3 rounded-full text-[11px] font-mono font-bold transition-all cursor-pointer ${
+          className={`h-8 px-3 rounded-full text-[12px] font-mono font-bold transition-all cursor-pointer ${
             activeStage === s
               ? 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-xs'
               : 'bg-white/80 text-teal-800 hover:bg-white border border-teal-200/60'
@@ -632,7 +632,7 @@ export const WelcomePage: React.FC = () => {
         </div>
 
         <div className="hidden md:flex absolute bottom-6 left-1/2 -translate-x-1/2 flex-col items-center gap-2 opacity-75">
-          <span className="text-[11px] font-mono tracking-[0.16em] text-teal-300/80 uppercase">How it works</span>
+          <span className="text-[12px] font-mono tracking-[0.16em] text-teal-300/80 uppercase">How it works</span>
           <div className="w-px h-8 bg-gradient-to-b from-teal-300/70 to-transparent" />
         </div>
       </section>
@@ -837,7 +837,7 @@ export const WelcomePage: React.FC = () => {
                       </li>
                     ))}
                   </ul>
-                  <p className="mt-5 text-[11px] font-mono text-teal-800/80 leading-relaxed">
+                  <p className="mt-5 text-[12px] font-mono text-teal-800/80 leading-relaxed">
                     Proposed price, confirmed with each pilot partner. Monthly invoice.
                   </p>
                 </div>

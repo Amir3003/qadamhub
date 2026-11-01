@@ -250,7 +250,7 @@ export const CvLabPage: React.FC = () => {
             >
               <CompanyBadgeIcon orgKey={selectedOpp.orgKey} size={15} />
               <div className="flex flex-col text-left max-w-[200px] sm:max-w-xs truncate">
-                <span className="text-[10px] text-teal-300 uppercase tracking-wider leading-none">
+                <span className="text-[12px] text-teal-300 uppercase tracking-wider leading-none">
                   Target Benchmark
                 </span>
                 <span className="text-[12px] font-semibold text-white truncate mt-0.5">
@@ -275,7 +275,7 @@ export const CvLabPage: React.FC = () => {
                     style={menuStyle}
                     className="animate-pop-in origin-top fixed z-50 w-auto sm:w-96 rounded-card bg-gradient-to-br from-[#EDF7F6] via-[#F3F6FF] to-[#E8F4F8] border border-teal-300 shadow-2xl pb-1 overflow-y-auto overscroll-contain text-slate-900"
                   >
-                    <div className="px-3 py-2 border-b border-teal-200/60 text-[11px] font-mono uppercase text-teal-800 font-semibold sticky top-0 z-10 bg-[#EDF7F6] flex items-center justify-between">
+                    <div className="px-3 py-2 border-b border-teal-200/60 text-[12px] font-mono uppercase text-teal-800 font-semibold sticky top-0 z-10 bg-[#EDF7F6] flex items-center justify-between">
                       <span>Select a target</span>
                       <button
                         type="button"
@@ -290,7 +290,7 @@ export const CvLabPage: React.FC = () => {
                       { label: 'From the radar', items: fromRadar },
                     ].filter((g) => g.items.length > 0).map((group) => (
                       <div key={group.label}>
-                        <div className="px-3 pt-3 pb-1 text-[10px] font-mono uppercase tracking-wider text-teal-700 font-semibold">
+                        <div className="px-3 pt-3 pb-1 text-[12px] font-mono uppercase tracking-wider text-teal-700 font-semibold">
                           {group.label}
                         </div>
                         {group.items.map((opp) => {
@@ -381,7 +381,7 @@ export const CvLabPage: React.FC = () => {
               <div className="text-[16px] text-indigo-950 font-bold mt-0.5">
                 {isProfileReady ? `${structureScore}%` : '0%'}
               </div>
-              <div className="text-[11px] text-teal-700 mt-0.5">Identity, Edu & Contact</div>
+              <div className="text-[12px] text-teal-800 mt-0.5">Identity, Edu & Contact</div>
             </div>
 
             <div>
@@ -389,7 +389,7 @@ export const CvLabPage: React.FC = () => {
               <div className="text-[16px] text-indigo-950 font-bold mt-0.5">
                 {isProfileReady ? `${impactScore}%` : '0%'}
               </div>
-              <div className="text-[11px] text-teal-700 mt-0.5">Highlights & Verified Tests</div>
+              <div className="text-[12px] text-teal-800 mt-0.5">Highlights & Verified Tests</div>
             </div>
 
             <div>
@@ -397,7 +397,7 @@ export const CvLabPage: React.FC = () => {
               <div className="text-[16px] text-indigo-950 font-bold mt-0.5">
                 {isProfileReady ? `${keywordsScore}%` : '0%'}
               </div>
-              <div className="text-[11px] text-teal-700 mt-0.5">{matchedTargetSkills.length}/{requiredTargetSkills.length} required keywords</div>
+              <div className="text-[12px] text-teal-800 mt-0.5">{matchedTargetSkills.length}/{requiredTargetSkills.length} required keywords</div>
             </div>
 
             <div>
@@ -405,7 +405,7 @@ export const CvLabPage: React.FC = () => {
               <div className="text-[16px] text-emerald-700 font-bold mt-0.5">
                 {isProfileReady ? `${verifiedCount} Skills Verified` : '0'}
               </div>
-              <div className="text-[11px] text-teal-700 mt-0.5">&gt;70% quiz scores</div>
+              <div className="text-[12px] text-teal-800 mt-0.5">&gt;70% quiz scores</div>
             </div>
           </div>
         </div>
@@ -422,7 +422,7 @@ export const CvLabPage: React.FC = () => {
                   {pdfFilename}
                 </span>
               </div>
-              <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-white border border-teal-200 text-teal-800 font-semibold">
+              <span className="text-[12px] font-mono uppercase px-2 py-0.5 rounded bg-white border border-teal-200 text-teal-800 font-semibold">
                 Candidate ATS Document
               </span>
             </div>
@@ -440,7 +440,7 @@ export const CvLabPage: React.FC = () => {
                 <div className="pt-2 flex items-center justify-center gap-2.5">
                   <Link
                     to="/account?tab=profile"
-                    className="h-9 px-4 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white rounded-btn text-mini font-mono flex items-center gap-1.5 transition-colors shadow-xs font-semibold"
+                    className="h-9 px-4 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white rounded-btn text-mini font-mono flex items-center gap-1.5 transition-colors shadow-xs font-semibold"
                   >
                     <UserIcon size={13} />
                     <span>Configure Profile</span>
@@ -567,19 +567,19 @@ export const CvLabPage: React.FC = () => {
                   <>
                     {matchedTargetSkills.length > 0 && (
                       <li className="flex items-center gap-2">
-                        <span className="text-emerald-700 font-mono text-[11px]">•</span>
+                        <span className="text-emerald-700 font-mono text-[12px]">•</span>
                         <span>Matches target prerequisites: <strong className="text-indigo-950">{matchedTargetSkills.join(', ')}</strong></span>
                       </li>
                     )}
                     {userProfile.university && (
                       <li className="flex items-center gap-2">
-                        <span className="text-emerald-700 font-mono text-[11px]">•</span>
+                        <span className="text-emerald-700 font-mono text-[12px]">•</span>
                         <span>Academic standing: <strong className="text-indigo-950">{userProfile.university}</strong></span>
                       </li>
                     )}
                     {verifiedCount > 0 && (
                       <li className="flex items-center gap-2 text-emerald-800 font-bold">
-                        <span className="font-mono text-[11px]">✓</span>
+                        <span className="font-mono text-[12px]">✓</span>
                         <span>{verifiedCount} skill(s) verified via interactive quiz</span>
                       </li>
                     )}
@@ -609,7 +609,7 @@ export const CvLabPage: React.FC = () => {
                     {missingTargetSkills.length > 0 ? (
                       missingTargetSkills.map((gap) => (
                         <li key={gap} className="flex items-center gap-2">
-                          <span className="text-amber-700 font-mono text-[11px]">•</span>
+                          <span className="text-amber-700 font-mono text-[12px]">•</span>
                           <span>Missing competency: <strong className="text-amber-950">{gap}</strong> (Prerequisite for {selectedOpp.title})</span>
                         </li>
                       ))

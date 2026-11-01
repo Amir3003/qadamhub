@@ -89,7 +89,7 @@ export const MemoryPage: React.FC = () => {
             <button
               type="button"
               onClick={() => setIsAddModalOpen(true)}
-              className="h-10 px-4 rounded-btn bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white text-[13px] font-semibold flex items-center gap-2 transition-all shadow-xs cursor-pointer"
+              className="h-10 px-4 rounded-btn bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white text-[13px] font-semibold flex items-center gap-2 transition-all shadow-xs cursor-pointer"
             >
               <PlusIcon size={14} />
               <span>Add Directive</span>
@@ -128,7 +128,7 @@ export const MemoryPage: React.FC = () => {
             <button
               type="button"
               onClick={() => setIsAddModalOpen(true)}
-              className="h-10 px-5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-semibold rounded-btn text-[13px] inline-flex items-center gap-2 transition-all shadow-xs cursor-pointer"
+              className="h-10 px-5 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white font-semibold rounded-btn text-[13px] inline-flex items-center gap-2 transition-all shadow-xs cursor-pointer"
             >
               <PlusIcon size={14} />
               <span>Add First Directive</span>
@@ -176,7 +176,7 @@ export const MemoryPage: React.FC = () => {
                         <span className={`tracking-wider ${tagColor}`}>
                           {entry.category}
                         </span>
-                        <span className="text-teal-800 text-[11px] font-medium">{entry.timestamp}</span>
+                        <span className="text-teal-800 text-[12px] font-medium">{entry.timestamp}</span>
                       </div>
 
                       {/* Content text / In-place edit */}
@@ -197,7 +197,7 @@ export const MemoryPage: React.FC = () => {
                             <button
                               type="button"
                               onClick={() => handleSaveEdit(entry.id)}
-                              className="h-8 px-3 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded text-mini font-mono font-bold"
+                              className="h-8 px-3 bg-gradient-to-r from-emerald-600 to-teal-700 text-white rounded text-mini font-mono font-bold"
                             >
                               Save
                             </button>
@@ -308,7 +308,7 @@ export const MemoryPage: React.FC = () => {
                         }
                       `}
                     >
-                      <div className="text-[10px] font-mono uppercase tracking-wider text-teal-400 font-semibold">
+                      <div className="text-[12px] font-mono uppercase tracking-wider text-teal-400 font-semibold">
                         {target.type}
                       </div>
                       <div className="text-[12px] font-semibold truncate mt-0.5">
@@ -425,7 +425,7 @@ export const MemoryPage: React.FC = () => {
                 type="button"
                 onClick={handleCreateEntry}
                 disabled={newText.trim() === ''}
-                className="h-10 px-5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white rounded-btn text-[13px] font-bold disabled:opacity-50 transition-all shadow-xs cursor-pointer"
+                className="h-10 px-5 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white rounded-btn text-[13px] font-bold disabled:opacity-50 transition-all shadow-xs cursor-pointer"
               >
                 Save Entry
               </button>
@@ -471,7 +471,7 @@ export const MemoryPage: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setIsRawMdModalOpen(false)}
-                className="h-10 px-5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-semibold rounded-btn text-[13px] cursor-pointer transition-all shadow-xs"
+                className="h-10 px-5 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white font-semibold rounded-btn text-[13px] cursor-pointer transition-all shadow-xs"
               >
                 Close
               </button>

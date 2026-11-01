@@ -95,7 +95,7 @@ export const MemoryGuide: React.FC<MemoryGuideProps> = ({ defaultOpen, onUseExam
             ].map(([n, title, text]) => (
               <div key={n} className="p-3.5 rounded-btn bg-white/75 border border-teal-200/80">
                 <div className="flex items-center gap-2">
-                  <span className="w-6 h-6 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 text-white text-[11px] font-mono font-bold flex items-center justify-center">
+                  <span className="w-6 h-6 rounded-full bg-gradient-to-br from-emerald-600 to-teal-700 text-white text-[12px] font-mono font-bold flex items-center justify-center">
                     {n}
                   </span>
                   <span className="text-[13px] font-bold text-indigo-950">{title}</span>
@@ -114,7 +114,7 @@ export const MemoryGuide: React.FC<MemoryGuideProps> = ({ defaultOpen, onUseExam
               {CATEGORIES.map((cat) => (
                 <div key={cat.id} className="p-3.5 rounded-btn bg-white/75 border border-teal-200/80 space-y-2">
                   <div className="flex items-center gap-2">
-                    <span className={`text-[10px] font-mono uppercase font-bold px-2 py-0.5 rounded border ${cat.color}`}>
+                    <span className={`text-[12px] font-mono uppercase font-bold px-2 py-0.5 rounded border ${cat.color}`}>
                       {cat.title}
                     </span>
                     <span className="text-[12px] text-slate-600">{cat.what}</span>
@@ -128,7 +128,7 @@ export const MemoryGuide: React.FC<MemoryGuideProps> = ({ defaultOpen, onUseExam
                         className="w-full px-2.5 py-2 rounded-md bg-slate-50 hover:bg-emerald-50 border border-slate-200/80 hover:border-emerald-300 text-left text-[12px] text-slate-800 flex items-center justify-between gap-2 cursor-pointer transition-colors"
                       >
                         <span>"{ex}"</span>
-                        <span className="flex items-center gap-1 text-[10px] font-mono text-emerald-700 flex-shrink-0">
+                        <span className="flex items-center gap-1 text-[12px] font-mono text-emerald-700 flex-shrink-0">
                           <PlusIcon size={11} />
                           Use
                         </span>
