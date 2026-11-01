@@ -301,3 +301,55 @@ test("a visitor without a profile lands on the student page, and /welcome stays 
   await expect(page.getByRole("heading", { level: 1 })).toContainText("Opportunity and career support for your cohort");
   expect(errors).toEqual([]);
 });
+
+test("pilot request, suggestion and details windows ignore Escape and clicks on the empty page", async ({ page }, info) => {
+  const errors = await watch(page);
+
+  // Schools: the pilot request window.
+  await page.addInitScript(() => localStorage.setItem("qadam_consent_analytics_v1", "denied"));
+  await page.goto("/welcome?pilot=1");
+  const pilot = page.getByRole("dialog", { name: "Run a pilot with one cohort" });
+  await expect(pilot).toBeVisible();
+  await pilot.getByLabel("Institution").fill("Smoke school");
+  await page.keyboard.press("Escape");
+  await page.mouse.click(4, 4);
+  await page.mouse.click(info.project.name.includes("mobile") ? 4 : 1270, 790);
+  await expect(pilot).toBeVisible();
+  await expect(pilot.getByLabel("Institution")).toHaveValue("Smoke school");
+  await page.screenshot({ path: path.join(SHOTS, `${info.project.name}-pilot-outside-click.png`) });
+  await pilot.getByRole("button", { name: "Close" }).first().click();
+  await expect(pilot).toBeHidden();
+
+  // Learners: the details window and the suggestion window on the Radar.
+  await page.evaluate(
+    ([profile, membership]) => {
+      localStorage.setItem("qadam_user", JSON.stringify(profile));
+      localStorage.setItem("qadam_cohort_membership", JSON.stringify(membership));
+    },
+    [PROFILE, MEMBERSHIP] as const,
+  );
+  await page.goto("/");
+  await page.getByRole("button", { name: /View details for Smoke Test AI Research Grant/ }).click();
+  const details = page.getByRole("dialog", { name: "Smoke Test AI Research Grant" });
+  await expect(details).toBeVisible();
+  await page.keyboard.press("Escape");
+  await page.mouse.click(4, 4);
+  await expect(details).toBeVisible();
+  await page.screenshot({ path: path.join(SHOTS, `${info.project.name}-details-outside-click.png`) });
+  await details.getByRole("button", { name: "Close" }).first().click();
+  await expect(details).toBeHidden();
+
+  await page.getByRole("button", { name: /Suggest it/ }).click();
+  const suggest = page.getByRole("dialog", { name: "Suggest an opportunity" });
+  await expect(suggest).toBeVisible();
+  await suggest.getByLabel("Title").fill("Typed text must survive");
+  await page.keyboard.press("Escape");
+  await page.mouse.click(4, 4);
+  await expect(suggest).toBeVisible();
+  await expect(suggest.getByLabel("Title")).toHaveValue("Typed text must survive");
+  await page.screenshot({ path: path.join(SHOTS, `${info.project.name}-suggest-outside-click.png`) });
+  await suggest.getByRole("button", { name: "Close" }).first().click();
+  await expect(suggest).toBeHidden();
+
+  expect(errors).toEqual([]);
+});
