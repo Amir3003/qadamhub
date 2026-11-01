@@ -1,3 +1,4 @@
+import { createPortal } from 'react-dom';
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -137,7 +138,7 @@ function Modal({
   onClose: () => void;
   children: React.ReactNode;
 }) {
-  return (
+  return createPortal(
     <div
       role="dialog"
       aria-modal="true"
@@ -159,7 +160,7 @@ function Modal({
         <div className="p-5">{children}</div>
       </div>
     </div>
-  );
+  , document.body);
 }
 
 type ConfirmRequest = {
@@ -175,7 +176,7 @@ function ConfirmDialog({ request, onClose }: { request: ConfirmRequest; onClose:
   useEffect(() => {
     confirmRef.current?.focus();
   }, []);
-  return (
+  return createPortal(
     <div
       role="alertdialog"
       aria-modal="true"
@@ -208,7 +209,7 @@ function ConfirmDialog({ request, onClose }: { request: ConfirmRequest; onClose:
         </div>
       </div>
     </div>
-  );
+  , document.body);
 }
 
 export const NetworkPage: React.FC = () => (

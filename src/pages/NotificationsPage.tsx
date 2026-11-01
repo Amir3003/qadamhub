@@ -1,3 +1,4 @@
+import { createPortal } from 'react-dom';
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { PageHeader } from '../components/PageHeader';
@@ -352,7 +353,7 @@ export const NotificationsPage: React.FC = () => {
       </div>
 
       {/* Modal: Authorize Telegram */}
-      {isTelegramModal && (
+      {isTelegramModal && createPortal(
         <div
           role="dialog"
           aria-modal="true"
@@ -416,10 +417,10 @@ export const NotificationsPage: React.FC = () => {
             </div>
           </div>
         </div>
-      )}
+      , document.body)}
 
       {/* Modal: Authorize Discord */}
-      {isDiscordModal && (
+      {isDiscordModal && createPortal(
         <div
           role="dialog"
           aria-modal="true"
@@ -471,7 +472,7 @@ export const NotificationsPage: React.FC = () => {
             </div>
           </div>
         </div>
-      )}
+      , document.body)}
     </div>
   );
 };

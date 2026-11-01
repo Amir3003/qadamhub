@@ -488,6 +488,40 @@ test("the application checklist shows one step at a time and ticking a step move
   expect(errors).toEqual([]);
 });
 
+test("windows on the Memory, Notifications and Account pages cover the navigation and the feedback button", async ({ page }, info) => {
+  const errors = await watch(page);
+  await page.addInitScript(
+    ([profile]) => {
+      localStorage.setItem("qadam_user", JSON.stringify(profile));
+      localStorage.setItem("qadam_consent_analytics_v1", "denied");
+    },
+    [PROFILE] as const,
+  );
+  // The point under the navigation link must belong to the window's overlay, so a tap cannot reach the nav.
+  const coversNav = async () =>
+    page.evaluate(() => {
+      const links = Array.from(document.querySelectorAll("a")).filter((a) => /Radar/.test(a.textContent || "") && a.getBoundingClientRect().width > 0);
+      const rect = links[0].getBoundingClientRect();
+      const top = document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2);
+      return Boolean(top && top.closest("[role=dialog], [role=alertdialog]"));
+    });
+
+  await page.goto("/memory");
+  await page.getByRole("button", { name: /Add Directive/ }).first().click();
+  await expect(page.getByRole("dialog")).toBeVisible();
+  expect(await coversNav()).toBe(true);
+  await page.screenshot({ path: path.join(SHOTS, `${info.project.name}-memory-modal-over-nav.png`) });
+  await page.getByRole("dialog").getByRole("button", { name: "Cancel" }).click();
+
+  await page.goto("/notifications");
+  await page.getByRole("button", { name: /Manual handle entry/ }).click();
+  await expect(page.getByRole("dialog")).toBeVisible();
+  expect(await coversNav()).toBe(true);
+  await page.getByRole("dialog").getByRole("button", { name: "Cancel" }).click();
+
+  expect(errors).toEqual([]);
+});
+
 test("no made-up or expired listing is offered: Memory links live listings, an unknown Application Prep id says so", async ({ page }) => {
   const errors = await watch(page);
   await page.addInitScript(
