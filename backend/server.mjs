@@ -66,23 +66,18 @@ export function validate(items, sources, today = new Date().toISOString().slice(
   });
 }
 
-// Ten searches, each aimed at one kind of listing with a date. The standing programs (yearly
-// scholarships, open-source programs) live in the verified catalog instead, so these queries look
-// for new dated calls. Hackathons dominate generic results, so every other kind gets its own query.
+// Five searches, each aimed at one kind of dated listing, to stay inside the search plan. The
+// standing programs (yearly scholarships, open-source programs) live in the verified catalog
+// instead, so these queries look for new dated calls.
 const SEARCH_QUERIES = [
   'student AI hackathon 2026 2027 registration deadline',
-  'online hackathon open to students worldwide 2027 register',
   'fully funded scholarship 2027 international students artificial intelligence application deadline',
-  'scholarship Japan Korea Singapore 2027 international students application deadline',
-  'scholarship Europe 2027 international students Germany Netherlands Sweden application deadline',
-  'scholarship United States Canada Australia 2027 international students application deadline',
-  'research fellowship grant for undergraduate students AI 2027 apply',
-  'software engineering summer internship 2027 students application deadline',
-  'AI machine learning research internship 2027 undergraduates apply by',
-  'grant for student founders and builders 2027 apply deadline',
+  'scholarship Japan Korea Europe United States 2027 international students application deadline',
+  'research fellowship or grant for student builders and founders 2027 apply deadline',
+  'AI machine learning summer internship 2027 students application deadline',
 ];
 const RESULTS_PER_QUERY = 5;
-const MAX_SOURCES = 20;
+const MAX_SOURCES = 15;
 const SOURCES_PER_CALL = 4;
 
 async function extractBatch(sources, nebius, model) {
