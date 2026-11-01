@@ -52,13 +52,14 @@ export const NotificationsPage: React.FC = () => {
                 <h3 className="text-[17px] font-bold text-indigo-950">Telegram Bot</h3>
                 <div className="text-mini font-mono text-emerald-700 font-bold mt-0.5">@{BOT_USERNAME}</div>
                 <p className="text-[13px] text-teal-950 mt-2 leading-relaxed">
-                  Ask the bot for the current radar and an application draft, right in Telegram. It answers your commands and does not message you on its own.
+                  Ask the bot for the current radar and an application draft, right in Telegram. Send /subscribe and it also writes to you once a day at 09:00 Astana time when something new appears, and reminds you before the deadline of the listings you track.
                 </p>
               </div>
               <div className="space-y-2 pt-2 border-t border-teal-200/60 text-mini font-mono text-teal-900">
-                <Feature command="/radar" text="current hackathons, grants and internships" />
+                <Feature command="/radar" text="current hackathons, grants and internships, with a Track button" />
+                <Feature command="/subscribe" text="a daily note when new listings appear" />
+                <Feature command="/tracking" text="reminders 7, 3 and 1 day before a deadline" />
                 <Feature command="/draft" text="an application draft for the top opportunity" />
-                <Feature command="/gaps" text="how CV gap analysis works on the website" />
               </div>
             </div>
             <div className="pt-4 border-t border-teal-200/60">
