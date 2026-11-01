@@ -488,7 +488,7 @@ test("the application checklist shows one step at a time and ticking a step move
   expect(errors).toEqual([]);
 });
 
-test("windows on the Memory, Notifications and Account pages cover the navigation and the feedback button", async ({ page }, info) => {
+test("windows on the Memory and Account pages cover the navigation and the feedback button", async ({ page }, info) => {
   const errors = await watch(page);
   await page.addInitScript(
     ([profile]) => {
@@ -513,11 +513,19 @@ test("windows on the Memory, Notifications and Account pages cover the navigatio
   await page.screenshot({ path: path.join(SHOTS, `${info.project.name}-memory-modal-over-nav.png`) });
   await page.getByRole("dialog").getByRole("button", { name: "Cancel" }).click();
 
-  await page.goto("/notifications");
-  await page.getByRole("button", { name: /Manual handle entry/ }).click();
+  await page.goto("/account?tab=profile");
+  await page.getByRole("button", { name: /Log Out/ }).first().click();
   await expect(page.getByRole("dialog")).toBeVisible();
-  expect(await coversNav()).toBe(true);
-  await page.getByRole("dialog").getByRole("button", { name: "Cancel" }).click();
+  // The account page has no navigation, but the Feedback button must still sit under the overlay.
+  const feedbackCovered = await page.evaluate(() => {
+    const button = document.querySelector('button[aria-label="Rate the app or send feedback"]');
+    if (!button) return false;
+    const rect = button.getBoundingClientRect();
+    const top = document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2);
+    return Boolean(top && top.closest("[role=dialog], [role=alertdialog]"));
+  });
+  expect(feedbackCovered).toBe(true);
+  await page.getByRole("dialog").getByRole("button", { name: "Stay in Workspace" }).click();
 
   expect(errors).toEqual([]);
 });
@@ -585,6 +593,11 @@ test("the Notifications page does not show a fake connection status", async ({ p
   await expect(page.getByRole("heading", { name: "Discord Bot" })).toBeVisible();
   // Linking an account is not built, so no card may claim to be connected or disconnected.
   await expect(page.getByText(/^\s*(DIS)?CONNECTED\s*$/i)).toHaveCount(0);
+  // The cards describe what the bots really do and offer only the two links that work.
+  await expect(page.getByRole("link", { name: /Open the bot in Telegram/ })).toHaveAttribute("href", /^https:\/\/t\.me\/QadamAgentBot/);
+  await expect(page.getByRole("link", { name: /Join the QADAM Discord/ })).toHaveAttribute("href", /^https:\/\/discord\.gg\//);
+  await expect(page.getByRole("button", { name: /Manual handle entry|Custom webhook URL|Confirm Connection/ })).toHaveCount(0);
+  await expect(page.getByText(/Instant ATS skill gap alerts|Real-time hackathon radar pings/)).toHaveCount(0);
   await page.screenshot({ path: path.join(SHOTS, `${info.project.name}-notifications-no-status.png`) });
   expect(errors).toEqual([]);
 });
