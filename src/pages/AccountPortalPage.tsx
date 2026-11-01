@@ -1,3 +1,4 @@
+import { createPortal } from 'react-dom';
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
@@ -1408,7 +1409,7 @@ export const AccountPortalPage: React.FC = () => {
       </main>
 
       {/* Confirmation Modal: Reset Local Data */}
-      {isResetConfirmOpen && (
+      {isResetConfirmOpen && createPortal(
         <div
           role="dialog"
           aria-modal="true"
@@ -1441,10 +1442,10 @@ export const AccountPortalPage: React.FC = () => {
             </div>
           </div>
         </div>
-      )}
+      , document.body)}
 
       {/* Confirmation Modal: Log Out */}
-      {isLogoutModalOpen && (
+      {isLogoutModalOpen && createPortal(
         <div
           role="dialog"
           aria-modal="true"
@@ -1473,7 +1474,7 @@ export const AccountPortalPage: React.FC = () => {
             </div>
           </div>
         </div>
-      )}
+      , document.body)}
     </div>
   );
 };
