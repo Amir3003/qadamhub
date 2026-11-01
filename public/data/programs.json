@@ -418,5 +418,69 @@
     "opens": "Events run throughout the year. See the site for what is happening now",
     "nextDeadline": null,
     "lastVerified": "2026-11-01"
+  },
+  {
+    "id": "astar-graduate-scholarship",
+    "type": "GRANT",
+    "title": "A*STAR Graduate Scholarship (AGS)",
+    "organization": "A*STAR, Singapore",
+    "url": "https://www.a-star.edu.sg/scholarships/home/scholarships/ags--scholarship",
+    "countries": [
+      "Singapore"
+    ],
+    "location": "Singapore",
+    "level": [
+      "Doctoral"
+    ],
+    "summary": "Up to 4 years of full tuition and a monthly allowance (3,600 SGD for international students in STEM, 5,000 SGD in semiconductor, quantum and computing), plus support for up to 12 months of overseas attachment.",
+    "eligibility": "Open to all nationalities. International students must have completed or be on track to complete a bachelor's or master's degree at a Singapore autonomous university, with at least Second-Class (Upper) Honours or equivalent. Non-Singaporeans have a 3-year service commitment with a Singapore-based company.",
+    "cycle": "annual",
+    "opens": "Two windows a year: from November to 1 February and from 1 June to 10 August. The opening date of the first window differs between sections of the page, so confirm it",
+    "nextDeadline": "2027-02-01",
+    "lastVerified": "2026-11-01"
+  },
+  {
+    "id": "turkiye-scholarships",
+    "type": "GRANT",
+    "title": "Turkiye Scholarships",
+    "organization": "YTB, Presidency for Turks Abroad and Related Communities",
+    "url": "https://turkiyeburslari.gov.tr/calendar",
+    "countries": [
+      "Turkey"
+    ],
+    "location": "Turkey",
+    "level": [
+      "Undergraduate",
+      "Master",
+      "Doctoral"
+    ],
+    "summary": "Competitive, merit-based scholarships for international students from all countries for associate, bachelor's, master's and doctoral degrees, with university placement. Applications are free and made online.",
+    "eligibility": "International students from all countries. See the announcement for the current call.",
+    "cycle": "annual",
+    "opens": "The general application period on the official calendar runs from 10 January to 20 February (2026 call: 10 January to 20 February 2026)",
+    "nextDeadline": null,
+    "lastVerified": "2026-11-01"
+  },
+  {
+    "id": "australia-awards-scholarships",
+    "type": "GRANT",
+    "title": "Australia Awards Scholarships",
+    "organization": "Australian Government, DFAT",
+    "url": "https://www.studyaustralia.gov.au/en/tools-and-resources/news/australia-awards-scholarships-applications-2027",
+    "countries": [
+      "Australia"
+    ],
+    "location": "Australia",
+    "level": [
+      "Undergraduate",
+      "Master",
+      "Doctoral"
+    ],
+    "summary": "Full tuition, return air travel, an establishment allowance, health cover and a fortnightly living expense contribution for full-time study in Australia.",
+    "eligibility": "For individuals from a selection of developing countries. The list of participating countries is on the DFAT website.",
+    "cycle": "annual",
+    "opens": "The 2027 round was open from 1 February to 30 April 2026. Check the official page for the next round",
+    "nextDeadline": null,
+    "lastVerified": "2026-11-01"
   }
 ]
