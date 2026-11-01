@@ -55,6 +55,10 @@ async function watch(page: Page) {
       if (url.pathname === "/data/opportunities.json") {
         return route.fulfill({ json: FEED });
       }
+      // No catalog by default, so the other scenarios keep their fixed feed.
+      if (url.pathname === "/data/programs.json") {
+        return route.fulfill({ json: [] });
+      }
       return route.continue();
     }
     return route.fulfill({ status: 200, body: "" });
@@ -397,5 +401,39 @@ test("a student who picks Japan sees Japanese listings first on the Radar", asyn
   // Japan first, then the online listing (open from anywhere), then the rest in feed order.
   expect(order).toEqual(["Tokyo Fixture Grant", "Online Fixture Grant", "Berlin Fixture Grant", "Boston Fixture Grant"]);
   await page.screenshot({ path: path.join(SHOTS, `${info.project.name}-radar-japan-first.png`) });
+  expect(errors).toEqual([]);
+});
+
+test("catalog programs show on the Radar with their usual timing instead of a deadline", async ({ page }, info) => {
+  const errors = await watch(page);
+  await page.route("**/data/programs.json", (route) =>
+    route.fulfill({
+      json: [
+        {
+          id: "gks-test", type: "GRANT", title: "Catalog Fixture Scholarship", organization: "Test Ministry",
+          url: "https://example.com/gks", countries: ["South Korea"], location: "South Korea", level: ["Undergraduate"],
+          summary: "Fixture catalog entry.", eligibility: "Under 25.", cycle: "annual",
+          opens: "Every September", nextDeadline: "2001-01-01", lastVerified: "2026-11-01",
+        },
+        { id: "bad", type: "GRANT", title: "No official link", organization: "X", url: "http://insecure.example", countries: [], location: "", level: [], summary: "", eligibility: "", cycle: "annual", opens: "x", nextDeadline: null, lastVerified: "2026-11-01" },
+      ],
+    }),
+  );
+  await page.addInitScript(
+    ([profile]) => {
+      localStorage.setItem("qadam_user", JSON.stringify(profile));
+      localStorage.setItem("qadam_consent_analytics_v1", "denied");
+    },
+    [PROFILE] as const,
+  );
+  await page.goto("/");
+  await expect(page.getByText("Smoke Test AI Research Grant").first()).toBeVisible();
+  const card = page.locator("h3", { hasText: "Catalog Fixture Scholarship" }).locator("xpath=ancestor::div[contains(@class,'rounded-card')][1]");
+  await expect(card).toBeVisible();
+  // A past deadline is ignored: the badge is short and the usual timing leads the description.
+  await expect(card.getByText("Yearly call")).toBeVisible();
+  await expect(card.getByText(/Applications: Every September/)).toBeVisible();
+  await expect(page.getByText("No official link")).toHaveCount(0);
+  await page.screenshot({ path: path.join(SHOTS, `${info.project.name}-radar-catalog.png`) });
   expect(errors).toEqual([]);
 });
