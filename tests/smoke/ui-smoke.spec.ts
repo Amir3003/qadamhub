@@ -488,7 +488,7 @@ test("the application checklist shows one step at a time and ticking a step move
   expect(errors).toEqual([]);
 });
 
-test("windows on the Memory, Notifications and Account pages cover the navigation and the feedback button", async ({ page }, info) => {
+test("windows on the Memory and Account pages cover the navigation and the feedback button", async ({ page }, info) => {
   const errors = await watch(page);
   await page.addInitScript(
     ([profile]) => {
@@ -513,11 +513,11 @@ test("windows on the Memory, Notifications and Account pages cover the navigatio
   await page.screenshot({ path: path.join(SHOTS, `${info.project.name}-memory-modal-over-nav.png`) });
   await page.getByRole("dialog").getByRole("button", { name: "Cancel" }).click();
 
-  await page.goto("/notifications");
-  await page.getByRole("button", { name: /Manual handle entry/ }).click();
+  await page.goto("/account?tab=profile");
+  await page.getByRole("button", { name: /Log Out/ }).first().click();
   await expect(page.getByRole("dialog")).toBeVisible();
   expect(await coversNav()).toBe(true);
-  await page.getByRole("dialog").getByRole("button", { name: "Cancel" }).click();
+  await page.getByRole("dialog").getByRole("button", { name: "Stay in Workspace" }).click();
 
   expect(errors).toEqual([]);
 });
