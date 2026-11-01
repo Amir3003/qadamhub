@@ -446,3 +446,44 @@ test("catalog programs show on the Radar with their usual timing instead of a de
   await page.screenshot({ path: path.join(SHOTS, `${info.project.name}-radar-catalog.png`) });
   expect(errors).toEqual([]);
 });
+
+test("the application checklist shows one step at a time and ticking a step moves the percentage", async ({ page }, info) => {
+  const errors = await watch(page);
+  await page.addInitScript(
+    ([profile]) => {
+      localStorage.setItem("qadam_user", JSON.stringify(profile));
+      localStorage.setItem("qadam_consent_analytics_v1", "denied");
+    },
+    [PROFILE] as const,
+  );
+  await page.goto("/application-studio?id=smoke-ml-grant");
+  const list = page.getByRole("list").filter({ has: page.getByRole("checkbox") });
+  await expect(page.getByText("Preparation Checklist")).toBeVisible();
+  const steps = list.getByRole("listitem");
+  const count = await steps.count();
+  expect(count).toBeGreaterThanOrEqual(8);
+  await expect(page.getByText("0%", { exact: true })).toBeVisible();
+
+  // Only the first unfinished step shows its details.
+  const opened = list.getByRole("button", { expanded: true });
+  await expect(opened).toHaveCount(1);
+  await expect(opened.first()).toContainText("Read the rules and eligibility");
+  await expect(list.getByText("Check age, student status")).toBeVisible();
+  await expect(list.getByText("Pass the skill quizzes")).toHaveCount(0);
+  await page.screenshot({ path: path.join(SHOTS, `${info.project.name}-checklist-1.png`), fullPage: true });
+
+  // Ticking the first step moves the percentage and opens the next step.
+  await list.getByRole("checkbox").first().click();
+  const percent = Math.round((1 / count) * 100);
+  await expect(page.getByText(`${percent}%`, { exact: true })).toBeVisible();
+  await expect(list.getByRole("button", { expanded: true })).toHaveCount(1);
+  await expect(list.getByText("Check age, student status")).toHaveCount(0);
+
+  // A person can open any step by tapping its title, and close it again.
+  await list.getByRole("button", { name: /Turn on a deadline reminder/ }).click();
+  await expect(list.getByText("Get a Telegram or Discord ping")).toBeVisible();
+  await list.getByRole("button", { name: /Turn on a deadline reminder/ }).click();
+  await expect(list.getByRole("button", { expanded: true })).toHaveCount(0);
+  await page.screenshot({ path: path.join(SHOTS, `${info.project.name}-checklist-2.png`), fullPage: true });
+  expect(errors).toEqual([]);
+});
