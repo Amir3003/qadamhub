@@ -17,6 +17,7 @@ import {
   INITIAL_SKILLS,
 } from '../data';
 import { CATALOG_SKILLS } from '../db/quizCatalog';
+import { catalogToOpportunities } from '../lib/catalog';
 import { clearMembership } from '../lib/cohorts';
 import { networkClient } from '../lib/network';
 
@@ -311,10 +312,23 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setMaskedCountThisSession((prev) => prev + count);
   };
 
+  // The verified program catalog. A failure here never hides the dated feed.
+  const loadCatalog = async (today: string): Promise<Opportunity[]> => {
+    try {
+      const response = await fetch('/data/programs.json', { cache: 'no-store' });
+      if (!response.ok) return [];
+      return catalogToOpportunities(await response.json(), today);
+    } catch {
+      return [];
+    }
+  };
+
   const runTavilySearch = async () => {
     if (isTavilyScanning) return;
     setIsTavilyScanning(true);
+    let catalog: Opportunity[] = [];
     try {
+      catalog = await loadCatalog(new Date().toISOString().slice(0, 10));
       // Local development may use the read-only API. Production reads a static
       // file published by the scheduled GitHub Actions scan.
       const localApi = import.meta.env.DEV && import.meta.env.VITE_QADAM_API_URL;
@@ -333,7 +347,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       const results = Array.isArray(data) ? data : data.results;
       if (!Array.isArray(results)) throw new Error('Radar data format is invalid');
       if (results.length === 0) {
-        setServerOpportunities([]);
+        setServerOpportunities(catalog);
         addLog('SYSTEM', 'No sourced opportunities have been published yet.');
         return;
       }
@@ -374,9 +388,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         countries: item.countries || [],
         award: '',
       }));
-      setServerOpportunities(mapped);
-      addLog('SYSTEM', `Loaded ${mapped.length} sourced opportunities`);
+      // Dated feed items first, then the catalog. A catalog entry with the same link as a feed item is skipped.
+      const feedUrls = new Set(mapped.map((item) => item.url));
+      const merged = [...mapped, ...catalog.filter((item) => !feedUrls.has(item.url))];
+      setServerOpportunities(merged);
+      addLog('SYSTEM', `Loaded ${mapped.length} sourced opportunities and ${merged.length - mapped.length} catalog programs`);
     } catch (err) {
+      // The dated feed is down, but the verified catalog can still be shown.
+      setServerOpportunities((prev) => prev ?? catalog);
       addLog('SYSTEM', err instanceof Error ? `Radar unavailable: ${err.message}` : 'Radar unavailable');
     } finally {
       setIsTavilyScanning(false);

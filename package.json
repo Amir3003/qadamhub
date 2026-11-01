@@ -21,7 +21,8 @@
     "test:network-ui": "playwright test --config playwright.network.config.ts",
     "check:quizzes": "node scripts/check-quizzes.mjs",
     "test:ui": "playwright test --config playwright.smoke.config.ts",
-    "test:live": "playwright test --config playwright.live.config.ts"
+    "test:live": "playwright test --config playwright.live.config.ts",
+    "check:catalog": "node scripts/check-catalog.mjs"
   },
   "devDependencies": {
     "@electric-sql/pglite": "^0.5.10",
