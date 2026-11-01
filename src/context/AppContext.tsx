@@ -452,7 +452,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       category,
       timestamp: dateStr,
       text,
-      targets: targets.length > 0 ? targets : ['target-nebius'],
+      targets: targets.length > 0 ? targets : ['target-rule-english'],
     };
 
     setMemoryEntries((prev) => [newEntry, ...prev]);
