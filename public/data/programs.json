@@ -5,9 +5,15 @@
     "title": "Japanese Government (MEXT) Scholarship",
     "organization": "MEXT, Government of Japan",
     "url": "https://www.studyinjapan.go.jp/en/planning/scholarships/mext-scholarships/",
-    "countries": ["Japan"],
+    "countries": [
+      "Japan"
+    ],
     "location": "Japan",
-    "level": ["Undergraduate", "Graduate", "Research"],
+    "level": [
+      "Undergraduate",
+      "Graduate",
+      "Research"
+    ],
     "summary": "Seven categories: research students, teacher training, undergraduate, Japanese studies, college of technology, specialized training college and Young Leaders Program. Tuition is exempted and airfare is provided.",
     "eligibility": "Undergraduate applicants must be under 25 and research students under 35. Apply through the Japanese embassy in your country or through a university approved by MEXT.",
     "cycle": "annual",
@@ -21,9 +27,15 @@
     "title": "Rotary Yoneyama Scholarship for overseas applicants",
     "organization": "Rotary Yoneyama Memorial Foundation",
     "url": "https://www.rotary-yoneyama.or.jp/overseas",
-    "countries": ["Japan"],
+    "countries": [
+      "Japan"
+    ],
     "location": "Japan",
-    "level": ["Undergraduate", "Master", "Doctoral"],
+    "level": [
+      "Undergraduate",
+      "Master",
+      "Doctoral"
+    ],
     "summary": "Monthly scholarship of 100,000 yen for undergraduates and 140,000 yen for master's and doctoral students, plus a travel subsidy of up to 250,000 yen for the flight to Japan.",
     "eligibility": "Open to people living overseas who plan to study at a Japanese university. JLPT N3 or higher is required at the time of application. Research students are not eligible.",
     "cycle": "annual",
@@ -37,9 +49,13 @@
     "title": "JASSO Student Exchange Support Program",
     "organization": "JASSO, Japan Student Services Organization",
     "url": "https://www.jasso.go.jp/en/ryugaku/scholarship_j/ukeire.html",
-    "countries": ["Japan"],
+    "countries": [
+      "Japan"
+    ],
     "location": "Japan",
-    "level": ["Exchange"],
+    "level": [
+      "Exchange"
+    ],
     "summary": "Monthly stipend of 80,000 yen for students on short-term exchange in Japan, from 8 days to one year, under an agreement between their home university and a Japanese school.",
     "eligibility": "Applications are accepted only from the Japanese school, not from individual students. Ask your home university's international office.",
     "cycle": "annual",
@@ -53,9 +69,14 @@
     "title": "Monbukagakusho Honors Scholarship for Privately-Financed International Students",
     "organization": "JASSO, Japan Student Services Organization",
     "url": "https://www.jasso.go.jp/en/ryugaku/scholarship_j/shoreihi/index.html",
-    "countries": ["Japan"],
+    "countries": [
+      "Japan"
+    ],
     "location": "Japan",
-    "level": ["Undergraduate", "Graduate"],
+    "level": [
+      "Undergraduate",
+      "Graduate"
+    ],
     "summary": "JASSO scholarship for privately-financed international students in Japan. Amounts, eligibility and how to apply are on the official page.",
     "eligibility": "See the official page.",
     "cycle": "annual",
@@ -69,9 +90,13 @@
     "title": "Global Korea Scholarship for undergraduate degrees (GKS-U)",
     "organization": "NIIED, Government of Korea",
     "url": "https://www.studyinkorea.go.kr/ko/plan/scholarship.do?tab=gks-tab1",
-    "countries": ["South Korea"],
+    "countries": [
+      "South Korea"
+    ],
     "location": "South Korea",
-    "level": ["Undergraduate"],
+    "level": [
+      "Undergraduate"
+    ],
     "summary": "Covers airfare, Korean language training, tuition and a monthly allowance. One year of language training, then 4 to 6 years for a bachelor's degree.",
     "eligibility": "Applicants must be under 25 years of age. Apply through the Embassy Track on Study in Korea or directly to a GKS university.",
     "cycle": "annual",
@@ -85,9 +110,14 @@
     "title": "Global Korea Scholarship for graduate degrees (GKS-G)",
     "organization": "NIIED, Government of Korea",
     "url": "https://www.studyinkorea.go.kr/ko/plan/scholarship.do?tab=gks-tab1",
-    "countries": ["South Korea"],
+    "countries": [
+      "South Korea"
+    ],
     "location": "South Korea",
-    "level": ["Master", "Doctoral"],
+    "level": [
+      "Master",
+      "Doctoral"
+    ],
     "summary": "Two years for a master's degree and three years for a doctoral degree, in Korea.",
     "eligibility": "Applicants must be under 40 years of age. Apply to the Korean embassy in your country or to a GKS-designated university.",
     "cycle": "annual",
@@ -103,7 +133,9 @@
     "url": "https://summerofcode.withgoogle.com/",
     "countries": [],
     "location": "Online",
-    "level": ["Beginner"],
+    "level": [
+      "Beginner"
+    ],
     "summary": "A global, online program that brings new contributors into open source. You work with an open source organization on a 12+ week programming project with mentor guidance.",
     "eligibility": "Aimed at people new to open source. See the official page for the current rules.",
     "cycle": "annual",
@@ -119,7 +151,9 @@
     "url": "https://www.outreachy.org/",
     "countries": [],
     "location": "Online",
-    "level": ["Any"],
+    "level": [
+      "Any"
+    ],
     "summary": "Paid, remote open source internships. Interns receive a total of 7,000 USD. Two cohorts a year: May to August and December to March.",
     "eligibility": "For people who face underrepresentation, systemic bias or discrimination in the tech industry of their country.",
     "cycle": "annual",
@@ -135,11 +169,138 @@
     "url": "https://fellowship.mlh.com/",
     "countries": [],
     "location": "Online",
-    "level": ["Any"],
+    "level": [
+      "Any"
+    ],
     "summary": "A fully remote, 12-week internship alternative with a stipend. Fellows work on open source projects from corporate partners with mentorship from professional engineers.",
     "eligibility": "See the official FAQ and application page.",
     "cycle": "rolling",
     "opens": "Applications open for upcoming start dates. See the official page",
+    "nextDeadline": null,
+    "lastVerified": "2026-11-01"
+  },
+  {
+    "id": "chevening",
+    "type": "GRANT",
+    "title": "Chevening Scholarships",
+    "organization": "Chevening, UK Government",
+    "url": "https://www.chevening.org/scholarships/",
+    "countries": [
+      "United Kingdom"
+    ],
+    "location": "United Kingdom",
+    "level": [
+      "Master"
+    ],
+    "summary": "Fully funded one-year master's degree at a UK university for emerging leaders from around the world. There is no upper age limit.",
+    "eligibility": "Each country has its own page with the eligibility rules and the exact deadline. Standard, SIDS and ASEAN variants exist.",
+    "cycle": "annual",
+    "opens": "Opens in August and closes in October. The 2027/28 call closed in October 2026",
+    "nextDeadline": null,
+    "lastVerified": "2026-11-01"
+  },
+  {
+    "id": "gates-cambridge",
+    "type": "GRANT",
+    "title": "Gates Cambridge Scholarship",
+    "organization": "Gates Cambridge Trust",
+    "url": "https://www.gatescambridge.org/apply/timeline/",
+    "countries": [
+      "United Kingdom"
+    ],
+    "location": "United Kingdom",
+    "level": [
+      "Master",
+      "Doctoral"
+    ],
+    "summary": "Funding for outstanding postgraduate students at the University of Cambridge who share a potential for social leadership.",
+    "eligibility": "You must be a citizen of any country outside the United Kingdom and apply for a PhD, an MLitt or a one-year full-time postgraduate course. Undergraduate degrees are not considered.",
+    "cycle": "annual",
+    "opens": "Open from September. The main round deadline is 8 December 2026 or 6 January 2027, depending on your course",
+    "nextDeadline": "2026-12-08",
+    "lastVerified": "2026-11-01"
+  },
+  {
+    "id": "daad-scholarship-database",
+    "type": "GRANT",
+    "title": "DAAD scholarships for study and research in Germany",
+    "organization": "DAAD, German Academic Exchange Service",
+    "url": "https://www2.daad.de/deutschland/stipendium/datenbank/en/21148-scholarship-database/",
+    "countries": [
+      "Germany"
+    ],
+    "location": "Germany",
+    "level": [
+      "Undergraduate",
+      "Master",
+      "Doctoral",
+      "Research"
+    ],
+    "summary": "A database of 148 scholarship options for international students and researchers, from DAAD and other selected funding organisations.",
+    "eligibility": "Eligibility depends on the country you live in and apply from. Each programme page names a contact person for the current terms.",
+    "cycle": "annual",
+    "opens": "Every programme has its own deadline. Open the database and filter by your status and country",
+    "nextDeadline": null,
+    "lastVerified": "2026-11-01"
+  },
+  {
+    "id": "erasmus-mundus-joint-masters",
+    "type": "GRANT",
+    "title": "Erasmus Mundus Joint Masters",
+    "organization": "European Education and Culture Executive Agency",
+    "url": "https://www.eacea.ec.europa.eu/scholarships/erasmus-mundus-catalogue_en",
+    "countries": [],
+    "location": "Europe",
+    "level": [
+      "Master"
+    ],
+    "summary": "Joint master's programmes run by university consortia in Europe. Many programmes offer Erasmus Mundus scholarships, some do not.",
+    "eligibility": "Master's level students from all over the world can apply. Contact the programme's consortium about courses, procedures and scholarship availability.",
+    "cycle": "annual",
+    "opens": "Most programmes take applications between October and January. Each programme sets its own deadline",
+    "nextDeadline": null,
+    "lastVerified": "2026-11-01"
+  },
+  {
+    "id": "stipendium-hungaricum",
+    "type": "GRANT",
+    "title": "Stipendium Hungaricum",
+    "organization": "Tempus Public Foundation, Hungary",
+    "url": "https://stipendiumhungaricum.hu/",
+    "countries": [
+      "Hungary"
+    ],
+    "location": "Hungary",
+    "level": [
+      "Undergraduate",
+      "Master",
+      "Doctoral"
+    ],
+    "summary": "Hungarian government scholarship. Tuition fees are covered and accommodation costs are supported. You can choose up to two programmes from more than 900 at 30 universities.",
+    "eligibility": "Only programmes covered by the cooperation agreement between Hungary and your country. You must be nominated by your country's sending partner. Applications are free.",
+    "cycle": "annual",
+    "opens": "One deadline each year in January (15 January 2026 for the 2026/27 call). Apply through your sending partner",
+    "nextDeadline": null,
+    "lastVerified": "2026-11-01"
+  },
+  {
+    "id": "fulbright-foreign-student",
+    "type": "GRANT",
+    "title": "Fulbright Foreign Student Program",
+    "organization": "Fulbright Program, US Department of State",
+    "url": "https://foreign.fulbrightonline.org/",
+    "countries": [
+      "United States"
+    ],
+    "location": "United States",
+    "level": [
+      "Master",
+      "Doctoral"
+    ],
+    "summary": "Fulbright grants to study in the United States for people who are not US citizens.",
+    "eligibility": "Apply through the Fulbright Commission or Foundation, or the US Embassy, in your home country. Deadlines differ by country.",
+    "cycle": "annual",
+    "opens": "Set by your country's Fulbright Commission or US Embassy. Ask them for the current dates",
     "nextDeadline": null,
     "lastVerified": "2026-11-01"
   }
