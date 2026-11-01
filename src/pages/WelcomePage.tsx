@@ -341,7 +341,7 @@ const StageCopy: React.FC<{ stage: Stage }> = ({ stage }) => {
 const FAQ: { q: string; a: string }[] = [
   {
     q: 'Who pays for QADAM Hub?',
-    a: 'The institution. Learners in a cohort use it at no cost. The pilot is free; after it, the proposed price is 149 USD per month for up to 100 active learners.',
+    a: 'The institution. Learners in a cohort use it at no cost. The pilot is free; after it, the proposed price is 170 USD per month for up to 100 active learners.',
   },
   {
     q: 'What do learners need to start?',
@@ -827,7 +827,7 @@ export const WelcomePage: React.FC = () => {
                 </div>
                 <div className={`${glassCard} p-6 sm:p-7 flex flex-col`}>
                   <p className="text-mini font-mono font-bold text-indigo-700 uppercase tracking-wider">Step 2 · Subscription</p>
-                  <p className="mt-3 text-4xl font-semibold tracking-tight text-indigo-950 whitespace-nowrap">149 USD</p>
+                  <p className="mt-3 text-4xl font-semibold tracking-tight text-indigo-950 whitespace-nowrap">170 USD</p>
                   <p className="text-[13px] font-mono text-teal-800">per month, per institution</p>
                   <ul className="mt-5 space-y-2.5 flex-1">
                     {['Up to 100 active learners', 'Staff accounts and cohort tools', 'Recommendations for every learner', 'Basic reporting on learner activity'].map((item) => (
