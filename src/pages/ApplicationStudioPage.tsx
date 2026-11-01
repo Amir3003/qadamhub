@@ -106,12 +106,18 @@ const ApplicationPrep: React.FC<{ currentOpp: Opportunity }> = ({ currentOpp }) 
 
   const [checked, setChecked] = useState<string[]>(() => loadChecked(currentOpp.id));
   const [copiedField, setCopiedField] = useState<string | null>(null);
+  // Only one step shows its details: the one the person opened, else the first unfinished one.
+  // Empty string means everything is closed.
+  const [openId, setOpenId] = useState<string | null>(null);
 
   useEffect(() => {
     setChecked(loadChecked(currentOpp.id));
+    setOpenId(null);
   }, [currentOpp.id]);
 
   const toggleStep = (id: string) => {
+    // After ticking a step the next unfinished one opens by itself.
+    setOpenId(null);
     setChecked((prev) => {
       const next = prev.includes(id) ? prev.filter((s) => s !== id) : [...prev, id];
       try {
@@ -196,6 +202,7 @@ const ApplicationPrep: React.FC<{ currentOpp: Opportunity }> = ({ currentOpp }) 
   const doneCount = steps.filter((s) => checked.includes(s.id)).length;
   const currentStepId = steps.find((s) => !checked.includes(s.id))?.id;
   const progress = Math.round((doneCount / steps.length) * 100);
+  const expandedId = openId ?? currentStepId ?? '';
   const days = daysUntil(currentOpp.deadlineDate);
 
   const handleCopy = async (label: string, value: string) => {
@@ -360,7 +367,7 @@ const ApplicationPrep: React.FC<{ currentOpp: Opportunity }> = ({ currentOpp }) 
                 <span className="text-mini font-mono text-emerald-700 font-bold">{progress}%</span>
               </div>
               <p className="text-[12px] text-teal-900 leading-relaxed">
-                Work through these steps before you register. Progress is saved on this device.
+                Work through these steps before you register. Tap a number to tick a step off: the percentage and the bar update, and progress is saved on this device.
               </p>
               <div className="w-full h-2 bg-white/80 rounded-full overflow-hidden border border-teal-200/80 mt-3">
                 <div
@@ -373,6 +380,7 @@ const ApplicationPrep: React.FC<{ currentOpp: Opportunity }> = ({ currentOpp }) 
                 {steps.map((step, i) => {
                   const isDone = checked.includes(step.id);
                   const isCurrent = step.id === currentStepId;
+                  const isOpen = step.id === expandedId;
                   return (
                     <li
                       key={step.id}
@@ -409,31 +417,40 @@ const ApplicationPrep: React.FC<{ currentOpp: Opportunity }> = ({ currentOpp }) 
                           {isDone ? <CheckIcon size={13} /> : i + 1}
                         </button>
                         <div className="min-w-0 flex-1">
-                          <div className={`text-[13px] font-semibold ${isDone ? 'text-emerald-900 line-through decoration-emerald-400' : 'text-indigo-950'}`}>
+                          <button
+                            type="button"
+                            aria-expanded={isOpen}
+                            onClick={() => setOpenId(isOpen ? '' : step.id)}
+                            className={`w-full min-h-6 text-left text-[13px] font-semibold cursor-pointer ${isDone ? 'text-emerald-900 line-through decoration-emerald-400' : 'text-indigo-950'}`}
+                          >
                             {step.title}
-                          </div>
-                          <div className="text-[12px] text-slate-600 leading-relaxed mt-0.5">{step.detail}</div>
-                          {step.action &&
-                            (step.action.href ? (
-                              <a
-                                href={step.action.href}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className={actionClass(isCurrent)}
-                              >
-                                {step.action.label}
-                                <ExternalLinkIcon size={11} />
-                              </a>
-                            ) : (
-                              <button
-                                type="button"
-                                onClick={() => step.action?.to && navigate(step.action.to)}
-                                className={`${actionClass(isCurrent)} cursor-pointer`}
-                              >
-                                {step.action.label}
-                                <ChevronRightIcon size={11} />
-                              </button>
-                            ))}
+                          </button>
+                          {isOpen && (
+                            <>
+                              <div className="text-[12px] text-slate-600 leading-relaxed mt-0.5">{step.detail}</div>
+                              {step.action &&
+                                (step.action.href ? (
+                                  <a
+                                    href={step.action.href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className={actionClass(isCurrent)}
+                                  >
+                                    {step.action.label}
+                                    <ExternalLinkIcon size={11} />
+                                  </a>
+                                ) : (
+                                  <button
+                                    type="button"
+                                    onClick={() => step.action?.to && navigate(step.action.to)}
+                                    className={`${actionClass(isCurrent)} cursor-pointer`}
+                                  >
+                                    {step.action.label}
+                                    <ChevronRightIcon size={11} />
+                                  </button>
+                                ))}
+                            </>
+                          )}
                         </div>
                       </div>
                     </li>
