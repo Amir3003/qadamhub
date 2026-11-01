@@ -546,6 +546,31 @@ test("no made-up or expired listing is offered: Memory links live listings, an u
   expect(errors).toEqual([]);
 });
 
+test("opening the official page from a checklist step ticks it and opens the next step", async ({ page }) => {
+  const errors = await watch(page);
+  await page.addInitScript(
+    ([profile]) => {
+      localStorage.setItem("qadam_user", JSON.stringify(profile));
+      localStorage.setItem("qadam_consent_analytics_v1", "denied");
+    },
+    [PROFILE] as const,
+  );
+  await page.goto("/application-studio?id=smoke-ml-grant");
+  const list = page.getByRole("list").filter({ has: page.getByRole("checkbox") });
+  await expect(list.getByText("Check age, student status")).toBeVisible();
+  const [popup] = await Promise.all([page.waitForEvent("popup"), list.getByRole("link", { name: "Open official page" }).click()]);
+  await popup.close();
+  // The first step is ticked, the percentage moved and the next step is open.
+  await expect(list.getByRole("checkbox").first()).toHaveAttribute("aria-checked", "true");
+  await expect(page.getByText("11%", { exact: true })).toBeVisible();
+  await expect(list.getByText("Check age, student status")).toHaveCount(0);
+  await expect(list.getByRole("button", { expanded: true })).toContainText("Close skill gaps");
+  // The tick survives a reload.
+  await page.reload();
+  await expect(list.getByRole("checkbox").first()).toHaveAttribute("aria-checked", "true");
+  expect(errors).toEqual([]);
+});
+
 test("the Notifications page does not show a fake connection status", async ({ page }, info) => {
   const errors = await watch(page);
   await page.addInitScript(
