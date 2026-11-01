@@ -521,3 +521,27 @@ test("windows on the Memory, Notifications and Account pages cover the navigatio
 
   expect(errors).toEqual([]);
 });
+
+test("no made-up or expired listing is offered: Memory links live listings, an unknown Application Prep id says so", async ({ page }) => {
+  const errors = await watch(page);
+  await page.addInitScript(
+    ([profile]) => {
+      localStorage.setItem("qadam_user", JSON.stringify(profile));
+      localStorage.setItem("qadam_consent_analytics_v1", "denied");
+    },
+    [PROFILE] as const,
+  );
+  await page.goto("/memory");
+  await page.getByRole("button", { name: /Add Directive/ }).first().click();
+  const dialog = page.getByRole("dialog");
+  // The link choices come from the live Radar (the fixture feed), plus the standing rules.
+  await expect(dialog.getByRole("button", { name: "Smoke Test AI Research Grant" })).toBeVisible();
+  await expect(dialog.getByRole("button", { name: /Rule: draft applications in English/ })).toBeVisible();
+  await expect(dialog.getByText(/Nebius|Y Combinator|ML Engineering Intern/)).toHaveCount(0);
+  await dialog.getByRole("button", { name: "Cancel" }).click();
+
+  // The old demo ids no longer resolve to a made-up listing.
+  await page.goto("/application-studio?id=nebius-nvidia-hackathon");
+  await expect(page.getByText("This opportunity is no longer on the radar")).toBeVisible();
+  expect(errors).toEqual([]);
+});

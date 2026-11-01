@@ -1,5 +1,5 @@
 import { createPortal } from 'react-dom';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { PageHeader } from '../components/PageHeader';
 import {
@@ -9,7 +9,8 @@ import {
   CloseIcon,
   EyeIcon,
 } from '../components/Icons';
-import { MATRIX_TARGETS, MemoryEntry } from '../data';
+import { CONSTRAINT_TARGETS, MatrixTarget, MemoryEntry } from '../data';
+import { destinationRank } from '../db/location';
 import { MemoryGuide } from '../components/MemoryGuide';
 
 export const MemoryPage: React.FC = () => {
@@ -21,6 +22,8 @@ export const MemoryPage: React.FC = () => {
     updateMemoryEntry,
     addMemoryEntry,
     getRawMemoryMarkdown,
+    opportunities,
+    userProfile,
   } = useApp();
 
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -28,10 +31,20 @@ export const MemoryPage: React.FC = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isRawMdModalOpen, setIsRawMdModalOpen] = useState(false);
 
+  // Four live Radar listings (the person's destinations first), then the standing rules.
+  const matrixTargets: MatrixTarget[] = useMemo(() => {
+    const wanted = userProfile.destinations || [];
+    const live = [...opportunities]
+      .sort((a, b) => destinationRank(b, wanted) - destinationRank(a, wanted))
+      .slice(0, 4)
+      .map((opp): MatrixTarget => ({ id: opp.id, type: 'Opportunity', label: opp.title }));
+    return [...live, ...CONSTRAINT_TARGETS];
+  }, [opportunities, userProfile.destinations]);
+
   // New entry form state
   const [newCategory, setNewCategory] = useState<MemoryEntry['category']>('PREFERENCES');
   const [newText, setNewText] = useState('');
-  const [newSelectedTargets, setNewSelectedTargets] = useState<string[]>(['target-nebius']);
+  const [newSelectedTargets, setNewSelectedTargets] = useState<string[]>(['target-rule-english']);
 
   const handleStartEdit = (entry: MemoryEntry) => {
     setEditingId(entry.id);
@@ -68,7 +81,7 @@ export const MemoryPage: React.FC = () => {
   const totalMemoryCount = memoryEntries.length;
   const totalHeight = Math.max(totalMemoryCount * (cardHeight + cardGap) - cardGap, 500);
 
-  const targetsCount = MATRIX_TARGETS.length; // 7 targets
+  const targetsCount = matrixTargets.length;
   const targetItemHeight = 48;
   const targetSpacing = targetsCount > 1 ? (totalHeight - targetItemHeight) / (targetsCount - 1) : 0;
 
@@ -260,7 +273,7 @@ export const MemoryPage: React.FC = () => {
                     const isCurrent = mem.id === (activeHoveredMemoryId || memoryEntries[0]?.id);
 
                     return mem.targets.map((tId) => {
-                      const targetIndex = MATRIX_TARGETS.findIndex((t) => t.id === tId);
+                      const targetIndex = matrixTargets.findIndex((t) => t.id === tId);
                       if (targetIndex === -1) return null;
                       const yr = targetIndex * targetSpacing + targetItemHeight / 2;
 
@@ -287,7 +300,7 @@ export const MemoryPage: React.FC = () => {
                 className="w-[280px] flex-shrink-0 relative"
                 style={{ height: `${totalHeight}px` }}
               >
-                {MATRIX_TARGETS.map((target, idx) => {
+                {matrixTargets.map((target, idx) => {
                   const isConnected = activeTargetIds.has(target.id);
                   const topPos = idx * targetSpacing;
 
@@ -382,7 +395,7 @@ export const MemoryPage: React.FC = () => {
                   Linked Opportunities & Constraints ({newSelectedTargets.length} selected)
                 </label>
                 <div className="flex flex-wrap gap-2 max-h-40 overflow-y-auto p-2.5 bg-white/70 rounded-btn border border-teal-200">
-                  {MATRIX_TARGETS.map((t) => {
+                  {matrixTargets.map((t) => {
                     const isSelected = newSelectedTargets.includes(t.id);
                     return (
                       <button

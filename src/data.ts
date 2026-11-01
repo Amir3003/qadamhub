@@ -1,17 +1,3 @@
-export interface Opportunity {
-  id: string;
-  type: 'HACKATHON' | 'GRANT' | 'INTERNSHIP';
-  title: string;
-  deadline: string;
-  deadlineDate: string;
-  match: number;
-  description: string;
-  skills: string[];
-  url?: string;
-  location: string;
-  award: string;
-}
-
 export interface MemoryEntry {
   id: string;
   category: 'PREFERENCES' | 'CONSTRAINTS' | 'SKILLS' | 'GOALS';
@@ -120,138 +106,6 @@ export const CAREER_GOALS = [
   'Physical AI & Humanoid Robotics',
   'Conference Travel Grants (NeurIPS/CVPR)',
   'Open-Source Developer Grants',
-];
-
-export const INITIAL_OPPORTUNITIES: Opportunity[] = [
-  {
-    id: 'nebius-nvidia-hackathon',
-    type: 'HACKATHON',
-    title: 'Nebius x NVIDIA Global AI Hackathon',
-    deadline: 'Due Oct 30',
-    deadlineDate: '2026-10-30',
-    match: 94,
-    description: 'Build innovative physical AI, multimodal agents, or LLM workflows using Nebius cloud compute and NVIDIA NIM / NeMo stack.',
-    skills: ['Python', 'Docker', 'LLMs', 'PyTorch'],
-    url: 'https://nebius.com/events',
-    location: 'Global / Virtual',
-    award: '$50,000 in GPU Compute + Cash',
-  },
-  {
-    id: 'mext-scholarship',
-    type: 'GRANT',
-    title: 'MEXT Scholarship: Graduate Research in AI',
-    deadline: 'Due Nov 12',
-    deadlineDate: '2026-11-12',
-    match: 88,
-    description: 'Full government sponsorship for graduate research in computer science and applied artificial intelligence at top universities in Japan.',
-    skills: ['Research', 'English', 'Python', 'Machine Learning'],
-    url: 'https://www.studyinjapan.go.jp/en/smap-stopj-applications-research.html',
-    location: 'Tokyo, Japan',
-    award: '100% Tuition + Monthly Stipend',
-  },
-  {
-    id: 'ml-engineering-intern',
-    type: 'INTERNSHIP',
-    title: 'ML Engineering & Systems Intern',
-    deadline: 'Due Nov 20',
-    deadlineDate: '2026-11-20',
-    match: 83,
-    description: 'Optimize inference latency and deploy distributed RAG pipelines across GPU clusters. Vector databases and model serving.',
-    skills: ['PyTorch', 'Vector DBs', 'SQL', 'Python'],
-    url: 'https://www.anthropic.com/careers',
-    location: 'San Francisco, CA (Remote eligible)',
-    award: '$65 / hour + Relocation stipend',
-  },
-  {
-    id: 'opensource-agents-sprint',
-    type: 'HACKATHON',
-    title: 'Open-Source AI Agents Sprint',
-    deadline: 'Due Dec 03',
-    deadlineDate: '2026-12-03',
-    match: 76,
-    description: 'Collaborative development of autonomous dev-tools, local sandboxing with OpenShell, and benchmark evaluation for open models.',
-    skills: ['Python', 'Go', 'Docker', 'Linux'],
-    url: 'https://github.com/NVIDIA/OpenShell',
-    location: 'Virtual',
-    award: '$25,000 Bounties',
-  },
-  {
-    id: 'student-research-travel-fund',
-    type: 'GRANT',
-    title: 'NeurIPS / ICRA Student Research Travel Fund',
-    deadline: 'Due Dec 15',
-    deadlineDate: '2026-12-15',
-    match: 71,
-    description: 'Travel and registration grant for undergraduate and masters students presenting peer-reviewed papers at NeurIPS, ICRA, or CVPR.',
-    skills: ['Research', 'English', 'Python'],
-    url: 'https://neurips.cc/Conferences/2025/FinancialAssistance',
-    location: 'North America / Europe',
-    award: '$3,500 Conference Travel Grant',
-  },
-  {
-    id: 'backend-intern-go',
-    type: 'INTERNSHIP',
-    title: 'Backend Systems Developer Intern, Go',
-    deadline: 'Due Jan 08',
-    deadlineDate: '2027-01-08',
-    match: 68,
-    description: 'High-throughput microservices architecture, gRPC pipelines, distributed caching, and container orchestration with Docker.',
-    skills: ['Go', 'Docker', 'gRPC', 'PostgreSQL'],
-    location: 'Singapore / Hybrid',
-    award: 'Paid Internship',
-  },
-  {
-    id: 'cern-summer-student',
-    type: 'INTERNSHIP',
-    title: 'CERN Openlab Summer Student Programme',
-    deadline: 'Due Jan 31',
-    deadlineDate: '2027-01-31',
-    match: 79,
-    description: 'Work on cutting-edge distributed computing, high-performance data processing, and machine learning architectures for LHC experiments.',
-    skills: ['Python', 'Linux', 'Docker', 'C++'],
-    url: 'https://openlab.cern/',
-    location: 'Geneva, Switzerland',
-    award: '3,450 CHF / month + Travel',
-  },
-  {
-    id: 'yc-hackathon-2026',
-    type: 'HACKATHON',
-    title: 'Y Combinator AI Build Sprint',
-    deadline: 'Due Feb 14',
-    deadlineDate: '2027-02-14',
-    match: 85,
-    description: '48-hour sprint building vertical AI assistants and dev-tools. Top 3 teams receive fast-track interview for the upcoming batch.',
-    skills: ['LLMs', 'Python', 'TypeScript', 'Docker'],
-    url: 'https://www.ycombinator.com/apply',
-    location: 'San Francisco, CA / Hybrid',
-    award: '$100,000 Investment + Mentorship',
-  },
-  {
-    id: 'robotics-phys-ai-fellowship',
-    type: 'INTERNSHIP',
-    title: 'Physical AI & Robotics Research Fellowship',
-    deadline: 'Due Feb 28',
-    deadlineDate: '2027-02-28',
-    match: 82,
-    description: 'Simulation-to-real transfer, robot embodiment control with NVIDIA Isaac Sim, and multimodal spatial reasoning.',
-    skills: ['PyTorch', 'ROS2', 'Python', 'Linux'],
-    url: 'https://www.nvidia.com/en-us/about-nvidia/careers/university-recruiting/',
-    location: 'Austin, TX / On-site',
-    award: '$8,000 / month + Housing',
-  },
-  {
-    id: 'eu-horizon-mobility',
-    type: 'GRANT',
-    title: 'Horizon Europe Student Research Grant',
-    deadline: 'Due Mar 15',
-    deadlineDate: '2027-03-15',
-    match: 74,
-    description: 'International student mobility grant supporting collaborative artificial intelligence research and lab stays in Europe.',
-    skills: ['Research', 'English', 'Python'],
-    url: 'https://marie-sklodowska-curie-actions.ec.europa.eu/',
-    location: 'European Union',
-    award: '€12,000 Research Fellowship',
-  },
 ];
 
 export const INITIAL_SKILLS: SkillItem[] = [
@@ -606,11 +460,9 @@ export const INITIAL_SKILLS: SkillItem[] = [
 
 export const INITIAL_MEMORY: MemoryEntry[] = [];
 
-export const MATRIX_TARGETS: MatrixTarget[] = [
-  { id: 'target-nebius', type: 'Opportunity', label: 'Nebius x NVIDIA Global AI Hackathon' },
-  { id: 'target-mext', type: 'Opportunity', label: 'MEXT Scholarship' },
-  { id: 'target-ml-intern', type: 'Opportunity', label: 'ML Engineering Intern' },
-  { id: 'target-yc-sprint', type: 'Opportunity', label: 'Y Combinator AI Build Sprint' },
+// Rules an agent entry can be tied to. They never go out of date. Opportunities are added from the
+// live Radar when the Memory page opens, so no expired listing is ever offered.
+export const CONSTRAINT_TARGETS: MatrixTarget[] = [
   { id: 'target-rule-english', type: 'Constraint', label: 'Rule: draft applications in English' },
   { id: 'target-rule-review', type: 'Constraint', label: 'Rule: review drafts before submission' },
   { id: 'target-rule-sandbox', type: 'Constraint', label: 'Constraint: sandbox isolation verified' },
@@ -651,7 +503,7 @@ export const INITIAL_LOGS: LogEntry[] = [
     id: 'log-6',
     time: '08:00:09',
     tag: 'MODEL',
-    message: 'Match scoring complete · top match: Nebius x NVIDIA Global AI Hackathon (94%)',
+    message: 'Match scoring complete · opportunities ranked against your profile',
   },
   {
     id: 'log-7',

@@ -220,9 +220,9 @@ const StageVisual: React.FC<{ stage: Stage }> = ({ stage }) => {
   if (stage === 0) {
     return (
       <div className="space-y-2.5">
-        <OpportunityRow title="Nebius x NVIDIA Global AI Hackathon" meta="Hackathon · Online · Teams of 2 to 5" tone="emerald" deadline="Oct 30" />
-        <OpportunityRow title="NVIDIA Graduate Fellowship" meta="Grant · Up to 60,000 USD · PhD research" tone="sky" deadline="Oct 30" />
-        <OpportunityRow title="ML Engineering Summer Internship" meta="Internship · 12 weeks · Python, PyTorch" tone="amber" deadline="Nov 15" />
+        <OpportunityRow title="Global Korea Scholarship (GKS-U)" meta="Grant · South Korea · Under 25" tone="emerald" deadline="Every Sep" />
+        <OpportunityRow title="Gates Cambridge Scholarship" meta="Grant · United Kingdom · Postgraduate" tone="sky" deadline="Dec 8" />
+        <OpportunityRow title="D. E. Shaw Research summer internship" meta="Internship · 12 to 15 weeks · New York" tone="amber" deadline="Rolling" />
       </div>
     );
   }
@@ -293,7 +293,7 @@ const StageVisual: React.FC<{ stage: Stage }> = ({ stage }) => {
             <span className="text-sky-700">Just now</span>
           </div>
           <p className="text-[13px] text-sky-900 mt-1 leading-relaxed">
-            New match: ML Engineering Summer Internship. Deadline Nov 15. Open the listing to see the checklist.
+            New match: Gates Cambridge Scholarship. Deadline Dec 8. Open the listing to see the checklist.
           </p>
         </div>
       </div>
@@ -306,7 +306,7 @@ const StageVisual: React.FC<{ stage: Stage }> = ({ stage }) => {
             <span className="font-bold">QADAM bot · Discord</span>
             <span className="text-indigo-700">2m ago</span>
           </div>
-          <p className="text-[13px] text-indigo-900 mt-1 leading-relaxed">Reminder: Nebius x NVIDIA Global AI Hackathon closes in 3 days.</p>
+          <p className="text-[13px] text-indigo-900 mt-1 leading-relaxed">Reminder: a scholarship you saved closes in 3 days.</p>
         </div>
       </div>
     </div>

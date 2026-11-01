@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
-import { OPPORTUNITIES_DATABASE, Opportunity } from '../db/opportunities';
+import type { Opportunity } from '../db/opportunities';
 import { PageHeader } from '../components/PageHeader';
 import {
   CheckIcon,
@@ -55,8 +55,8 @@ function loadChecked(oppId: string): string[] {
   }
 }
 
-// Resolves the opportunity from the URL. Radar items load asynchronously and are
-// not in the static demo list, so an unknown id must never fall back to a demo entry.
+// Resolves the opportunity from the URL. Radar items load asynchronously, so an unknown id
+// shows the loading or the "no longer on the radar" state, never a made-up entry.
 export const ApplicationStudioPage: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -64,7 +64,7 @@ export const ApplicationStudioPage: React.FC = () => {
 
   const oppId = searchParams.get('id');
   const found = oppId
-    ? opportunities.find((o) => o.id === oppId) || OPPORTUNITIES_DATABASE.find((o) => o.id === oppId)
+    ? opportunities.find((o) => o.id === oppId)
     : selectedOpportunityForDraft || opportunities[0];
 
   if (found) return <ApplicationPrep key={found.id} currentOpp={found} />;
