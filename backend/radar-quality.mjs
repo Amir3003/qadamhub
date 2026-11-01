@@ -29,3 +29,22 @@ export function publishable(item, today) {
   if (/^\/(?:c|hackathons|events|search|category|categories)(?:\/[^/]+)?$/i.test(pathname)) return false;
   return true;
 }
+
+// Takes result lists in query order and returns up to `max` unique http(s) URLs, one from each
+// query in turn. Without this the first queries would fill the whole budget and the rest would
+// never contribute.
+export function balancedUrls(lists, max) {
+  const out = [];
+  const seen = new Set();
+  const longest = Math.max(0, ...lists.map((list) => list.length));
+  for (let i = 0; i < longest && out.length < max; i++) {
+    for (const list of lists) {
+      const url = list[i];
+      if (out.length < max && /^https?:\/\//.test(url || '') && !seen.has(url)) {
+        seen.add(url);
+        out.push(url);
+      }
+    }
+  }
+  return out;
+}

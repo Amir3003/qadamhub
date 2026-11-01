@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { mergeOpportunities } from '../backend/merge.mjs';
-import { confirmedDeadline } from '../backend/radar-quality.mjs';
+import { balancedUrls, confirmedDeadline } from '../backend/radar-quality.mjs';
 import { validate } from '../backend/server.mjs';
 import { loadRadar } from '../bot/radar-data.mjs';
 
@@ -78,4 +78,18 @@ test('keeps one entry when the same program is listed under two URLs', () => {
   const other = item('https://example.org/fellowship-2', '2027-03-01', { title: 'Fellowship' });
   const merged = mergeOpportunities([official], [news, other], '2026-10-29');
   assert.deepEqual(merged.map((x) => x.url), ['https://example.org/fellowship', 'https://example.org/fellowship-2']);
+});
+
+test('balancedUrls takes one result from each query in turn and skips duplicates and non-http links', () => {
+  const lists = [
+    ['https://a.example/1', 'https://a.example/2', 'https://a.example/3'],
+    ['https://b.example/1', 'https://a.example/1', 'ftp://bad.example/x'],
+    ['https://c.example/1'],
+  ];
+  assert.deepEqual(balancedUrls(lists, 5), [
+    'https://a.example/1', 'https://b.example/1', 'https://c.example/1', 'https://a.example/2', 'https://a.example/3',
+  ]);
+  // The budget cuts the last queries last, not the first ones.
+  assert.deepEqual(balancedUrls(lists, 2), ['https://a.example/1', 'https://b.example/1']);
+  assert.deepEqual(balancedUrls([], 5), []);
 });
