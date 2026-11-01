@@ -1,3 +1,4 @@
+import { createPortal } from 'react-dom';
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { PageHeader } from '../components/PageHeader';
@@ -324,7 +325,7 @@ export const MemoryPage: React.FC = () => {
       </div>
 
       {/* Modal: Add New Memory */}
-      {isAddModalOpen && (
+      {isAddModalOpen && createPortal(
         <div
           role="dialog"
           aria-modal="true"
@@ -432,10 +433,10 @@ export const MemoryPage: React.FC = () => {
             </div>
           </div>
         </div>
-      )}
+      , document.body)}
 
       {/* Modal: Raw MEMORY.md Inspector */}
-      {isRawMdModalOpen && (
+      {isRawMdModalOpen && createPortal(
         <div
           role="dialog"
           aria-modal="true"
@@ -478,7 +479,7 @@ export const MemoryPage: React.FC = () => {
             </div>
           </div>
         </div>
-      )}
+      , document.body)}
     </div>
   );
 };
