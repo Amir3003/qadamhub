@@ -115,16 +115,31 @@ const ApplicationPrep: React.FC<{ currentOpp: Opportunity }> = ({ currentOpp }) 
     setOpenId(null);
   }, [currentOpp.id]);
 
+  const saveChecked = (next: string[]) => {
+    try {
+      localStorage.setItem(`qadam_prep_${currentOpp.id}`, JSON.stringify(next));
+    } catch {
+      // Progress simply will not persist in this browser
+    }
+  };
+
   const toggleStep = (id: string) => {
     // After ticking a step the next unfinished one opens by itself.
     setOpenId(null);
     setChecked((prev) => {
       const next = prev.includes(id) ? prev.filter((s) => s !== id) : [...prev, id];
-      try {
-        localStorage.setItem(`qadam_prep_${currentOpp.id}`, JSON.stringify(next));
-      } catch {
-        // Progress simply will not persist in this browser
-      }
+      saveChecked(next);
+      return next;
+    });
+  };
+
+  // Opening a step's official link counts as doing the step: it is ticked and the next one opens.
+  const completeStep = (id: string) => {
+    setOpenId(null);
+    setChecked((prev) => {
+      if (prev.includes(id)) return prev;
+      const next = [...prev, id];
+      saveChecked(next);
       return next;
     });
   };
@@ -434,6 +449,10 @@ const ApplicationPrep: React.FC<{ currentOpp: Opportunity }> = ({ currentOpp }) 
                                     href={step.action.href}
                                     target="_blank"
                                     rel="noopener noreferrer"
+                                    onClick={() => {
+                                      handleGoToOfficial();
+                                      completeStep(step.id);
+                                    }}
                                     className={actionClass(isCurrent)}
                                   >
                                     {step.action.label}
