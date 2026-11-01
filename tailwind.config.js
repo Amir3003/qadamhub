@@ -103,7 +103,7 @@ export default {
         subheading: ['15px', { lineHeight: '20px', fontWeight: '600' }],
         body: ['13px', { lineHeight: '18px' }],
         caption: ['12px', { lineHeight: '16px' }],
-        mini: ['11px', { lineHeight: '14px' }],
+        mini: ['12px', { lineHeight: '16px' }],
       },
     },
   },

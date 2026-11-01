@@ -200,7 +200,7 @@ export const QuizModal: React.FC = () => {
               <div className={`text-[18px] font-bold leading-none ${secondsRemaining < 60 ? 'text-amber-700' : 'text-indigo-950'}`}>
                 {formattedTime}
               </div>
-              <div className="text-[10px] text-teal-800 mt-1">
+              <div className="text-[12px] text-teal-800 mt-1">
                 {correctAnswersCount}/{answeredCount} correct
               </div>
             </div>
@@ -229,7 +229,7 @@ export const QuizModal: React.FC = () => {
             {answers.map((a, i) => (
               <span
                 key={i}
-                className={`w-6 h-6 rounded-md text-[10px] font-mono font-bold flex items-center justify-center border ${
+                className={`w-6 h-6 rounded-md text-[12px] font-mono font-bold flex items-center justify-center border ${
                   i === currentQuestionIndex
                     ? 'border-indigo-500 bg-indigo-50 text-indigo-900'
                     : a === true
@@ -343,7 +343,7 @@ export const QuizModal: React.FC = () => {
                   <button
                     type="button"
                     onClick={handleApplyVerification}
-                    className="h-11 px-5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white rounded-btn text-[13px] font-bold font-mono transition-all shadow-xs cursor-pointer"
+                    className="h-11 px-5 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white rounded-btn text-[13px] font-bold font-mono transition-all shadow-xs cursor-pointer"
                   >
                     Apply & Update CV
                   </button>
@@ -385,7 +385,7 @@ export const QuizModal: React.FC = () => {
                 disabled={selectedOptionIndex === null}
                 className={`h-11 px-6 rounded-btn text-[13px] font-bold transition-all flex-shrink-0 border shadow-xs ${
                   selectedOptionIndex !== null
-                    ? 'bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 border-transparent text-white cursor-pointer'
+                    ? 'bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 border-transparent text-white cursor-pointer'
                     : 'bg-white/60 border-teal-200/60 text-slate-400 opacity-60 cursor-not-allowed'
                 }`}
               >
@@ -395,7 +395,7 @@ export const QuizModal: React.FC = () => {
               <button
                 type="button"
                 onClick={handleNextQuestion}
-                className="h-11 px-6 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white rounded-btn text-[13px] font-bold transition-all flex-shrink-0 shadow-xs cursor-pointer"
+                className="h-11 px-6 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white rounded-btn text-[13px] font-bold transition-all flex-shrink-0 shadow-xs cursor-pointer"
               >
                 {currentQuestionIndex < totalQuestions - 1 ? 'Next Question' : 'View Results'}
               </button>

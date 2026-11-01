@@ -116,7 +116,7 @@ export const PilotRequestModal: React.FC<PilotRequestModalProps> = ({ open, onCl
       <div className="animate-modal-in relative w-full sm:max-w-xl max-h-[92dvh] overflow-y-auto bg-gradient-to-br from-[#EDF7F6] via-[#F3F6FF] to-[#E8F4F8] rounded-t-3xl sm:rounded-3xl border border-teal-300/40 shadow-[0_20px_50px_-15px_rgba(6,182,212,0.3)]">
         <div className="sticky top-0 z-10 flex items-start justify-between gap-4 px-5 sm:px-7 pt-5 sm:pt-6 pb-4 bg-[#EDF7F6]/95 backdrop-blur-md border-b border-teal-200/80">
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-emerald-700 font-semibold">Pilot request</p>
+            <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-emerald-700 font-semibold">Pilot request</p>
             <h2 id="pilot-title" className="mt-1 text-[22px] font-bold tracking-tight text-indigo-950">
               Run a pilot with one cohort
             </h2>
@@ -147,7 +147,7 @@ export const PilotRequestModal: React.FC<PilotRequestModalProps> = ({ open, onCl
             <button
               type="button"
               onClick={onClose}
-              className="h-11 px-5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 shadow-md shadow-emerald-900/20 text-white font-mono text-[15px] font-semibold transition-colors cursor-pointer"
+              className="h-11 px-5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 shadow-md shadow-emerald-900/20 text-white font-mono text-[15px] font-semibold transition-colors cursor-pointer"
             >
               Close
             </button>
@@ -290,7 +290,7 @@ export const PilotRequestModal: React.FC<PilotRequestModalProps> = ({ open, onCl
               <button
                 type="submit"
                 disabled={status === 'sending'}
-                className="h-11 px-6 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 shadow-md shadow-emerald-900/20 disabled:opacity-60 text-white font-mono text-[15px] font-semibold transition-colors cursor-pointer whitespace-nowrap"
+                className="h-11 px-6 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 shadow-md shadow-emerald-900/20 disabled:opacity-60 text-white font-mono text-[15px] font-semibold transition-colors cursor-pointer whitespace-nowrap"
               >
                 {status === 'sending' ? 'Sending' : 'Send request'}
               </button>

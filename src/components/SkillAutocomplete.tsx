@@ -116,7 +116,7 @@ export const SkillAutocomplete: React.FC<SkillAutocompleteProps> = ({
             className="animate-pop-in origin-top absolute left-0 right-0 top-full mt-1.5 z-50 max-h-60 overflow-y-auto overscroll-contain rounded-xl bg-white border border-teal-200 shadow-xl py-1"
           >
             {!trimmed && (
-              <div className="px-3.5 pt-1.5 pb-1 text-[10px] font-mono uppercase tracking-wider text-teal-800">
+              <div className="px-3.5 pt-1.5 pb-1 text-[12px] font-mono uppercase tracking-wider text-teal-800">
                 Popular skills
               </div>
             )}
@@ -170,7 +170,7 @@ export const SkillAutocomplete: React.FC<SkillAutocompleteProps> = ({
           {value.map((skill) => (
             <span
               key={skill}
-              className="inline-flex items-center gap-1.5 h-8 pl-3 pr-1.5 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-600 text-white text-[12px] font-mono font-semibold shadow-xs"
+              className="inline-flex items-center gap-1.5 h-8 pl-3 pr-1.5 rounded-lg bg-gradient-to-r from-emerald-600 to-teal-700 text-white text-[12px] font-mono font-semibold shadow-xs"
             >
               {skill}
               <button
@@ -185,7 +185,7 @@ export const SkillAutocomplete: React.FC<SkillAutocompleteProps> = ({
           ))}
         </div>
       ) : (
-        <p className="text-[11px] font-mono text-teal-800">
+        <p className="text-[12px] font-mono text-teal-800">
           No skills added yet. Pick from suggestions or press Enter to add your own.
         </p>
       )}

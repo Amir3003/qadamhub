@@ -59,7 +59,7 @@ export const OpportunityDetailsPanel: React.FC<{ opp: Opportunity; onClose: () =
   };
 
   const facts: { label: string; value: string }[] = [
-    { label: 'Deadline', value: opp.deadline },
+    { label: 'Deadline', value: opp.deadlineDate ? opp.deadline : 'No fixed date. See "When to apply"' },
     { label: 'Where', value: opp.location },
     { label: 'Level', value: (details.level || []).join(', ') },
     { label: 'Prize or stipend', value: opp.award },
@@ -70,7 +70,7 @@ export const OpportunityDetailsPanel: React.FC<{ opp: Opportunity; onClose: () =
     <section
       ref={root}
       aria-labelledby="opp-details-title"
-      className="animate-rise-in col-span-full scroll-mt-4 rounded-card bg-gradient-to-br from-[#EDF7F6] via-[#F3F6FF] to-[#E8F4F8] border-2 border-teal-400/70 shadow-[0_24px_60px_-20px_rgba(6,182,212,0.45)] text-slate-900"
+      className="animate-rise-in col-span-full scroll-mt-20 lg:scroll-mt-4 rounded-card bg-gradient-to-br from-[#EDF7F6] via-[#F3F6FF] to-[#E8F4F8] border-2 border-teal-400/70 shadow-[0_24px_60px_-20px_rgba(6,182,212,0.45)] text-slate-900"
     >
       <div className="px-5 sm:px-8 py-4 border-b border-teal-200/80 flex items-center justify-between gap-3 bg-teal-50/80 rounded-t-card">
         <div className="flex items-center gap-2.5 flex-wrap">
@@ -162,7 +162,7 @@ export const OpportunityDetailsPanel: React.FC<{ opp: Opportunity; onClose: () =
             <button
               type="button"
               onClick={() => navigate(`/application-studio?id=${opp.id}`)}
-              className="min-h-[48px] px-5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white rounded-btn text-[15px] font-bold transition-all shadow-xs cursor-pointer"
+              className="min-h-[48px] px-5 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white rounded-btn text-[15px] font-bold transition-all shadow-xs cursor-pointer"
             >
               Prepare &amp; Apply
             </button>
@@ -193,7 +193,7 @@ export const OpportunityDetailsPanel: React.FC<{ opp: Opportunity; onClose: () =
                 aria-pressed={status === option.value}
                 className={`min-h-[40px] px-4 rounded-full text-[14px] font-semibold transition-colors cursor-pointer ${
                   status === option.value
-                    ? 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white'
+                    ? 'bg-gradient-to-r from-emerald-600 to-teal-700 text-white'
                     : 'bg-white border border-teal-200 text-teal-950 hover:bg-teal-50'
                 }`}
               >

@@ -117,7 +117,7 @@ export const SkillCard: React.FC<SkillCardProps> = ({ skill, isGap, isMatch, gap
         </div>
         <div className="absolute right-3 top-3 flex flex-col items-end gap-1">
           <span
-            className={`text-[10px] font-mono px-2 py-0.5 rounded border uppercase font-bold backdrop-blur-sm ${
+            className={`text-[12px] font-mono px-2 py-0.5 rounded border uppercase font-bold backdrop-blur-sm ${
               isVerified
                 ? 'bg-emerald-100/95 text-emerald-800 border-emerald-300'
                 : isGap
@@ -128,12 +128,12 @@ export const SkillCard: React.FC<SkillCardProps> = ({ skill, isGap, isMatch, gap
             {statusLabel}
           </span>
           {isGap && (
-            <span className="text-[9px] font-mono uppercase px-1.5 py-0.5 rounded bg-amber-200/90 text-amber-900 font-bold">
+            <span className="text-[12px] font-mono uppercase px-1.5 py-0.5 rounded bg-amber-200/90 text-amber-900 font-bold">
               Needed for target
             </span>
           )}
           {isMatch && !isGap && (
-            <span className="text-[9px] font-mono uppercase px-1.5 py-0.5 rounded bg-emerald-200/90 text-emerald-900 font-bold">
+            <span className="text-[12px] font-mono uppercase px-1.5 py-0.5 rounded bg-emerald-200/90 text-emerald-900 font-bold">
               Target match
             </span>
           )}
@@ -143,17 +143,17 @@ export const SkillCard: React.FC<SkillCardProps> = ({ skill, isGap, isMatch, gap
       {/* Body */}
       <div className="p-4 flex-1 flex flex-col gap-3">
         <div>
-          <div className="text-[10px] font-mono uppercase tracking-wider text-teal-800">{category}</div>
+          <div className="text-[12px] font-mono uppercase tracking-wider text-teal-800">{category}</div>
           <h4 className="text-[16px] font-bold text-indigo-950 break-words mt-0.5">{skill.name}</h4>
           <p className="text-[12px] text-teal-950 leading-relaxed mt-1 line-clamp-3">{isGap && gapReason ? gapReason : skill.reason}</p>
         </div>
 
         {meta.topics.length > 0 && (
           <div>
-            <div className="text-[10px] font-mono uppercase tracking-wider text-teal-800 mb-1.5">Quiz covers</div>
+            <div className="text-[12px] font-mono uppercase tracking-wider text-teal-800 mb-1.5">Quiz covers</div>
             <div className="flex flex-wrap gap-1.5">
               {meta.topics.map((t) => (
-                <span key={t} className="px-2 py-0.5 rounded-md text-[11px] font-mono bg-white/80 border border-teal-200/80 text-slate-700">
+                <span key={t} className="px-2 py-0.5 rounded-md text-[12px] font-mono bg-white/80 border border-teal-200/80 text-slate-700">
                   {t}
                 </span>
               ))}
@@ -169,7 +169,7 @@ export const SkillCard: React.FC<SkillCardProps> = ({ skill, isGap, isMatch, gap
           ].map(([value, label]) => (
             <div key={label} className="py-1.5 rounded-md bg-white/70 border border-teal-200/60">
               <div className="text-[13px] font-mono font-bold text-indigo-950 leading-none">{value}</div>
-              <div className="text-[9px] font-mono uppercase text-teal-800 mt-1">{label}</div>
+              <div className="text-[12px] font-mono uppercase text-teal-800 mt-1">{label}</div>
             </div>
           ))}
         </div>
@@ -189,7 +189,7 @@ export const SkillCard: React.FC<SkillCardProps> = ({ skill, isGap, isMatch, gap
             <button
               type="button"
               onClick={onStartQuiz}
-              className="w-full h-10 px-3 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white rounded-btn text-mini font-mono font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xs"
+              className="w-full h-10 px-3 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white rounded-btn text-mini font-mono font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xs"
             >
               <FlaskIcon size={14} className="text-white" />
               <span>Take Skill Quiz</span>

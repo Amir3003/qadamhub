@@ -137,7 +137,7 @@ export const CvGapsModal: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => handleLaunchQuiz(skillItem)}
-                        className="h-9 px-3.5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white rounded-btn text-mini font-mono font-bold flex items-center gap-1.5 flex-shrink-0 transition-all shadow-xs cursor-pointer"
+                        className="h-9 px-3.5 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white rounded-btn text-mini font-mono font-bold flex items-center gap-1.5 flex-shrink-0 transition-all shadow-xs cursor-pointer"
                       >
                         <FlaskIcon size={13} className="text-white" />
                         <span>Take Quiz</span>
@@ -178,7 +178,7 @@ export const CvGapsModal: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => handleLaunchQuiz(skillItem)}
-                        className="h-9 px-3.5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white text-mini font-mono font-bold rounded-btn flex items-center gap-1.5 flex-shrink-0 transition-all shadow-xs cursor-pointer"
+                        className="h-9 px-3.5 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white text-mini font-mono font-bold rounded-btn flex items-center gap-1.5 flex-shrink-0 transition-all shadow-xs cursor-pointer"
                       >
                         <FlaskIcon size={13} className="text-white" />
                         <span>Verify & Add</span>
@@ -216,7 +216,7 @@ export const CvGapsModal: React.FC = () => {
                 setSelectedOpportunityForGaps(null);
                 navigate(`/application-studio?id=${oppId}`);
               }}
-              className="flex-1 sm:flex-none whitespace-nowrap h-10 px-5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white rounded-btn text-[13px] font-bold transition-all shadow-xs cursor-pointer"
+              className="flex-1 sm:flex-none whitespace-nowrap h-10 px-5 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white rounded-btn text-[13px] font-bold transition-all shadow-xs cursor-pointer"
             >
               Prepare &amp; Apply
             </button>

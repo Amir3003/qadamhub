@@ -22,7 +22,7 @@ import {
 const glass =
   'rounded-2xl bg-gradient-to-br from-[#EDF7F6]/95 via-[#F3F6FF]/95 to-[#E8F4F8]/95 backdrop-blur-xl border border-teal-300/40 shadow-[0_20px_50px_-20px_rgba(6,182,212,0.25)] text-slate-900';
 const primary =
-  'h-10 px-4 rounded-btn bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white text-[13px] font-semibold transition-all shadow-md shadow-emerald-900/20 cursor-pointer disabled:opacity-60 inline-flex items-center justify-center gap-2';
+  'h-10 px-4 rounded-btn bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white text-[13px] font-semibold transition-all shadow-md shadow-emerald-900/20 cursor-pointer disabled:opacity-60 inline-flex items-center justify-center gap-2';
 const secondary =
   'h-10 px-3.5 rounded-btn border border-teal-300/80 bg-white/90 hover:bg-white text-teal-900 text-[13px] font-semibold transition-colors cursor-pointer inline-flex items-center justify-center gap-2 disabled:opacity-60';
 const input =
@@ -110,7 +110,7 @@ function NewCohortForm({ institutionId, onCreated }: { institutionId: string; on
           <input type="date" className={input} value={endsOn} onChange={(e) => setEndsOn(e.target.value)} />
         </label>
       </div>
-      <p className="text-[11px] text-teal-800 leading-relaxed">The invite code stops working after the end date.</p>
+      <p className="text-[12px] text-teal-800 leading-relaxed">The invite code stops working after the end date.</p>
       {error && <p role="alert" className="text-[12px] text-rose-700">{error}</p>}
       <button type="submit" disabled={busy} className={`${primary} w-full`}>
         <PlusIcon size={14} />
@@ -191,7 +191,7 @@ function Roster({ cohort }: { cohort: Cohort }) {
       <div className={`${glass} p-5 sm:p-6`}>
         <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
           <div className="min-w-0">
-            <p className="text-[11px] font-mono uppercase tracking-wider text-teal-800">Cohort</p>
+            <p className="text-[12px] font-mono uppercase tracking-wider text-teal-800">Cohort</p>
             <h2 className="text-[22px] font-bold text-indigo-950 tracking-tight break-words">{cohort.name}</h2>
             <p className="text-[13px] text-teal-900 mt-1">
               {cohort.starts_on || cohort.ends_on
@@ -201,7 +201,7 @@ function Roster({ cohort }: { cohort: Cohort }) {
             </p>
           </div>
           <div className="space-y-2 lg:text-right">
-            <p className="text-[11px] font-mono uppercase tracking-wider text-teal-800">Invite code</p>
+            <p className="text-[12px] font-mono uppercase tracking-wider text-teal-800">Invite code</p>
             <p className="text-[24px] font-mono font-bold tracking-[0.18em] text-indigo-950">{cohort.invite_code}</p>
             <div className="flex flex-wrap gap-2 lg:justify-end">
               <CopyButton value={inviteLink} label="Copy invite link" />
@@ -242,7 +242,7 @@ function Roster({ cohort }: { cohort: Cohort }) {
                 type="button"
                 onClick={() => setFilter(key)}
                 className={`h-9 px-3 rounded-full text-[12px] font-semibold cursor-pointer transition-colors ${
-                  filter === key ? 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white' : 'bg-white/80 text-teal-900 border border-teal-200'
+                  filter === key ? 'bg-gradient-to-r from-emerald-600 to-teal-700 text-white' : 'bg-white/80 text-teal-900 border border-teal-200'
                 }`}
               >
                 {label}
@@ -277,7 +277,7 @@ function Roster({ cohort }: { cohort: Cohort }) {
           <div className="overflow-x-auto">
             <table className="w-full min-w-[820px] text-left">
               <thead>
-                <tr className="text-[11px] font-mono uppercase tracking-wider text-teal-800">
+                <tr className="text-[12px] font-mono uppercase tracking-wider text-teal-800">
                   <th className="font-semibold px-4 py-3">Learner</th>
                   <th className="font-semibold px-3 py-3">Profile</th>
                   <th className="font-semibold px-3 py-3">Saved</th>
@@ -298,7 +298,7 @@ function Roster({ cohort }: { cohort: Cohort }) {
                     <td className="px-3 py-3">
                       <div className="flex items-center gap-2">
                         <span className="w-16 h-1.5 rounded-full bg-teal-100 overflow-hidden">
-                          <span className="block h-full bg-gradient-to-r from-emerald-500 to-teal-600" style={{ width: `${r.profile_completion}%` }} />
+                          <span className="block h-full bg-gradient-to-r from-emerald-600 to-teal-700" style={{ width: `${r.profile_completion}%` }} />
                         </span>
                         <span className="font-mono text-[12px]">{r.profile_completion}%</span>
                       </div>
@@ -406,7 +406,7 @@ function StaffWorkspace({ user }: { user: User }) {
             <img src="/brand/qadam-icon.png" alt="" className="w-8 h-8 rounded-md shrink-0" />
             <div className="min-w-0">
               <p className="text-[15px] font-bold text-white truncate">{institution?.name}</p>
-              <p className="text-[11px] font-mono text-teal-300 truncate">Staff workspace · {user.email}</p>
+              <p className="text-[12px] font-mono text-teal-300 truncate">Staff workspace · {user.email}</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -431,7 +431,7 @@ function StaffWorkspace({ user }: { user: User }) {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 pt-6 grid lg:grid-cols-[280px_1fr] gap-6">
         <aside className="space-y-4">
           <div className={`${glass} p-4`}>
-            <p className="text-[11px] font-mono uppercase tracking-wider text-teal-800 mb-2">Cohorts</p>
+            <p className="text-[12px] font-mono uppercase tracking-wider text-teal-800 mb-2">Cohorts</p>
             {cohorts === null ? (
               <p className="text-[13px] text-teal-800" role="status">Loading...</p>
             ) : cohorts.length === 0 ? (
@@ -444,7 +444,7 @@ function StaffWorkspace({ user }: { user: User }) {
                       type="button"
                       onClick={() => setCohortId(c.id)}
                       className={`w-full text-left px-3 py-2.5 rounded-xl text-[13px] cursor-pointer transition-colors ${
-                        c.id === cohortId ? 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold' : 'hover:bg-white/80 text-indigo-950'
+                        c.id === cohortId ? 'bg-gradient-to-r from-emerald-600 to-teal-700 text-white font-semibold' : 'hover:bg-white/80 text-indigo-950'
                       }`}
                     >
                       {c.name}
@@ -455,7 +455,7 @@ function StaffWorkspace({ user }: { user: User }) {
             )}
           </div>
           <div className={`${glass} p-4`}>
-            <p className="text-[11px] font-mono uppercase tracking-wider text-teal-800 mb-3">New cohort</p>
+            <p className="text-[12px] font-mono uppercase tracking-wider text-teal-800 mb-3">New cohort</p>
             <NewCohortForm
               institutionId={institutionId}
               onCreated={(created) => {

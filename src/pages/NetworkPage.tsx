@@ -46,7 +46,7 @@ const TABS: { id: Tab; label: string; icon: typeof UserIcon }[] = [
 type Relation = "self" | "friend" | "outgoing" | "incoming" | "none";
 
 const button =
-  "h-10 px-4 rounded-btn bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white text-mini font-mono font-semibold shadow-sm transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2";
+  "h-10 px-4 rounded-btn bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white text-mini font-mono font-semibold shadow-sm transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2";
 const ghostButton =
   "h-10 px-4 rounded-btn bg-white hover:bg-slate-50 border border-teal-200 text-teal-950 text-mini font-mono font-semibold transition-colors cursor-pointer disabled:opacity-50 inline-flex items-center justify-center gap-2";
 const linkButton =
@@ -776,7 +776,7 @@ export function NetworkWorkspace({
                 onClick={() => selectTab(t.id)}
                 className={`h-9 px-3.5 rounded-btn text-mini font-mono font-medium transition-all flex items-center gap-1.5 cursor-pointer flex-shrink-0 disabled:opacity-40 disabled:cursor-not-allowed ${
                   active
-                    ? "bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold shadow-xs"
+                    ? "bg-gradient-to-r from-emerald-600 to-teal-700 text-white font-semibold shadow-xs"
                     : "text-teal-900 hover:text-indigo-950 hover:bg-white"
                 }`}
               >
@@ -784,7 +784,7 @@ export function NetworkWorkspace({
                 <span>{t.label}</span>
                 {count > 0 && (
                   <span
-                    className={`min-w-[18px] h-[18px] px-1 rounded-full text-[10px] font-bold flex items-center justify-center ${
+                    className={`min-w-[18px] h-[18px] px-1 rounded-full text-[12px] font-bold flex items-center justify-center ${
                       active ? "bg-white text-emerald-700" : "bg-rose-500 text-white"
                     }`}
                   >
@@ -918,12 +918,12 @@ export function NetworkWorkspace({
                         <Avatar name={p.name} seed={p.id} size={64} online={isOnline(p)} />
                       </span>
                       {relation === "friend" && (
-                        <span className="mb-1 text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">
+                        <span className="mb-1 text-[12px] font-mono px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">
                           Friend
                         </span>
                       )}
                       {relation === "incoming" && (
-                        <span className="mb-1 text-[10px] font-mono px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-200">
+                        <span className="mb-1 text-[12px] font-mono px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-200">
                           Wants to connect
                         </span>
                       )}
@@ -944,12 +944,12 @@ export function NetworkWorkspace({
                     {p.skills.length > 0 && (
                       <div className="px-4 pt-2 flex flex-wrap gap-1.5">
                         {p.skills.slice(0, 5).map((skill) => (
-                          <span key={skill} className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-teal-50 text-teal-800 border border-teal-200/80">
+                          <span key={skill} className="text-[12px] font-mono px-2 py-0.5 rounded-full bg-teal-50 text-teal-800 border border-teal-200/80">
                             {skill}
                           </span>
                         ))}
                         {p.skills.length > 5 && (
-                          <span className="text-[11px] font-mono px-2 py-0.5 text-teal-700">+{p.skills.length - 5}</span>
+                          <span className="text-[12px] font-mono px-2 py-0.5 text-teal-700">+{p.skills.length - 5}</span>
                         )}
                       </div>
                     )}
@@ -1036,7 +1036,7 @@ export function NetworkWorkspace({
                           {c.name}
                         </span>
                         {last && (
-                          <span className={`flex-shrink-0 text-[11px] ${unread ? "text-emerald-600 font-semibold" : "text-slate-400"}`}>
+                          <span className={`flex-shrink-0 text-[12px] ${unread ? "text-emerald-600 font-semibold" : "text-slate-400"}`}>
                             {formatTime(last.created_at)}
                           </span>
                         )}
@@ -1046,7 +1046,7 @@ export function NetworkWorkspace({
                           {preview}
                         </span>
                         {unread > 0 && (
-                          <span className="flex-shrink-0 min-w-[20px] h-5 px-1.5 rounded-full bg-emerald-500 text-white text-[11px] font-bold flex items-center justify-center">
+                          <span className="flex-shrink-0 min-w-[20px] h-5 px-1.5 rounded-full bg-emerald-500 text-white text-[12px] font-bold flex items-center justify-center">
                             {unread > 99 ? "99+" : unread}
                           </span>
                         )}
@@ -1140,7 +1140,7 @@ export function NetworkWorkspace({
                       <React.Fragment key={m.id}>
                         {newDay && (
                           <div className="flex justify-center my-3">
-                            <span className="px-3 py-1 rounded-full bg-white/80 border border-slate-200 text-[11px] text-slate-500">
+                            <span className="px-3 py-1 rounded-full bg-white/80 border border-slate-200 text-[12px] text-slate-500">
                               {dayLabel(m.created_at)}
                             </span>
                           </div>
@@ -1154,18 +1154,18 @@ export function NetworkWorkspace({
                           <div
                             className={`max-w-[78%] px-3.5 py-2 shadow-sm ${
                               mine
-                                ? `bg-gradient-to-br from-emerald-500 to-teal-600 text-white rounded-2xl ${lastOfGroup ? "rounded-br-md" : ""}`
+                                ? `bg-gradient-to-br from-emerald-600 to-teal-700 text-white rounded-2xl ${lastOfGroup ? "rounded-br-md" : ""}`
                                 : `bg-white text-slate-900 border border-slate-200 rounded-2xl ${lastOfGroup ? "rounded-bl-md" : ""}`
                             }`}
                           >
                             {!mine && channel.type === "team" && firstOfGroup && (
-                              <div className="text-[11px] font-semibold text-emerald-700 mb-0.5">
+                              <div className="text-[12px] font-semibold text-emerald-700 mb-0.5">
                                 {nameFor(m.sender_id)}
                               </div>
                             )}
                             <p className="text-[14px] leading-snug whitespace-pre-wrap break-words">
                               {m.content}
-                              <span className={`ml-2 align-bottom text-[10px] ${mine ? "text-emerald-50/80" : "text-slate-400"}`}>
+                              <span className={`ml-2 align-bottom text-[12px] ${mine ? "text-emerald-50/80" : "text-slate-400"}`}>
                                 {new Date(m.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                               </span>
                             </p>
@@ -1204,7 +1204,7 @@ export function NetworkWorkspace({
                     className="flex-1 max-h-32 min-h-[44px] px-4 py-2.5 rounded-2xl bg-slate-100 border border-transparent focus:bg-white focus:border-emerald-500 focus:outline-none text-base md:text-[14px] resize-none"
                   />
                   <button
-                    className="w-11 h-11 flex-shrink-0 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white flex items-center justify-center shadow-md cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+                    className="w-11 h-11 flex-shrink-0 rounded-full bg-gradient-to-br from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white flex items-center justify-center shadow-md cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed transition-all"
                     disabled={busy || !text.trim()}
                     aria-label="Send"
                     title="Send (Enter)"
@@ -1537,7 +1537,7 @@ export function NetworkWorkspace({
                 <div className="text-mini font-mono uppercase tracking-wider text-teal-800 font-semibold mb-1.5">Skills</div>
                 <div className="flex flex-wrap gap-1.5">
                   {viewed.skills.map((skill) => (
-                    <span key={skill} className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-teal-50 text-teal-800 border border-teal-200/80">
+                    <span key={skill} className="text-[12px] font-mono px-2 py-0.5 rounded-full bg-teal-50 text-teal-800 border border-teal-200/80">
                       {skill}
                     </span>
                   ))}
@@ -1673,7 +1673,7 @@ export function NetworkWorkspace({
                         <span className="text-[13px] font-semibold text-slate-800 truncate flex-1">
                           {nameFor(m.user_id)}
                           {m.user_id === membersTeam.owner_id && (
-                            <span className="ml-2 text-[10px] font-mono px-1.5 py-0.5 rounded-full bg-indigo-100 text-indigo-700">owner</span>
+                            <span className="ml-2 text-[12px] font-mono px-1.5 py-0.5 rounded-full bg-indigo-100 text-indigo-700">owner</span>
                           )}
                         </span>
                       </div>

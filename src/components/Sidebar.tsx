@@ -120,7 +120,7 @@ export const Sidebar: React.FC = () => {
               <h1 className="text-[16px] font-bold text-indigo-950 tracking-tight font-sans">QADAM</h1>
             </div>
           </Link>
-          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300/60 font-semibold">
+          <span className="text-[12px] font-mono px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300/60 font-semibold">
             ACTIVE
           </span>
         </div>
@@ -152,7 +152,7 @@ export const Sidebar: React.FC = () => {
                 <span>{item.label}</span>
                 {item.to === '/network' && totalUnread > 0 && (
                   <span
-                    className="ml-auto min-w-[20px] h-5 px-1.5 rounded-full bg-rose-500 text-white text-[11px] font-mono font-bold flex items-center justify-center"
+                    className="ml-auto min-w-[20px] h-5 px-1.5 rounded-full bg-rose-500 text-white text-[12px] font-mono font-bold flex items-center justify-center"
                     aria-label={`${totalUnread} unread messages and friend requests`}
                   >
                     {unreadLabel}
@@ -173,7 +173,7 @@ export const Sidebar: React.FC = () => {
               aria-orientation="vertical"
               className="absolute bottom-[calc(100%+8px)] left-3 right-3 bg-gradient-to-br from-[#EDF7F6] via-[#F3F6FF] to-[#E8F4F8] rounded-card shadow-2xl p-1.5 z-50 animate-pop-in origin-bottom space-y-0.5 border border-teal-200/90"
             >
-              <div className="px-3 py-2 border-b border-teal-200/60 text-[11px] font-mono text-teal-800 font-semibold">
+              <div className="px-3 py-2 border-b border-teal-200/60 text-[12px] font-mono text-teal-800 font-semibold">
                 ACCOUNT & PREFERENCES
               </div>
 
@@ -189,7 +189,7 @@ export const Sidebar: React.FC = () => {
                 </div>
                 <div>
                   <div className="text-[13px] font-semibold text-indigo-950">Profile</div>
-                  <div className="text-[11px] font-mono text-teal-800">Identity, stack, CV</div>
+                  <div className="text-[12px] font-mono text-teal-800">Identity, stack, CV</div>
                 </div>
               </button>
 
@@ -205,7 +205,7 @@ export const Sidebar: React.FC = () => {
                 </div>
                 <div>
                   <div className="text-[13px] font-semibold text-indigo-950">Settings</div>
-                  <div className="text-[11px] font-mono text-teal-800">Privacy, OpenShell logs</div>
+                  <div className="text-[12px] font-mono text-teal-800">Privacy, OpenShell logs</div>
                 </div>
               </button>
 
@@ -221,7 +221,7 @@ export const Sidebar: React.FC = () => {
                 </div>
                 <div>
                   <div className="text-[13px] font-semibold text-indigo-950">Tech Support</div>
-                  <div className="text-[11px] font-mono text-teal-800">Guides, bug report, FAQ</div>
+                  <div className="text-[12px] font-mono text-teal-800">Guides, bug report, FAQ</div>
                 </div>
               </button>
 
@@ -238,7 +238,7 @@ export const Sidebar: React.FC = () => {
                   </div>
                   <div>
                     <div className="text-[13px] font-semibold">Log Out</div>
-                    <div className="text-[11px] font-mono text-rose-700">End session & lock</div>
+                    <div className="text-[12px] font-mono text-rose-700">End session & lock</div>
                   </div>
                 </button>
               </div>
@@ -259,13 +259,13 @@ export const Sidebar: React.FC = () => {
                   className="w-7 h-7 rounded-full object-cover border border-emerald-500/60 flex-shrink-0"
                 />
               ) : (
-                <div className="w-7 h-7 rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center text-[11px] font-mono font-bold text-emerald-800 flex-shrink-0">
+                <div className="w-7 h-7 rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center text-[12px] font-mono font-bold text-emerald-800 flex-shrink-0">
                   {initials}
                 </div>
               )}
               <div className="min-w-0 flex-1">
                 <div className="text-[13px] font-semibold text-indigo-950 truncate">{displayName}</div>
-                <div className="text-[11px] font-mono text-teal-800 truncate">
+                <div className="text-[12px] font-mono text-teal-800 truncate">
                   {userProfile.university || 'Account Portal'}
                 </div>
               </div>
@@ -316,14 +316,14 @@ export const Sidebar: React.FC = () => {
                 <Icon size={18} className={isActive ? 'text-emerald-400' : 'text-slate-400'} />
                 {item.to === '/network' && totalUnread > 0 && (
                   <span
-                    className="absolute -top-1.5 -right-2.5 min-w-[16px] h-4 px-1 rounded-full bg-rose-500 text-white text-[9px] font-mono font-bold flex items-center justify-center"
+                    className="absolute -top-1.5 -right-2.5 min-w-[16px] h-4 px-1 rounded-full bg-rose-500 text-white text-[12px] font-mono font-bold flex items-center justify-center"
                     aria-label={`${totalUnread} unread messages and friend requests`}
                   >
                     {unreadLabel}
                   </span>
                 )}
               </span>
-              <span className="text-[10px] font-mono tracking-tight leading-none mt-0.5">
+              <span className="text-[12px] font-mono tracking-tight leading-none mt-0.5">
                 {item.label === 'Opportunity Radar'
                   ? 'Radar'
                   : item.label === 'CV & Skill Lab'
@@ -350,10 +350,10 @@ export const Sidebar: React.FC = () => {
             }
           `}
         >
-          <div className="w-5 h-5 rounded-full bg-gradient-to-tr from-emerald-500 to-teal-600 text-white flex items-center justify-center text-[10px] font-bold">
+          <div className="w-5 h-5 rounded-full bg-gradient-to-tr from-emerald-600 to-teal-700 text-white flex items-center justify-center text-[12px] font-bold">
             {initials}
           </div>
-          <span className="text-[10px] font-mono tracking-tight leading-none mt-0.5">Profile</span>
+          <span className="text-[12px] font-mono tracking-tight leading-none mt-0.5">Profile</span>
         </NavLink>
       </nav>
     </>

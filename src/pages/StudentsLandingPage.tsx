@@ -140,7 +140,7 @@ export const StudentsLandingPage: React.FC = () => {
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {FEATURES.map((feature) => (
               <article key={feature.title} className={`${glassCard} p-5 sm:p-6 flex flex-col gap-3 transition-transform duration-300 ease-out-expo hover:-translate-y-0.5`}>
-                <span className={`self-start px-2 py-0.5 rounded-full border text-[11px] font-mono font-semibold ${STATUS_CLASS[feature.status]}`}>
+                <span className={`self-start px-2 py-0.5 rounded-full border text-[12px] font-mono font-semibold ${STATUS_CLASS[feature.status]}`}>
                   {STATUS_LABEL[feature.status]}
                 </span>
                 <h3 className="text-[17px] font-bold text-indigo-950">{feature.title}</h3>

@@ -23,7 +23,7 @@ import {
 const inputClass =
   'w-full h-11 px-3.5 bg-white border border-teal-200/90 rounded-xl text-base md:text-[15px] text-slate-900 placeholder:text-slate-400 focus:border-emerald-600 focus:outline-none shadow-xs font-mono tracking-[0.2em] uppercase text-center';
 const primaryClass =
-  'w-full h-11 rounded-btn bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white text-[14px] font-semibold transition-all shadow-md shadow-emerald-900/20 cursor-pointer disabled:opacity-60 disabled:cursor-wait';
+  'w-full h-11 rounded-btn bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white text-[14px] font-semibold transition-all shadow-md shadow-emerald-900/20 cursor-pointer disabled:opacity-60 disabled:cursor-wait';
 
 function StudentGate({ user, initialCode }: { user: User; initialCode: string }) {
   const navigate = useNavigate();

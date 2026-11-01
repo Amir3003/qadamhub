@@ -232,7 +232,7 @@ export const NotificationsPage: React.FC = () => {
                   <button
                     type="button"
                     onClick={handleAuthorizeTelegram}
-                    className="w-full h-11 rounded-btn bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-semibold text-[13px] font-mono transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-md shadow-emerald-900/20"
+                    className="w-full h-11 rounded-btn bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white font-semibold text-[13px] font-mono transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-md shadow-emerald-900/20"
                   >
                     <span>Authorize with Telegram</span>
                     <ExternalLinkIcon size={14} />
@@ -240,7 +240,7 @@ export const NotificationsPage: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setIsTelegramModal(true)}
-                    className="w-full h-7 text-[11px] font-mono text-teal-700 hover:text-teal-900 hover:underline transition-colors text-center cursor-pointer block"
+                    className="w-full h-7 text-[12px] font-mono text-teal-700 hover:text-teal-900 hover:underline transition-colors text-center cursor-pointer block"
                   >
                     Manual handle entry →
                   </button>
@@ -253,7 +253,7 @@ export const NotificationsPage: React.FC = () => {
           <div className="p-6 rounded-card bg-gradient-to-br from-[#EDF7F6]/95 via-[#F3F6FF]/95 to-[#E8F4F8]/95 backdrop-blur-xl border border-teal-300/40 shadow-[0_16px_40px_-12px_rgba(6,182,212,0.18)] flex flex-col justify-between space-y-6 hover:border-indigo-400/80 transition-all">
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <div className="w-11 h-11 rounded-btn bg-[#5865f2]/15 border border-[#5865f2]/30 flex items-center justify-center text-[#5865f2] shadow-xs">
+                <div className="w-11 h-11 rounded-btn bg-[#5865f2]/15 border border-[#5865f2]/30 flex items-center justify-center text-[#4752c4] shadow-xs">
                   <DiscordIcon size={24} />
                 </div>
                 <span
@@ -272,7 +272,7 @@ export const NotificationsPage: React.FC = () => {
 
               <div>
                 <h3 className="text-[17px] font-bold text-indigo-950">Discord Bot</h3>
-                <div className="text-mini font-mono text-[#5865f2] font-bold mt-0.5">Webhook & Squad Bot</div>
+                <div className="text-mini font-mono text-[#4752c4] font-bold mt-0.5">Webhook & Squad Bot</div>
                 <p className="text-[13px] text-teal-950 mt-2 leading-relaxed">
                   Join the team server. Alerts will be enabled after the backend is deployed and configured.
                 </p>
@@ -308,7 +308,7 @@ export const NotificationsPage: React.FC = () => {
                     onClick={handleOpenDiscordServer}
                     className="w-full h-10 rounded-btn bg-white hover:bg-slate-50 border border-teal-200 text-teal-950 text-mini font-mono flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-xs font-semibold"
                   >
-                    <ExternalLinkIcon size={14} className="text-[#5865f2]" />
+                    <ExternalLinkIcon size={14} className="text-[#4752c4]" />
                     <span>Join / Open Discord Server</span>
                   </button>
                   <button
@@ -340,7 +340,7 @@ export const NotificationsPage: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setIsDiscordModal(true)}
-                    className="w-full h-7 text-[11px] font-mono text-teal-700 hover:text-teal-900 hover:underline transition-colors text-center cursor-pointer block"
+                    className="w-full h-7 text-[12px] font-mono text-teal-700 hover:text-teal-900 hover:underline transition-colors text-center cursor-pointer block"
                   >
                     Custom webhook URL →
                   </button>
@@ -374,13 +374,13 @@ export const NotificationsPage: React.FC = () => {
               Connect to <strong className="text-emerald-700">@QadamAgentBot</strong> to receive real-time opportunity radar notifications, ATS skill gap analysis, and interactive application proposals directly in Telegram.
             </p>
             <div className="p-3.5 bg-white/90 border border-teal-200/80 rounded-lg space-y-2">
-              <span className="text-[11px] font-mono uppercase tracking-wider text-teal-800 font-bold block">
+              <span className="text-[12px] font-mono uppercase tracking-wider text-teal-800 font-bold block">
                 Recommended: One-Click Deep-Link
               </span>
               <button
                 type="button"
                 onClick={handleAuthorizeTelegram}
-                className="w-full h-10 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-semibold rounded-btn text-mini font-mono cursor-pointer transition-colors shadow-xs flex items-center justify-center gap-2"
+                className="w-full h-10 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white font-semibold rounded-btn text-mini font-mono cursor-pointer transition-colors shadow-xs flex items-center justify-center gap-2"
               >
                 <span>Launch @QadamAgentBot in Telegram</span>
                 <ExternalLinkIcon size={14} />
@@ -409,7 +409,7 @@ export const NotificationsPage: React.FC = () => {
               <button
                 type="button"
                 onClick={handleConnectTelegram}
-                className="h-10 px-5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-semibold rounded-btn text-mini font-mono cursor-pointer transition-colors shadow-xs"
+                className="h-10 px-5 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white font-semibold rounded-btn text-mini font-mono cursor-pointer transition-colors shadow-xs"
               >
                 Confirm Connection
               </button>
@@ -441,7 +441,7 @@ export const NotificationsPage: React.FC = () => {
               Join the QADAM server. Webhook secrets belong in the backend environment, never in the browser.
             </p>
             <div className="p-3.5 bg-white/90 border border-teal-200/80 rounded-lg space-y-2">
-              <span className="text-[11px] font-mono uppercase tracking-wider text-teal-800 font-bold block">
+              <span className="text-[12px] font-mono uppercase tracking-wider text-teal-800 font-bold block">
                 Recommended: Join Official Server
               </span>
               <button

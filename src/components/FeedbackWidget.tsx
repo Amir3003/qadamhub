@@ -53,7 +53,7 @@ const Star: React.FC<{ filled: boolean }> = ({ filled }) => (
 const fieldClass =
   'w-full resize-none rounded-lg bg-black/25 border border-white/10 focus:border-teal-400/60 focus:outline-none px-3 py-2.5 text-[14px] leading-relaxed text-slate-100 placeholder:text-slate-500';
 const primaryClass =
-  'w-full h-11 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 disabled:from-white/10 disabled:to-white/10 disabled:text-slate-500 text-white text-[14px] font-semibold transition-colors cursor-pointer disabled:cursor-not-allowed';
+  'w-full h-11 rounded-lg bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 disabled:from-white/10 disabled:to-white/10 disabled:text-slate-500 text-white text-[14px] font-semibold transition-colors cursor-pointer disabled:cursor-not-allowed';
 const quietClass =
   'w-full h-11 rounded-lg bg-white/10 hover:bg-white/15 border border-white/10 text-[14px] font-medium text-white transition-colors cursor-pointer inline-flex items-center justify-center';
 
@@ -193,7 +193,7 @@ export const FeedbackWidget: React.FC = () => {
   );
 
   const privacyNote = (
-    <p className="text-[11px] leading-relaxed text-slate-500">
+    <p className="text-[12px] leading-relaxed text-slate-500">
       We store your message, the page path and your browser type. No profile data is sent.{' '}
       <a href="/privacy" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-300">
         Privacy
@@ -368,7 +368,7 @@ export const FeedbackWidget: React.FC = () => {
                   />
                 </label>
                 {honeypotField}
-                <div className="flex items-center justify-between gap-3 text-[11px] font-mono text-slate-500">
+                <div className="flex items-center justify-between gap-3 text-[12px] font-mono text-slate-500">
                   <span className="truncate">Sent with: page {page}</span>
                   <span className={trimmed.length > 0 && trimmed.length < MIN_LENGTH ? 'text-amber-400' : ''}>
                     {trimmed.length}/{MAX_LENGTH}

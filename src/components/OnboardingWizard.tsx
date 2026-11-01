@@ -196,7 +196,7 @@ export const OnboardingWizard: React.FC = () => {
                     />
                   )}
                   <span
-                    className={`w-6 h-6 rounded-full flex items-center justify-center border text-[11px] font-semibold ${
+                    className={`w-6 h-6 rounded-full flex items-center justify-center border text-[12px] font-semibold ${
                       step === s
                         ? 'border-emerald-600 bg-emerald-500 text-white shadow-xs'
                         : step > s
@@ -275,7 +275,7 @@ export const OnboardingWizard: React.FC = () => {
                     className="w-full h-11 px-3.5 bg-white border border-teal-200/90 rounded-xl text-base md:text-[13px] text-slate-900 placeholder:text-slate-400 focus:border-emerald-600 focus:outline-none shadow-xs transition-colors"
                   />
                   {!isNameValid && name.length > 0 && (
-                    <div className="text-[11px] font-mono text-rose-600 mt-1">
+                    <div className="text-[12px] font-mono text-rose-600 mt-1">
                       Minimum 2 characters, letters only (no generic names).
                     </div>
                   )}
@@ -296,7 +296,7 @@ export const OnboardingWizard: React.FC = () => {
                     className="w-full h-11 px-3.5 bg-white border border-teal-200/90 rounded-xl text-base md:text-[13px] text-slate-900 placeholder:text-slate-400 focus:border-emerald-600 focus:outline-none shadow-xs transition-colors"
                   />
                   {!isSurnameValid && surname.length > 0 && (
-                    <div className="text-[11px] font-mono text-rose-600 mt-1">
+                    <div className="text-[12px] font-mono text-rose-600 mt-1">
                       Minimum 2 characters, letters only.
                     </div>
                   )}
@@ -410,7 +410,7 @@ export const OnboardingWizard: React.FC = () => {
                   ))}
                 </datalist>
                 {!isLocationValid && location.length > 0 && (
-                  <div className="text-[11px] font-mono text-rose-600 mt-1">
+                  <div className="text-[12px] font-mono text-rose-600 mt-1">
                     Please enter a real city, for example Tokyo or Toronto. Letters only.
                   </div>
                 )}
@@ -476,7 +476,7 @@ export const OnboardingWizard: React.FC = () => {
                     </button>
                   </div>
                   {!isPasswordMatchValid && confirmPassword.length > 0 && (
-                    <div className="text-[11px] font-mono text-rose-600 mt-1">
+                    <div className="text-[12px] font-mono text-rose-600 mt-1">
                       Passwords do not match.
                     </div>
                   )}
@@ -611,7 +611,7 @@ export const OnboardingWizard: React.FC = () => {
                 onClick={() => isCurrentStepValid && setStep((s) => (s + 1) as 2 | 3 | 4)}
                 className={`min-h-[44px] h-10 px-5 rounded-xl text-[13px] font-semibold transition-all flex items-center gap-1.5 font-mono shadow-xs active:scale-[0.98] ${
                   isCurrentStepValid
-                    ? 'bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white cursor-pointer shadow-emerald-900/20'
+                    ? 'bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white cursor-pointer shadow-emerald-900/20'
                     : 'bg-white/60 border border-teal-200 text-slate-400 opacity-60 cursor-not-allowed'
                 }`}
               >
@@ -625,7 +625,7 @@ export const OnboardingWizard: React.FC = () => {
                 onClick={handleFinish}
                 className={`min-h-[44px] h-11 px-6 font-bold rounded-xl text-[13px] transition-all flex items-center gap-2 font-mono shadow-md active:scale-[0.98] ${
                   isCurrentStepValid && !isSubmitting
-                    ? 'bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white cursor-pointer shadow-emerald-600/30'
+                    ? 'bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white cursor-pointer shadow-emerald-600/30'
                     : 'bg-white/60 border border-teal-200 text-slate-400 opacity-60 cursor-not-allowed'
                 }`}
               >
