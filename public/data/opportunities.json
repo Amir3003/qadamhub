@@ -46,5 +46,21 @@
     "skills": [],
     "firstSeen": "2026-10-22",
     "lastSeen": "2026-10-30"
+  },
+  {
+    "id": "scan-58d8044cbef8",
+    "type": "GRANT",
+    "title": "CNS Advanced Summer Research Fellowship",
+    "summary": "The CNS Advanced Summer Research Fellowship provides financial support to undergraduate students in the College of Natural Sciences who are conducting an advanced summer research project under the supervision of a UT faculty member.",
+    "location": "domestic or international",
+    "countries": [],
+    "organization": "University of Texas at Austin College of Natural Sciences",
+    "url": "https://exl.cns.utexas.edu/do-research/fellowships-scholarships",
+    "deadline": "2027-02-19",
+    "deadlineEvidence": "Fellowship application deadline: Friday, February 19, 2027 at 11:59 PM",
+    "eligibility": "Must be a full-time, degree-seeking CNS undergraduate student\n* Must graduate in Summer 2027 or later\n* Home institution must be UT Austin\n* Must have completed a qualifying prior research experience\n* Must have a confirmed summer research project and UT faculty research supervisor",
+    "skills": [],
+    "firstSeen": "2026-11-01",
+    "lastSeen": "2026-11-01"
   }
 ]
