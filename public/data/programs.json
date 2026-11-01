@@ -303,5 +303,120 @@
     "opens": "Set by your country's Fulbright Commission or US Embassy. Ask them for the current dates",
     "nextDeadline": null,
     "lastVerified": "2026-11-01"
+  },
+  {
+    "id": "deshaw-research-summer-internship",
+    "type": "INTERNSHIP",
+    "title": "D. E. Shaw Research summer internship",
+    "organization": "D. E. Shaw Research",
+    "url": "https://www.deshawresearch.com/joining_summer-internships.html",
+    "countries": [
+      "United States"
+    ],
+    "location": "New York, United States",
+    "level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "summary": "Paid 12 to 15 week internship in New York for students in machine learning, computer science, electrical and computer engineering, applied math, physics and chemistry. Python or C/C++ experience is required. The page gives an expected monthly salary of 20,000 to 29,400 USD plus a housing allowance.",
+    "eligibility": "Undergraduate and graduate students pursuing degrees in scientific and technical disciplines.",
+    "cycle": "rolling",
+    "opens": "Applications are reviewed on a rolling basis for summer 2027. The page asks students to apply by the end of the fall semester",
+    "nextDeadline": null,
+    "lastVerified": "2026-11-01"
+  },
+  {
+    "id": "nvidia-internships",
+    "type": "INTERNSHIP",
+    "title": "NVIDIA internships and Ignite",
+    "organization": "NVIDIA",
+    "url": "https://www.nvidia.com/en-us/about-nvidia/careers/university-recruiting/",
+    "countries": [],
+    "location": "Multiple locations",
+    "level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "summary": "Year-round internships of at least 12 weeks for BS, MS, PhD and MBA students, including roles in NVIDIA Research. Ignite is a 12-week summer pre-internship program for freshmen and sophomores.",
+    "eligibility": "Current BS, MS, PhD and MBA students for internships, and current freshmen and sophomores for Ignite. Apply through NVIDIA's job portal.",
+    "cycle": "rolling",
+    "opens": "Internships are offered year-round and Ignite runs in the summer. No fixed deadline is listed",
+    "nextDeadline": null,
+    "lastVerified": "2026-11-01"
+  },
+  {
+    "id": "microsoft-explore",
+    "type": "INTERNSHIP",
+    "title": "Microsoft Explore internship",
+    "organization": "Microsoft",
+    "url": "https://careers.microsoft.com/v2/global/en/universityinternship",
+    "countries": [],
+    "location": "Multiple locations",
+    "level": [
+      "Undergraduate"
+    ],
+    "summary": "A 12-week summer internship created for first- and second-year college students.",
+    "eligibility": "First- and second-year college students. Eligibility by country is on a separate page of the Microsoft careers site. Candidates submit a new application each year.",
+    "cycle": "rolling",
+    "opens": "Recruiters accept applications until all positions are filled. Most internships take place in the summer",
+    "nextDeadline": null,
+    "lastVerified": "2026-11-01"
+  },
+  {
+    "id": "mlh-2027-season",
+    "type": "HACKATHON",
+    "title": "Major League Hacking 2027 season: student hackathons",
+    "organization": "Major League Hacking",
+    "url": "https://www.mlh.com/seasons/2027/events",
+    "countries": [
+      "United States",
+      "Canada"
+    ],
+    "location": "United States and Canada",
+    "level": [
+      "Student"
+    ],
+    "summary": "28 student hackathons from January to April 2027, all listed as in person. Examples: DeltaHacks (9 to 10 January, Hamilton), UofTHacks (15 to 17 January, Toronto), HackIllinois (26 to 28 February), LA Hacks (16 to 18 April).",
+    "eligibility": "Each hackathon sets its own registration. Open the event page from the list.",
+    "cycle": "one-off",
+    "opens": "January to April 2027. Registration opens separately for each event",
+    "nextDeadline": null,
+    "lastVerified": "2026-11-01"
+  },
+  {
+    "id": "ethglobal-hackathons",
+    "type": "HACKATHON",
+    "title": "ETHGlobal hackathons",
+    "organization": "ETHGlobal",
+    "url": "https://ethglobal.com/events",
+    "countries": [],
+    "location": "Online and in person",
+    "level": [
+      "Any"
+    ],
+    "summary": "Hackathons for people building on Ethereum. Next: ETHGlobal Mumbai, 5 to 7 November 2026, in person. This year's online events were HackMoney (30 January to 11 February), Open Agents (24 April to 6 May) and ETHOnline (4 to 16 September).",
+    "eligibility": "Each event page has its own rules, prizes and application.",
+    "cycle": "one-off",
+    "opens": "Several events a year. See the events page for the next dates",
+    "nextDeadline": null,
+    "lastVerified": "2026-11-01"
+  },
+  {
+    "id": "hack-club",
+    "type": "HACKATHON",
+    "title": "Hack Club hackathons and game jams for teens",
+    "organization": "Hack Club",
+    "url": "https://hackclub.com/",
+    "countries": [],
+    "location": "Online and in person",
+    "level": [
+      "High school"
+    ],
+    "summary": "Free community for teenagers with hackathons such as Undercity, a 4-day hardware hackathon in San Francisco, and Daydream, 100 high school game jams in 100 cities on the same weekend.",
+    "eligibility": "For all teens aged 13 to 18. Free for every teenager.",
+    "cycle": "rolling",
+    "opens": "Events run throughout the year. See the site for what is happening now",
+    "nextDeadline": null,
+    "lastVerified": "2026-11-01"
   }
 ]
