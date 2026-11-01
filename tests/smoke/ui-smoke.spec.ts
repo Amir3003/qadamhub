@@ -545,3 +545,21 @@ test("no made-up or expired listing is offered: Memory links live listings, an u
   await expect(page.getByText("This opportunity is no longer on the radar")).toBeVisible();
   expect(errors).toEqual([]);
 });
+
+test("the Notifications page does not show a fake connection status", async ({ page }, info) => {
+  const errors = await watch(page);
+  await page.addInitScript(
+    ([profile]) => {
+      localStorage.setItem("qadam_user", JSON.stringify(profile));
+      localStorage.setItem("qadam_consent_analytics_v1", "denied");
+    },
+    [PROFILE] as const,
+  );
+  await page.goto("/notifications");
+  await expect(page.getByRole("heading", { name: "Telegram Bot" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Discord Bot" })).toBeVisible();
+  // Linking an account is not built, so no card may claim to be connected or disconnected.
+  await expect(page.getByText(/^\s*(DIS)?CONNECTED\s*$/i)).toHaveCount(0);
+  await page.screenshot({ path: path.join(SHOTS, `${info.project.name}-notifications-no-status.png`) });
+  expect(errors).toEqual([]);
+});
