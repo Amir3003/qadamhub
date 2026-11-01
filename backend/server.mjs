@@ -2,7 +2,7 @@ import http from 'node:http';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { opportunityId } from './merge.mjs';
-import { confirmedDeadline, publishable } from './radar-quality.mjs';
+import { balancedUrls, confirmedDeadline, publishable } from './radar-quality.mjs';
 
 const dataFile = path.resolve('backend/data/opportunities.json');
 const sourcesFile = path.resolve('backend/data/sources.json');
@@ -66,16 +66,23 @@ export function validate(items, sources, today = new Date().toISOString().slice(
   });
 }
 
-// Hackathons dominate generic results, so grants and internships get their own queries.
+// Ten searches, each aimed at one kind of listing with a date. The standing programs (yearly
+// scholarships, open-source programs) live in the verified catalog instead, so these queries look
+// for new dated calls. Hackathons dominate generic results, so every other kind gets its own query.
 const SEARCH_QUERIES = [
   'student AI hackathon 2026 2027 registration deadline',
-  'fully funded scholarship 2027 international students computer science application deadline',
-  'research fellowship grant for undergraduate students AI 2027 apply',
-  'software engineering summer internship 2027 students application opens',
-  'AI machine learning research internship 2027 undergraduates apply by',
   'online hackathon open to students worldwide 2027 register',
+  'fully funded scholarship 2027 international students artificial intelligence application deadline',
+  'scholarship Japan Korea Singapore 2027 international students application deadline',
+  'scholarship Europe 2027 international students Germany Netherlands Sweden application deadline',
+  'scholarship United States Canada Australia 2027 international students application deadline',
+  'research fellowship grant for undergraduate students AI 2027 apply',
+  'software engineering summer internship 2027 students application deadline',
+  'AI machine learning research internship 2027 undergraduates apply by',
+  'grant for student founders and builders 2027 apply deadline',
 ];
-const MAX_SOURCES = 16;
+const RESULTS_PER_QUERY = 5;
+const MAX_SOURCES = 20;
 const SOURCES_PER_CALL = 4;
 
 async function extractBatch(sources, nebius, model) {
@@ -122,13 +129,13 @@ export async function scan() {
     const found = [];
     for (const query of SEARCH_QUERIES) {
       try {
-        const search = await postJson('https://api.tavily.com/search', tavily, { query, max_results: 5 });
-        found.push(...(search.results || []).map((r) => r.url));
+        const search = await postJson('https://api.tavily.com/search', tavily, { query, max_results: RESULTS_PER_QUERY });
+        found.push((search.results || []).map((r) => r.url));
       } catch (error) {
         console.error(`Search failed for "${query}": ${error.message}`);
       }
     }
-    const urls = [...new Set(found.filter((u) => /^https?:\/\//.test(u || '')))].slice(0, MAX_SOURCES);
+    const urls = balancedUrls(found, MAX_SOURCES);
     if (!urls.length) throw new Error('Tavily returned no URLs; existing cache was kept');
     const extracted = await postJson('https://api.tavily.com/extract', tavily, { urls });
     sources = new Map((extracted.results || []).filter((r) => urls.includes(r.url) && r.raw_content)
