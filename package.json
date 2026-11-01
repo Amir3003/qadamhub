@@ -22,7 +22,8 @@
     "check:quizzes": "node scripts/check-quizzes.mjs",
     "test:ui": "playwright test --config playwright.smoke.config.ts",
     "test:live": "playwright test --config playwright.live.config.ts",
-    "check:catalog": "node scripts/check-catalog.mjs"
+    "check:catalog": "node scripts/check-catalog.mjs",
+    "test:bot": "node --test tests/bot-notify.test.mjs tests/bot-telegram.test.mjs"
   },
   "devDependencies": {
     "@electric-sql/pglite": "^0.5.10",

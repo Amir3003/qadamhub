@@ -53,6 +53,8 @@ RestartSec=10
 MemoryMax=350M
 NoNewPrivileges=true
 ProtectSystem=strict
+StateDirectory=qadam-bot
+StateDirectoryMode=0700
 ProtectHome=true
 PrivateTmp=true
 

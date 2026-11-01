@@ -82,3 +82,18 @@ A private repository needs a credential on the VM before `git pull` works. Use a
    ```
 
 If the repository is renamed, use the new name in `set-url`. Pull the radar change (bots reading the feed from the site) before the repository goes private; otherwise `/radar` fails until the next pull.
+
+## Telegram notifications (daily message and deadline reminders)
+
+The Telegram bot now sends messages to people who asked for them (`/subscribe`, or the Track button under a listing in `/radar`): a daily note at 09:00 Astana time (04:00 UTC) about new listings, reminders 7, 3 and 1 day before the deadline of tracked listings, and, on the 1st of a month, a note that a tracked yearly program usually opens. The bot saves the chat id and the tracked listing ids in `/var/lib/qadam-bot/telegram-state.json` (mode 600); `/unsubscribe` deletes a person's record. It reads the radar and the catalog from the site, so no new keys are needed.
+
+After merging this change run these on the VM, because the service unit gained `StateDirectory=qadam-bot` (a writable state folder under `ProtectSystem=strict`):
+
+```
+sudo git -C /opt/qadam pull --ff-only
+sudo bash /opt/qadam/deploy/install-bots.sh
+sudo systemctl restart qadam-telegram qadam-discord
+```
+
+Check with `journalctl -u qadam-telegram -n 30`: the line `Saved state: 0 chats` confirms the state file is readable, and after 04:00 UTC a `[Daily Run]` line appears once a day. Back up or ignore the state file as you prefer; losing it only means people must subscribe again.
+

@@ -18,6 +18,8 @@ export interface CatalogProgram {
   cycle: 'annual' | 'rolling' | 'one-off';
   /** Free text: when applications usually open, or what to check. Shown in the details panel. */
   opens: string;
+  /** Months (1 to 12) in which the official page says applications usually open. Used by the Telegram bot. */
+  opensMonths?: number[];
   /** ISO date of the next confirmed deadline, or null. A past date is ignored. */
   nextDeadline: string | null;
   lastVerified: string;

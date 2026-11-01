@@ -102,7 +102,10 @@
     "cycle": "annual",
     "opens": "Every September. Embassy Track in September, University Track from September to November",
     "nextDeadline": null,
-    "lastVerified": "2026-11-01"
+    "lastVerified": "2026-11-01",
+    "opensMonths": [
+      9
+    ]
   },
   {
     "id": "gks-graduate",
@@ -123,7 +126,10 @@
     "cycle": "annual",
     "opens": "Every year, February to March",
     "nextDeadline": null,
-    "lastVerified": "2026-11-01"
+    "lastVerified": "2026-11-01",
+    "opensMonths": [
+      2
+    ]
   },
   {
     "id": "google-summer-of-code",
@@ -159,7 +165,11 @@
     "cycle": "annual",
     "opens": "Twice a year: February and August. Check the official page for exact dates",
     "nextDeadline": null,
-    "lastVerified": "2026-11-01"
+    "lastVerified": "2026-11-01",
+    "opensMonths": [
+      2,
+      8
+    ]
   },
   {
     "id": "mlh-fellowship",
@@ -197,7 +207,10 @@
     "cycle": "annual",
     "opens": "Opens in August and closes in October. The 2027/28 call closed in October 2026",
     "nextDeadline": null,
-    "lastVerified": "2026-11-01"
+    "lastVerified": "2026-11-01",
+    "opensMonths": [
+      8
+    ]
   },
   {
     "id": "gates-cambridge",
@@ -218,7 +231,10 @@
     "cycle": "annual",
     "opens": "Open from September. The main round deadline is 8 December 2026 or 6 January 2027, depending on your course",
     "nextDeadline": "2026-12-08",
-    "lastVerified": "2026-11-01"
+    "lastVerified": "2026-11-01",
+    "opensMonths": [
+      9
+    ]
   },
   {
     "id": "daad-scholarship-database",
@@ -259,7 +275,10 @@
     "cycle": "annual",
     "opens": "Most programmes take applications between October and January. Each programme sets its own deadline",
     "nextDeadline": null,
-    "lastVerified": "2026-11-01"
+    "lastVerified": "2026-11-01",
+    "opensMonths": [
+      10
+    ]
   },
   {
     "id": "stipendium-hungaricum",
@@ -437,7 +456,10 @@
     "cycle": "annual",
     "opens": "Two windows a year: from November to 1 February and from 1 June to 10 August. The opening date of the first window differs between sections of the page, so confirm it",
     "nextDeadline": "2027-02-01",
-    "lastVerified": "2026-11-01"
+    "lastVerified": "2026-11-01",
+    "opensMonths": [
+      6
+    ]
   },
   {
     "id": "turkiye-scholarships",
@@ -459,7 +481,10 @@
     "cycle": "annual",
     "opens": "The general application period on the official calendar runs from 10 January to 20 February (2026 call: 10 January to 20 February 2026)",
     "nextDeadline": null,
-    "lastVerified": "2026-11-01"
+    "lastVerified": "2026-11-01",
+    "opensMonths": [
+      1
+    ]
   },
   {
     "id": "australia-awards-scholarships",
@@ -481,6 +506,9 @@
     "cycle": "annual",
     "opens": "The 2027 round was open from 1 February to 30 April 2026. Check the official page for the next round",
     "nextDeadline": null,
-    "lastVerified": "2026-11-01"
+    "lastVerified": "2026-11-01",
+    "opensMonths": [
+      2
+    ]
   }
 ]

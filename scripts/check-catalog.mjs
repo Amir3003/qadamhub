@@ -25,6 +25,8 @@ for (const p of Array.isArray(programs) ? programs : []) {
   if (!/^https:\/\/[^\s]+$/.test(p.url || '')) errors.push(`${tag}: url must be https.`);
   if (!Array.isArray(p.countries) || !Array.isArray(p.level)) errors.push(`${tag}: countries and level must be arrays.`);
   if (!['annual', 'rolling', 'one-off'].includes(p.cycle)) errors.push(`${tag}: bad cycle.`);
+  // Optional: months (1 to 12) in which the official page says applications usually open. The bot uses it.
+  if (p.opensMonths !== undefined && !(Array.isArray(p.opensMonths) && p.opensMonths.every((m) => Number.isInteger(m) && m >= 1 && m <= 12))) errors.push(`${tag}: opensMonths must be numbers from 1 to 12.`);
   if (p.nextDeadline !== null && !isDate(p.nextDeadline)) errors.push(`${tag}: nextDeadline must be a date or null.`);
   if (!isDate(p.lastVerified)) errors.push(`${tag}: lastVerified must be a date.`);
 }
