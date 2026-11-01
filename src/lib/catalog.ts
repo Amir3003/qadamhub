@@ -40,7 +40,7 @@ export function catalogToOpportunities(programs: unknown, today: string): Opport
       organization: item.organization,
       orgKey: item.id.startsWith('mext') ? 'mext' : 'general',
       // The badge stays short. The usual timing goes first in the description.
-      deadline: upcoming ? `Due ${item.nextDeadline}` : item.cycle === 'rolling' ? 'Open all year' : 'Yearly call',
+      deadline: upcoming ? `Due ${item.nextDeadline}` : item.cycle === 'rolling' ? 'Open all year' : item.cycle === 'one-off' ? 'See dates' : 'Yearly call',
       deadlineDate: upcoming ? (item.nextDeadline as string) : '',
       match: 0,
       description: [
