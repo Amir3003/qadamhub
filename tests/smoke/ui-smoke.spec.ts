@@ -601,3 +601,31 @@ test("the Notifications page does not show a fake connection status", async ({ p
   await page.screenshot({ path: path.join(SHOTS, `${info.project.name}-notifications-no-status.png`) });
   expect(errors).toEqual([]);
 });
+
+for (const withPassword of [false, true]) {
+  test(`the account page ${withPassword ? "shows" : "hides"} the password card for a profile ${withPassword ? "with" : "without"} a password`, async ({ page }, info) => {
+    const errors = await watch(page);
+    await page.addInitScript(
+      ([profile]) => {
+        localStorage.setItem("qadam_user", JSON.stringify(profile));
+        localStorage.setItem("qadam_consent_analytics_v1", "denied");
+      },
+      [withPassword ? { ...PROFILE, password: "abcd1234!" } : { ...PROFILE, password: "" }] as const,
+    );
+    await page.goto("/account?tab=profile");
+    await expect(page.getByRole("heading", { name: "Candidate Identity & Profile" })).toBeVisible();
+    // A student who signed up with just a name has no password, so nothing asks for one.
+    await expect(page.getByText("Confidential Security & Password")).toHaveCount(withPassword ? 1 : 0);
+    await expect(page.getByRole("button", { name: "Change Password" })).toHaveCount(withPassword ? 1 : 0);
+    await expect(page.getByText(/Step 1 of 2/)).toHaveCount(0);
+    await page.screenshot({ path: path.join(SHOTS, `${info.project.name}-account-password-${withPassword ? "set" : "none"}.png`), fullPage: true });
+    if (!withPassword) {
+      // The privacy preview labels its filler values instead of showing invented data as the person's.
+      await page.goto("/account?tab=settings");
+      const preview = page.getByText("Raw Local Payload (Protected)").locator("xpath=following-sibling::pre");
+      await expect(preview).toContainText("(example)");
+      await expect(preview).not.toContainText("555-0199");
+    }
+    expect(errors).toEqual([]);
+  });
+}

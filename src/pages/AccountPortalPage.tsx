@@ -246,11 +246,12 @@ export const AccountPortalPage: React.FC = () => {
   const testPayload = JSON.stringify(
     {
       candidate: {
-        name: name || 'Student Candidate',
-        email: email || 'student@university.edu',
-        phone: phone || '+1 555-0199',
-        national_id: nationalId || 'ID-9928174',
-        university: university || 'Technical University',
+        name: name || 'Student (example)',
+        // Empty fields get a labelled example, so the preview never shows invented data as yours.
+        email: email || 'student@example.edu (example)',
+        phone: phone || '+1 555-0100 (example)',
+        national_id: nationalId || 'ID-0000000 (example)',
+        university: university || 'Example University (example)',
       },
       skills: selectedSkills.slice(0, 4),
       action: 'Fetch Opportunity Recommendations & ATS Verification',
@@ -385,7 +386,7 @@ export const AccountPortalPage: React.FC = () => {
     },
     {
       q: 'How do I change my password or email?',
-      a: 'Go to Profile. Email and other details can be edited directly and saved. For the password, press "Change Password", confirm your current password first, then set a new one.',
+      a: 'Go to Profile. Email and other details can be edited directly and saved. A password exists only if you set one in the full registration; then the Profile page shows a "Change Password" card, where you confirm your current password first. If you signed up with just your name, there is no password.',
     },
     {
       q: 'Is QADAM free?',
@@ -805,14 +806,14 @@ export const AccountPortalPage: React.FC = () => {
 
             {/* CV Text / Raw Resume */}
             <div className="p-6 md:p-8 rounded-card bg-gradient-to-br from-[#EDF7F6]/95 via-[#F3F6FF]/95 to-[#E8F4F8]/95 backdrop-blur-xl border border-teal-300/40 shadow-[0_16px_40px_-12px_rgba(6,182,212,0.18)] text-slate-900 space-y-3">
-              <div className="flex items-center justify-between">
+              <div className="flex items-start justify-between gap-3">
                 <div>
                   <h3 className="text-subheading text-slate-900 font-semibold">Resume Text / CV Markdown</h3>
                   <p className="text-[13px] text-slate-600 mt-0.5">
                     Plaintext representation used for ATS gap analysis and tailored proposals.
                   </p>
                 </div>
-                <span className="text-mini font-mono text-slate-600">
+                <span className="text-mini font-mono text-slate-600 flex-shrink-0 whitespace-nowrap">
                   {cvText.length} characters
                 </span>
               </div>
@@ -826,15 +827,18 @@ export const AccountPortalPage: React.FC = () => {
             </div>
 
             {/* Confidential Security & Password Block */}
+            {/* Only people who set a local password during full registration see this card.
+                A student who signed up with just a name has no password and nothing to protect with one. */}
+            {userProfile.password && (
             <div className="p-6 md:p-8 rounded-card bg-gradient-to-br from-[#EDF7F6]/95 via-[#F3F6FF]/95 to-[#E8F4F8]/95 backdrop-blur-xl border border-teal-300/40 shadow-[0_16px_40px_-12px_rgba(6,182,212,0.18)] text-slate-900 space-y-4">
-              <div className="flex items-center justify-between">
+              <div className="flex items-start justify-between gap-3">
                 <div>
                   <h3 className="text-subheading text-slate-900 font-semibold">Confidential Security & Password</h3>
                   <p className="text-[13px] text-slate-600 mt-0.5">
                     Stored client-side to safeguard your local sandbox sessions.
                   </p>
                 </div>
-                <span className="text-mini font-mono text-emerald-700 font-semibold">PROTECTED</span>
+                <span className="text-mini font-mono text-emerald-700 font-semibold flex-shrink-0">PROTECTED</span>
               </div>
 
               {pwStage === 'idle' && (
@@ -976,6 +980,7 @@ export const AccountPortalPage: React.FC = () => {
                 </div>
               )}
             </div>
+            )}
           </div>
         )}
 
