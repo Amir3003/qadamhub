@@ -1,21 +1,5 @@
 [
   {
-    "id": "scan-cace011bd6d9",
-    "type": "GRANT",
-    "title": "Generative AI & Data Science Fellowship",
-    "summary": "This one-year fellowship, offered in collaboration with the MIT Institute for Data, Systems, and Society (IDSS), equips professionals with the critical knowledge and practical skills to lead in data science and generative AI.",
-    "location": "Online",
-    "countries": [],
-    "organization": "One League",
-    "url": "https://one-league.org/dsf",
-    "deadline": "2026-11-01",
-    "deadlineEvidence": "Application Deadline: November 1, 2026, Midnight PT",
-    "eligibility": "Professional resume and undergraduate transcript are required for all applicants. For international candidates, proof of English proficiency and NACES evaluation may be required.",
-    "skills": [],
-    "firstSeen": "2026-10-28",
-    "lastSeen": "2026-10-28"
-  },
-  {
     "id": "scan-e33c3e2db343",
     "type": "GRANT",
     "title": "IndiaAI Fellowship 2026–2027",
