@@ -7,9 +7,11 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 app_dir=$(cd "$(dirname "$0")/.." && pwd)
+# sudo on Oracle Linux and RHEL resets PATH to a list without /usr/local/bin, where Node is usually installed.
+export PATH="$PATH:/usr/local/bin:/usr/local/sbin"
 node_bin=$(command -v node || true)
 if [[ -z $node_bin ]]; then
-  echo 'Install Node.js 22 or newer before installing the bot services.' >&2
+  echo 'Node.js was not found in PATH or /usr/local/bin. Install Node.js 22 or newer before installing the bot services.' >&2
   exit 1
 fi
 node_major=$($node_bin -p 'process.versions.node.split(".")[0]')
