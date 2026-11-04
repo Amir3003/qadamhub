@@ -18,6 +18,7 @@ import {
 } from '../data';
 import { CATALOG_SKILLS } from '../db/quizCatalog';
 import { catalogToOpportunities } from '../lib/catalog';
+import { hashPassword } from '../lib/passwordLock';
 import { clearMembership } from '../lib/cohorts';
 import { networkClient } from '../lib/network';
 
@@ -70,10 +71,15 @@ interface AppContextType {
   incrementMaskedCount: (count?: number) => void;
   getRawMemoryMarkdown: () => string;
   resetToDefaultProfile: () => void;
+  /** True for this tab once the device password was entered (or when there is no password). */
+  isUnlocked: boolean;
+  unlockSession: () => void;
+  lockSession: () => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
+const SESSION_UNLOCK_KEY = 'qadam_session_unlocked_v1';
 const MEMORY_STORAGE_KEY = 'qadam_memory_md';
 const LEGACY_MEMORY_STORAGE_KEY = 'pathfinder_memory_md';
 
@@ -138,6 +144,31 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [userProfile, setUserProfileState] = useState<UserProfile>(() => {
     return loadUserProfile();
   });
+
+  // The password lock holds for this browser tab only: a new tab or a closed browser asks again.
+  const [isUnlocked, setIsUnlocked] = useState<boolean>(() => {
+    try {
+      return sessionStorage.getItem(SESSION_UNLOCK_KEY) === '1';
+    } catch {
+      return false;
+    }
+  });
+  const unlockSession = () => {
+    try {
+      sessionStorage.setItem(SESSION_UNLOCK_KEY, '1');
+    } catch {
+      // Without session storage the lock simply asks again after a reload.
+    }
+    setIsUnlocked(true);
+  };
+  const lockSession = () => {
+    try {
+      sessionStorage.removeItem(SESSION_UNLOCK_KEY);
+    } catch {
+      // Nothing to clear.
+    }
+    setIsUnlocked(false);
+  };
 
   const [isOnboardingOpen, setIsOnboardingOpenState] = useState<boolean>(false);
 
@@ -406,6 +437,21 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     void runTavilySearch();
   }, []);
 
+  // Older profiles saved the password as plain text. Replace it with a salted hash as soon as the app opens.
+  useEffect(() => {
+    const legacy = userProfile.password;
+    if (!legacy || userProfile.passwordHash) return;
+    let cancelled = false;
+    hashPassword(legacy)
+      .then((passwordHash) => {
+        if (!cancelled) updateUserProfile({ password: '', passwordHash });
+      })
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+    };
+  }, [userProfile.password, userProfile.passwordHash]);
+
   const openSkillQuiz = (skill: SkillItem) => {
     setActiveQuizSkill(skill);
   };
@@ -539,6 +585,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setSelectedOpportunityForGaps,
         incrementMaskedCount,
         getRawMemoryMarkdown,
+        isUnlocked,
+        unlockSession,
+        lockSession,
         resetToDefaultProfile,
       }}
     >

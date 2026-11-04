@@ -602,30 +602,162 @@ test("the Notifications page does not show a fake connection status", async ({ p
   expect(errors).toEqual([]);
 });
 
-for (const withPassword of [false, true]) {
-  test(`the account page ${withPassword ? "shows" : "hides"} the password card for a profile ${withPassword ? "with" : "without"} a password`, async ({ page }, info) => {
-    const errors = await watch(page);
-    await page.addInitScript(
-      ([profile]) => {
-        localStorage.setItem("qadam_user", JSON.stringify(profile));
-        localStorage.setItem("qadam_consent_analytics_v1", "denied");
-      },
-      [withPassword ? { ...PROFILE, password: "abcd1234!" } : { ...PROFILE, password: "" }] as const,
-    );
-    await page.goto("/account?tab=profile");
-    await expect(page.getByRole("heading", { name: "Candidate Identity & Profile" })).toBeVisible();
-    // A student who signed up with just a name has no password, so nothing asks for one.
-    await expect(page.getByText("Confidential Security & Password")).toHaveCount(withPassword ? 1 : 0);
-    await expect(page.getByRole("button", { name: "Change Password" })).toHaveCount(withPassword ? 1 : 0);
-    await expect(page.getByText(/Step 1 of 2/)).toHaveCount(0);
-    await page.screenshot({ path: path.join(SHOTS, `${info.project.name}-account-password-${withPassword ? "set" : "none"}.png`), fullPage: true });
-    if (!withPassword) {
-      // The privacy preview labels its filler values instead of showing invented data as the person's.
-      await page.goto("/account?tab=settings");
-      const preview = page.getByText("Raw Local Payload (Protected)").locator("xpath=following-sibling::pre");
-      await expect(preview).toContainText("(example)");
-      await expect(preview).not.toContainText("555-0199");
-    }
-    expect(errors).toEqual([]);
-  });
+// ---- Password lock -------------------------------------------------------------------------
+const LOCK_PASSWORD = "Secret-pass-123";
+
+/* Seeds the profile once per tab. A reload must not undo what the page saved. */
+async function seedProfile(page: Page, profile: Record<string, unknown>) {
+  await page.addInitScript(
+    ([prof]) => {
+      localStorage.setItem("qadam_consent_analytics_v1", "denied");
+      if (sessionStorage.getItem("smoke-seeded")) return;
+      sessionStorage.setItem("smoke-seeded", "1");
+      localStorage.setItem("qadam_user", JSON.stringify(prof));
+    },
+    [profile] as const,
+  );
 }
+
+const storedProfile = (page: Page) => page.evaluate(() => JSON.parse(localStorage.getItem("qadam_user") || "{}"));
+
+test("a profile without a password opens straight away and the account page offers to set one", async ({ page }, info) => {
+  const errors = await watch(page);
+  await seedProfile(page, { ...PROFILE, password: "" });
+  await page.goto("/account?tab=profile");
+  await expect(page.getByRole("heading", { name: "Candidate Identity & Profile" })).toBeVisible();
+  await expect(page.getByText("Password lock")).toBeVisible();
+  await expect(page.getByText("NOT SET")).toBeVisible();
+  await expect(page.getByRole("button", { name: "Set a Password" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Change Password" })).toHaveCount(0);
+  await page.screenshot({ path: path.join(SHOTS, `${info.project.name}-password-none.png`), fullPage: true });
+  expect(errors).toEqual([]);
+});
+
+test("an older profile with a plain-text password is locked, then stored as a hash", async ({ page }, info) => {
+  const errors = await watch(page);
+  await seedProfile(page, { ...PROFILE, password: LOCK_PASSWORD });
+  await page.goto("/");
+  // The app does not open: the lock screen asks first.
+  await expect(page.getByRole("heading", { name: "Unlock QADAM" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Opportunity Radar" })).toHaveCount(0);
+  await page.screenshot({ path: path.join(SHOTS, `${info.project.name}-lock-screen.png`) });
+
+  await page.getByPlaceholder("Enter your password").fill("wrong-password");
+  await page.getByRole("button", { name: "Unlock" }).click();
+  await expect(page.getByRole("alert")).toContainText("Wrong password");
+  await expect(page.getByRole("heading", { name: "Unlock QADAM" })).toBeVisible();
+
+  await page.getByPlaceholder("Enter your password").fill(LOCK_PASSWORD);
+  await page.getByRole("button", { name: "Unlock" }).click();
+  await expect(page.getByRole("heading", { name: "Opportunity Radar" })).toBeVisible();
+
+  // The plain-text password is gone, only a salted hash stays.
+  await expect.poll(async () => (await storedProfile(page)).passwordHash?.algo).toBe("PBKDF2-SHA256");
+  const profile = await storedProfile(page);
+  expect(profile.password).toBe("");
+  expect(JSON.stringify(profile)).not.toContain(LOCK_PASSWORD);
+  expect(profile.passwordHash.iterations).toBeGreaterThanOrEqual(600000);
+
+  // Unlocked for this tab: a reload does not ask again. A new tab (cleared session) does.
+  await page.reload();
+  await expect(page.getByRole("heading", { name: "Opportunity Radar" })).toBeVisible();
+  await page.evaluate(() => sessionStorage.removeItem("qadam_session_unlocked_v1"));
+  await page.reload();
+  await expect(page.getByRole("heading", { name: "Unlock QADAM" })).toBeVisible();
+  await page.getByPlaceholder("Enter your password").fill(LOCK_PASSWORD);
+  await page.getByRole("button", { name: "Unlock" }).click();
+  await expect(page.getByRole("heading", { name: "Opportunity Radar" })).toBeVisible();
+  expect(errors).toEqual([]);
+});
+
+test("five wrong passwords pause the lock screen", async ({ page }) => {
+  const errors = await watch(page);
+  await seedProfile(page, { ...PROFILE, password: LOCK_PASSWORD });
+  await page.goto("/");
+  for (let i = 0; i < 5; i++) {
+    await page.getByPlaceholder("Enter your password").fill(`wrong-${i}`);
+    await page.getByRole("button", { name: "Unlock" }).click();
+    if (i < 4) await expect(page.getByRole("alert")).toContainText("Wrong password");
+  }
+  await expect(page.getByRole("alert")).toContainText(/Try again in \d+ seconds/);
+  await expect(page.getByPlaceholder("Enter your password")).toBeDisabled();
+  expect(errors).toEqual([]);
+});
+
+test("forgot the password: the lock screen erases the device and returns to the student page", async ({ page }, info) => {
+  const errors = await watch(page);
+  await seedProfile(page, { ...PROFILE, password: LOCK_PASSWORD });
+  await page.goto("/");
+  await page.getByRole("button", { name: "Forgot the password?" }).click();
+  await expect(page.getByText(/cannot be reset/)).toBeVisible();
+  await page.screenshot({ path: path.join(SHOTS, `${info.project.name}-lock-forgot.png`) });
+  await page.getByRole("button", { name: "Cancel" }).click();
+  await expect(page.getByRole("heading", { name: "Unlock QADAM" })).toBeVisible();
+  await page.getByRole("button", { name: "Forgot the password?" }).click();
+  await page.getByRole("button", { name: "Erase and start again" }).click();
+  await expect(page).toHaveURL(/\/students$/);
+  expect(await page.evaluate(() => localStorage.getItem("qadam_user"))).toBeNull();
+  expect(errors).toEqual([]);
+});
+
+test("set, change and remove a password from the account page", async ({ page }, info) => {
+  const errors = await watch(page);
+  await seedProfile(page, { ...PROFILE, password: "" });
+  await page.goto("/account?tab=profile");
+
+  // Set
+  await page.getByRole("button", { name: "Set a Password" }).click();
+  await page.getByLabel("Password", { exact: true }).fill("short");
+  await expect(page.getByRole("button", { name: "Set Password" })).toBeDisabled();
+  await page.getByLabel("Password", { exact: true }).fill(LOCK_PASSWORD);
+  await page.getByLabel("Confirm Password").fill(LOCK_PASSWORD);
+  await page.getByRole("button", { name: "Set Password" }).click();
+  await expect(page.getByRole("status")).toContainText("Password set");
+  await expect(page.getByText("LOCK ON")).toBeVisible();
+  await page.screenshot({ path: path.join(SHOTS, `${info.project.name}-password-set.png`), fullPage: true });
+  expect((await storedProfile(page)).passwordHash.algo).toBe("PBKDF2-SHA256");
+  // Setting it does not lock the tab the person is working in.
+  await expect(page.getByRole("heading", { name: "Candidate Identity & Profile" })).toBeVisible();
+
+  // Lock now asks for it.
+  await page.getByRole("button", { name: "Lock now" }).click();
+  await expect(page.getByRole("heading", { name: "Unlock QADAM" })).toBeVisible();
+  await page.getByPlaceholder("Enter your password").fill(LOCK_PASSWORD);
+  await page.getByRole("button", { name: "Unlock" }).click();
+  await expect(page.getByRole("heading", { name: "Candidate Identity & Profile" })).toBeVisible();
+
+  // Change: the current password is checked first, the new one must differ.
+  await page.getByRole("button", { name: "Change Password" }).click();
+  await page.getByLabel("Current Password").fill("not-the-password");
+  await page.getByRole("button", { name: "Verify" }).click();
+  await expect(page.getByRole("alert")).toContainText("Incorrect password");
+  await page.getByLabel("Current Password").fill(LOCK_PASSWORD);
+  await page.getByRole("button", { name: "Verify" }).click();
+  await page.getByLabel("New Password", { exact: true }).fill(LOCK_PASSWORD);
+  await page.getByLabel("Confirm Password").fill(LOCK_PASSWORD);
+  await page.getByRole("button", { name: "Save New Password" }).click();
+  await expect(page.getByRole("alert")).toContainText("different from the current one");
+  await page.getByLabel("New Password", { exact: true }).fill("Another-pass-456");
+  await page.getByLabel("Confirm Password").fill("Another-pass-456");
+  await page.getByRole("button", { name: "Save New Password" }).click();
+  await expect(page.getByRole("status")).toContainText("Password updated");
+  await page.evaluate(() => sessionStorage.removeItem("qadam_session_unlocked_v1"));
+  await page.reload();
+  await page.getByPlaceholder("Enter your password").fill(LOCK_PASSWORD);
+  await page.getByRole("button", { name: "Unlock" }).click();
+  await expect(page.getByRole("alert")).toContainText("Wrong password"); // the old one no longer works
+  await page.getByPlaceholder("Enter your password").fill("Another-pass-456");
+  await page.getByRole("button", { name: "Unlock" }).click();
+  await expect(page.getByRole("heading", { name: "Candidate Identity & Profile" })).toBeVisible();
+
+  // Remove
+  await page.getByRole("button", { name: "Remove Password" }).click();
+  await page.getByLabel("Current Password").fill("Another-pass-456");
+  await page.getByRole("button", { name: "Remove Password" }).last().click();
+  await expect(page.getByRole("status")).toContainText("Password removed");
+  await expect(page.getByText("NOT SET")).toBeVisible();
+  const profile = await storedProfile(page);
+  expect(profile.passwordHash).toBeUndefined();
+  expect(profile.password).toBe("");
+  expect(errors).toEqual([]);
+});

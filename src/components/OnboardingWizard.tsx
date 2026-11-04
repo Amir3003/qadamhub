@@ -1,3 +1,4 @@
+import { hashPassword } from '../lib/passwordLock';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
@@ -30,8 +31,8 @@ export const OnboardingWizard: React.FC = () => {
   const [name, setName] = useState(userProfile.name || '');
   const [surname, setSurname] = useState(userProfile.surname || '');
   const [email, setEmail] = useState(userProfile.email || '');
-  const [password, setPassword] = useState(userProfile.password || '');
-  const [confirmPassword, setConfirmPassword] = useState(userProfile.password || '');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -50,8 +51,8 @@ export const OnboardingWizard: React.FC = () => {
       setName(userProfile.name || '');
       setSurname(userProfile.surname || '');
       setEmail(userProfile.email || '');
-      setPassword(userProfile.password || '');
-      setConfirmPassword(userProfile.password || '');
+      setPassword('');
+      setConfirmPassword('');
       setUniversity(userProfile.university || '');
       setMajor(userProfile.major || '');
       setLocation(userProfile.location || '');
@@ -103,13 +104,15 @@ export const OnboardingWizard: React.FC = () => {
   const isCurrentStepValid =
     step === 1 ? isStep1Valid : step === 2 ? isStep2Valid : step === 3 ? isStep3Valid : isStep4Valid;
 
-  const handleFinish = () => {
+  const handleFinish = async () => {
     if (!isStep1Valid || !isStep2Valid || !isStep3Valid || !isStep4Valid || isSubmitting) {
       return;
     }
 
     setIsSubmitting(true);
 
+    // Only a salted hash of the password is saved, never the password itself.
+    const passwordHash = await hashPassword(password);
     const finalName = name.trim();
     const finalSurname = surname.trim();
     const finalFullName = `${finalName} ${finalSurname}`;
@@ -120,7 +123,8 @@ export const OnboardingWizard: React.FC = () => {
       name: finalName,
       surname: finalSurname,
       email: email.trim(),
-      password,
+      password: '',
+      passwordHash,
       university: university.trim(),
       major: major.trim(),
       location: location.trim(),

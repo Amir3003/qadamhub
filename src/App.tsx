@@ -26,9 +26,11 @@ import { CvGapsModal } from './components/CvGapsModal';
 import { QuizModal } from './components/QuizModal';
 import { useApp } from './context/AppContext';
 import { isProfileValid } from './db/userProfile';
+import { LockScreen } from './components/LockScreen';
+import { profileHasPassword } from './lib/passwordLock';
 
 export const App: React.FC = () => {
-  const { userProfile } = useApp();
+  const { userProfile, isUnlocked } = useApp();
   const location = useLocation();
   // Two ways in: a free student profile on this device (B2C, /start), or an institution
   // invite code (B2B, /student). Cohort data is protected by the database, not by this gate.
@@ -76,6 +78,17 @@ export const App: React.FC = () => {
       <div className="min-h-[100dvh] bg-transparent text-slate-100 relative">
         <AmbientBackground />
         <NetworkPage />
+      </div>
+    );
+  }
+
+  // A profile with a password asks for it once per browser tab before any app screen opens.
+  if (hasAccess && profileHasPassword(userProfile) && !isUnlocked && location.pathname !== '/welcome') {
+    return (
+      <div className="min-h-[100dvh] flex flex-col bg-transparent text-slate-100 antialiased font-sans relative">
+        <ScrollToTop />
+        <AmbientBackground />
+        <LockScreen />
       </div>
     );
   }
