@@ -10,6 +10,7 @@ import {
 import { VALID_CITIES } from '../db/cities';
 import { SkillAutocomplete } from '../components/SkillAutocomplete';
 import { anonymize } from '../utils/anonymizer';
+import { PASSWORD_RULES, hashPassword, profileHasPassword, verifyProfilePassword } from '../lib/passwordLock';
 import {
   UserIcon,
   SettingsIcon,
@@ -66,6 +67,8 @@ export const AccountPortalPage: React.FC = () => {
     userProfile,
     updateUserProfile,
     resetToDefaultProfile,
+    unlockSession,
+    lockSession,
     privacySettings,
     togglePrivacySetting,
     maskedCountThisSession,
@@ -186,48 +189,84 @@ export const AccountPortalPage: React.FC = () => {
   // PASSWORD CHANGE FLOW (verify current password first)
   // -------------------------------------------------------------
   const [pwStage, setPwStage] = useState<'idle' | 'verify' | 'change' | 'done'>('idle');
+  const [pwIntent, setPwIntent] = useState<'change' | 'remove'>('change');
+  const [pwDoneMessage, setPwDoneMessage] = useState('');
   const [currentPwInput, setCurrentPwInput] = useState('');
   const [currentPwError, setCurrentPwError] = useState('');
+  const [newPwError, setNewPwError] = useState('');
   const [newPw, setNewPw] = useState('');
   const [confirmPw, setConfirmPw] = useState('');
   const [showNewPw, setShowNewPw] = useState(false);
+  const [pwBusy, setPwBusy] = useState(false);
+  const hasPw = profileHasPassword(userProfile);
 
-  const newPwLengthOk = newPw.length >= 8;
-  const newPwComplexOk = /(?=.*[a-zA-Z])(?=.*[0-9!@#$%^&*()_+=\-[\]{};':"\\|,.<>/?])/.test(newPw);
-  const newPwDiffersOk = newPw.length > 0 && newPw !== (userProfile.password || '');
+  const newPwLengthOk = PASSWORD_RULES.minLength(newPw);
+  const newPwComplexOk = PASSWORD_RULES.letterAndOther(newPw);
   const newPwMatchOk = newPw.length > 0 && newPw === confirmPw;
-  const isNewPwValid = newPwLengthOk && newPwComplexOk && newPwDiffersOk && newPwMatchOk;
+  const isNewPwValid = newPwLengthOk && newPwComplexOk && newPwMatchOk;
 
   const resetPasswordFlow = () => {
     setPwStage('idle');
+    setPwIntent('change');
     setCurrentPwInput('');
     setCurrentPwError('');
+    setNewPwError('');
     setNewPw('');
     setConfirmPw('');
     setShowNewPw(false);
+    setPwBusy(false);
   };
 
-  const handleVerifyCurrentPassword = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (currentPwInput === (userProfile.password || '')) {
-      setCurrentPwError('');
-      setPwStage('change');
-      addLog('SYSTEM', 'Account ownership confirmed for password change');
-    } else {
-      setCurrentPwError('Incorrect password. Enter the password you use to sign in to QADAM.');
-    }
-  };
-
-  const handleSaveNewPassword = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!isNewPwValid) return;
-    updateUserProfile({ password: newPw });
-    addLog('SYSTEM', 'Account password updated');
-    setCurrentPwInput('');
-    setNewPw('');
-    setConfirmPw('');
+  const finishPasswordFlow = (message: string) => {
+    resetPasswordFlow();
+    setPwDoneMessage(message);
     setPwStage('done');
-    setTimeout(() => setPwStage((st) => (st === 'done' ? 'idle' : st)), 3000);
+    setTimeout(() => setPwStage((st) => (st === 'done' ? 'idle' : st)), 6000);
+  };
+
+  const startPasswordFlow = (intent: 'change' | 'remove') => {
+    resetPasswordFlow();
+    setPwIntent(intent);
+    // With no password yet there is nothing to confirm first.
+    setPwStage(hasPw ? 'verify' : 'change');
+  };
+
+  const handleVerifyCurrentPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (pwBusy || !currentPwInput) return;
+    setPwBusy(true);
+    const ok = await verifyProfilePassword(currentPwInput, userProfile);
+    setPwBusy(false);
+    if (!ok) {
+      setCurrentPwError('Incorrect password. Enter the password you use to unlock QADAM on this device.');
+      return;
+    }
+    setCurrentPwError('');
+    if (pwIntent === 'remove') {
+      updateUserProfile({ password: '', passwordHash: undefined });
+      addLog('SYSTEM', 'Device password removed');
+      finishPasswordFlow('Password removed. QADAM no longer asks for one on this device.');
+      return;
+    }
+    addLog('SYSTEM', 'Account ownership confirmed for password change');
+    setPwStage('change');
+  };
+
+  const handleSaveNewPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!isNewPwValid || pwBusy) return;
+    setPwBusy(true);
+    if (hasPw && (await verifyProfilePassword(newPw, userProfile))) {
+      setPwBusy(false);
+      setNewPwError('Choose a password different from the current one.');
+      return;
+    }
+    const passwordHash = await hashPassword(newPw);
+    updateUserProfile({ password: '', passwordHash });
+    // The person just proved they know it, so this tab stays open.
+    unlockSession();
+    addLog('SYSTEM', hasPw ? 'Device password updated' : 'Device password set');
+    finishPasswordFlow(hasPw ? 'Password updated.' : 'Password set. QADAM now asks for it when you open it in a new tab or browser session.');
   };
 
   // -------------------------------------------------------------
@@ -385,8 +424,8 @@ export const AccountPortalPage: React.FC = () => {
       a: 'Open Notifications & Bots in the sidebar, enable a channel, and enter your Telegram handle or Discord webhook. QADAM then sends new matches and deadline reminders to that channel. You can turn each channel off at any time.',
     },
     {
-      q: 'How do I change my password or email?',
-      a: 'Go to Profile. Email and other details can be edited directly and saved. A password exists only if you set one in the full registration; then the Profile page shows a "Change Password" card, where you confirm your current password first. If you signed up with just your name, there is no password.',
+      q: 'How do I set, change or remove my password?',
+      a: 'Open Profile and find the Password lock card. Press Set a Password, or Change Password or Remove Password (you confirm the current one first). Email and other details are edited directly in Profile and saved. Lock now closes the app until the password is entered again. If you forget the password it cannot be reset, because nothing is stored on a server: on the lock screen choose Forgot the password and erase this device.',
     },
     {
       q: 'Is QADAM free?',
@@ -826,19 +865,18 @@ export const AccountPortalPage: React.FC = () => {
               />
             </div>
 
-            {/* Confidential Security & Password Block */}
-            {/* Only people who set a local password during full registration see this card.
-                A student who signed up with just a name has no password and nothing to protect with one. */}
-            {userProfile.password && (
+            {/* Password lock for the profile on this device */}
             <div className="p-6 md:p-8 rounded-card bg-gradient-to-br from-[#EDF7F6]/95 via-[#F3F6FF]/95 to-[#E8F4F8]/95 backdrop-blur-xl border border-teal-300/40 shadow-[0_16px_40px_-12px_rgba(6,182,212,0.18)] text-slate-900 space-y-4">
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <h3 className="text-subheading text-slate-900 font-semibold">Confidential Security & Password</h3>
-                  <p className="text-[13px] text-slate-600 mt-0.5">
-                    Stored client-side to safeguard your local sandbox sessions.
+                  <h3 className="text-subheading text-slate-900 font-semibold">Password lock</h3>
+                  <p className="text-[13px] text-slate-700 mt-0.5">
+                    Keeps other people out of the profile saved on this device. Only a salted hash is stored, there is no server copy.
                   </p>
                 </div>
-                <span className="text-mini font-mono text-emerald-700 font-semibold flex-shrink-0">PROTECTED</span>
+                <span className={`text-mini font-mono font-semibold flex-shrink-0 ${hasPw ? 'text-emerald-700' : 'text-amber-800'}`}>
+                  {hasPw ? 'LOCK ON' : 'NOT SET'}
+                </span>
               </div>
 
               {pwStage === 'idle' && (
@@ -848,28 +886,59 @@ export const AccountPortalPage: React.FC = () => {
                       <ShieldIcon size={18} className="text-emerald-600" />
                     </div>
                     <div>
-                      <div className="text-[13px] font-semibold text-slate-900">Account password</div>
-                      <div className="text-mini font-mono text-slate-500 tracking-widest">••••••••••••</div>
+                      <div className="text-[13px] font-semibold text-slate-900">{hasPw ? 'QADAM asks for the password once per browser tab' : 'No password'}</div>
+                      <div className="text-[12px] text-slate-700">
+                        {hasPw ? 'If you forget it, the only way back in is to erase this device.' : 'Anyone who opens this browser can open your profile.'}
+                      </div>
                     </div>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => setPwStage('verify')}
-                    className="h-10 px-4 rounded-btn bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white text-mini font-mono font-semibold cursor-pointer shadow-xs"
-                  >
-                    Change Password
-                  </button>
+                  <div className="flex flex-wrap gap-2">
+                    {hasPw ? (
+                      <>
+                        <button
+                          type="button"
+                          onClick={lockSession}
+                          className="h-10 px-4 rounded-btn bg-white border border-slate-200 text-slate-800 text-mini font-mono font-semibold cursor-pointer"
+                        >
+                          Lock now
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => startPasswordFlow('change')}
+                          className="h-10 px-4 rounded-btn bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white text-mini font-mono font-semibold cursor-pointer shadow-xs"
+                        >
+                          Change Password
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => startPasswordFlow('remove')}
+                          className="h-10 px-4 rounded-btn bg-white border border-slate-200 text-rose-700 text-mini font-mono font-semibold cursor-pointer"
+                        >
+                          Remove Password
+                        </button>
+                      </>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => startPasswordFlow('change')}
+                        className="h-10 px-4 rounded-btn bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white text-mini font-mono font-semibold cursor-pointer shadow-xs"
+                      >
+                        Set a Password
+                      </button>
+                    )}
+                  </div>
                 </div>
               )}
 
               {pwStage === 'verify' && (
                 <form onSubmit={handleVerifyCurrentPassword} className="max-w-md space-y-3">
                   <div className="text-[13px] text-slate-700 leading-relaxed">
-                    <strong>Step 1 of 2.</strong> Confirm this is your account by entering your current password.
+                    {pwIntent === 'remove' ? 'Enter your current password to remove it.' : <><strong>Step 1 of 2.</strong> Enter your current password.</>}
                   </div>
                   <div>
-                    <label className="block text-mini font-mono uppercase text-slate-700 mb-1.5">Current Password</label>
+                    <label htmlFor="current-password" className="block text-mini font-mono uppercase text-slate-700 mb-1.5">Current Password</label>
                     <input
+                      id="current-password"
                       type="password"
                       value={currentPwInput}
                       onChange={(e) => {
@@ -879,19 +948,19 @@ export const AccountPortalPage: React.FC = () => {
                       autoFocus
                       autoComplete="current-password"
                       placeholder="Enter current password"
-                      className="w-full h-11 pl-3.5 pr-10 bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 focus:border-teal-500 focus:ring-1 focus:ring-teal-500 rounded-btn text-[13px] text-slate-900 placeholder:text-slate-400 outline-none font-mono transition-colors"
+                      className="w-full h-11 pl-3.5 pr-10 bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 focus:border-teal-500 focus:ring-1 focus:ring-teal-500 rounded-btn text-[13px] text-slate-900 placeholder:text-slate-500 outline-none font-mono transition-colors"
                     />
                     {currentPwError && (
-                      <div className="text-[12px] font-mono text-rose-600 mt-1.5">{currentPwError}</div>
+                      <div role="alert" className="text-[12px] font-mono text-rose-700 mt-1.5">{currentPwError}</div>
                     )}
                   </div>
                   <div className="flex items-center gap-2">
                     <button
                       type="submit"
-                      disabled={!currentPwInput}
+                      disabled={!currentPwInput || pwBusy}
                       className="h-10 px-4 rounded-btn bg-gradient-to-r from-emerald-600 to-teal-700 text-white text-mini font-mono font-semibold cursor-pointer shadow-xs disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      Verify
+                      {pwBusy ? 'Checking...' : pwIntent === 'remove' ? 'Remove Password' : 'Verify'}
                     </button>
                     <button
                       type="button"
@@ -907,60 +976,65 @@ export const AccountPortalPage: React.FC = () => {
               {pwStage === 'change' && (
                 <form onSubmit={handleSaveNewPassword} className="max-w-md space-y-3">
                   <div className="text-[13px] text-slate-700 leading-relaxed">
-                    <strong>Step 2 of 2.</strong> Identity confirmed. Choose a new password.
+                    {hasPw ? <><strong>Step 2 of 2.</strong> Choose a new password.</> : 'Choose a password. Write it down somewhere safe: it cannot be reset.'}
                   </div>
                   <div>
-                    <label className="block text-mini font-mono uppercase text-slate-700 mb-1.5">New Password</label>
+                    <label htmlFor="new-password" className="block text-mini font-mono uppercase text-slate-700 mb-1.5">{hasPw ? 'New Password' : 'Password'}</label>
                     <div className="relative">
                       <input
+                        id="new-password"
                         type={showNewPw ? 'text' : 'password'}
                         value={newPw}
-                        onChange={(e) => setNewPw(e.target.value)}
+                        onChange={(e) => {
+                          setNewPw(e.target.value);
+                          setNewPwError('');
+                        }}
                         autoFocus
                         autoComplete="new-password"
                         placeholder="New password"
-                        className="w-full h-11 pl-3.5 pr-10 bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 focus:border-teal-500 focus:ring-1 focus:ring-teal-500 rounded-btn text-[13px] text-slate-900 placeholder:text-slate-400 outline-none font-mono transition-colors"
+                        className="w-full h-11 pl-3.5 pr-10 bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 focus:border-teal-500 focus:ring-1 focus:ring-teal-500 rounded-btn text-[13px] text-slate-900 placeholder:text-slate-500 outline-none font-mono transition-colors"
                       />
                       <button
                         type="button"
                         onClick={() => setShowNewPw(!showNewPw)}
                         aria-label={showNewPw ? 'Hide password' : 'Show password'}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 cursor-pointer"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-600 hover:text-slate-900 cursor-pointer"
                       >
                         {showNewPw ? <EyeOffIcon size={16} /> : <EyeIcon size={16} />}
                       </button>
                     </div>
                   </div>
                   <div>
-                    <label className="block text-mini font-mono uppercase text-slate-700 mb-1.5">Confirm New Password</label>
+                    <label htmlFor="confirm-password" className="block text-mini font-mono uppercase text-slate-700 mb-1.5">Confirm Password</label>
                     <input
+                      id="confirm-password"
                       type={showNewPw ? 'text' : 'password'}
                       value={confirmPw}
                       onChange={(e) => setConfirmPw(e.target.value)}
                       autoComplete="new-password"
-                      placeholder="Repeat new password"
-                      className="w-full h-11 pl-3.5 pr-10 bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 focus:border-teal-500 focus:ring-1 focus:ring-teal-500 rounded-btn text-[13px] text-slate-900 placeholder:text-slate-400 outline-none font-mono transition-colors"
+                      placeholder="Repeat the password"
+                      className="w-full h-11 pl-3.5 pr-10 bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 focus:border-teal-500 focus:ring-1 focus:ring-teal-500 rounded-btn text-[13px] text-slate-900 placeholder:text-slate-500 outline-none font-mono transition-colors"
                     />
                   </div>
                   <ul className="space-y-1 text-mini font-mono">
                     {([
                       [newPwLengthOk, 'At least 8 characters'],
                       [newPwComplexOk, 'Letters plus numbers or symbols'],
-                      [newPwDiffersOk, 'Different from current password'],
                       [newPwMatchOk, 'Both fields match'],
                     ] as [boolean, string][]).map(([ok, label]) => (
-                      <li key={label} className={ok ? 'text-emerald-700' : 'text-slate-500'}>
+                      <li key={label} className={ok ? 'text-emerald-700' : 'text-slate-700'}>
                         {ok ? '✓' : '○'} {label}
                       </li>
                     ))}
                   </ul>
+                  {newPwError && <div role="alert" className="text-[12px] font-mono text-rose-700">{newPwError}</div>}
                   <div className="flex items-center gap-2">
                     <button
                       type="submit"
-                      disabled={!isNewPwValid}
+                      disabled={!isNewPwValid || pwBusy}
                       className="h-10 px-4 rounded-btn bg-gradient-to-r from-emerald-600 to-teal-700 text-white text-mini font-mono font-semibold cursor-pointer shadow-xs disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      Save New Password
+                      {pwBusy ? 'Saving...' : hasPw ? 'Save New Password' : 'Set Password'}
                     </button>
                     <button
                       type="button"
@@ -974,13 +1048,12 @@ export const AccountPortalPage: React.FC = () => {
               )}
 
               {pwStage === 'done' && (
-                <div className="p-4 rounded-btn bg-emerald-50 border border-emerald-200 text-[13px] text-emerald-800 flex items-center gap-2">
+                <div role="status" className="p-4 rounded-btn bg-emerald-50 border border-emerald-200 text-[13px] text-emerald-900 flex items-center gap-2">
                   <CheckIcon size={16} />
-                  Password updated successfully.
+                  {pwDoneMessage}
                 </div>
               )}
             </div>
-            )}
           </div>
         )}
 
@@ -1457,9 +1530,9 @@ export const AccountPortalPage: React.FC = () => {
           className="animate-overlay-in fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-md overflow-y-auto"
         >
           <div className="animate-modal-in w-full max-w-md max-h-[85vh] my-auto overflow-y-auto bg-white p-6 rounded-card space-y-4 shadow-2xl border border-slate-200/80">
-            <h3 className="text-lg font-bold text-slate-900">Log Out of QADAM?</h3>
-            <p className="text-[13px] text-slate-600 leading-relaxed">
-              Your active workspace session will be closed and you will be redirected to the Welcome page. Your local profile settings will remain saved for your next session.
+            <h3 className="text-lg font-bold text-slate-900">Log out and erase this device?</h3>
+            <p className="text-[13px] text-slate-700 leading-relaxed">
+              Your profile lives only on this device, so logging out erases it: profile, CV text, skills, Agent Memory, progress and cohort access. You return to the start page. If you only want to keep other people out, use Lock now in the password card instead.
             </p>
             <div className="flex items-center justify-end gap-3 pt-3">
               <button
@@ -1474,7 +1547,7 @@ export const AccountPortalPage: React.FC = () => {
                 onClick={handleConfirmLogout}
                 className="h-10 px-5 rounded-btn bg-emerald-600 hover:bg-emerald-500 text-white font-mono text-mini font-semibold cursor-pointer shadow-sm"
               >
-                Log Out
+                Erase and Log Out
               </button>
             </div>
           </div>

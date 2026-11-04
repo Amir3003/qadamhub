@@ -1,4 +1,5 @@
 import { QUIZ_CATALOG } from './quizCatalog.data';
+import type { PasswordHash } from '../lib/passwordLock';
 
 export interface NotificationSettings {
   telegram: boolean;
@@ -11,7 +12,10 @@ export interface UserProfile {
   name: string;
   surname: string;
   email: string;
+  /** Legacy plain-text password from older profiles. Turned into `passwordHash` on first load. */
   password?: string;
+  /** Salted hash of the password that locks the app on this device (see lib/passwordLock.ts). */
+  passwordHash?: PasswordHash;
   phone?: string;
   nationalId?: string;
   github?: string;

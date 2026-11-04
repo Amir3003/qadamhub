@@ -11,7 +11,7 @@ import { legal } from '../lib/legal';
 const STORED_LOCALLY = [
   ['Profile', 'Name, email, university, major, city, role, skills and goals you enter.'],
   ['CV text', 'The resume text you paste in Profile or during registration.'],
-  ['Password', 'Saved in this browser only. It is not a server account and is not encrypted, so do not reuse a password from other services.'],
+  ['Password', 'Optional. Only a salted hash is saved in this browser, to lock QADAM on this device. It is not a server account and it does not encrypt your profile, so it cannot be reset: if you forget it, you erase the data on this device and start again. Do not reuse a password from other services.'],
   ['Agent Memory', 'The directives you write, saved as MEMORY.md.'],
   ['Teammates and teams', 'People you add manually, teams you create and local chat messages.'],
   ['Progress', 'Verified skills, quiz scores, application checklists and the status you set on opportunities.'],
