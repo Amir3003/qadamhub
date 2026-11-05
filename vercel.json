@@ -1,7 +1,4 @@
 {
-    "git": {
-        "deploymentEnabled": { "feat/neon-staging": false }
-    },
     "rewrites": [
         {
             "source": "/",
