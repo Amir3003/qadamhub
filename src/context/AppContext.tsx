@@ -20,7 +20,7 @@ import { CATALOG_SKILLS } from '../db/quizCatalog';
 import { catalogToOpportunities } from '../lib/catalog';
 import { hashPassword } from '../lib/passwordLock';
 import { clearMembership } from '../lib/cohorts';
-import { networkClient } from '../lib/network';
+import { signOutNetwork } from '../lib/network';
 
 interface PrivacySettings {
   storeMemoryLocal: boolean;
@@ -312,7 +312,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     clearUserProfile();
     // Logging out also ends cohort access and the account session on this device.
     clearMembership();
-    networkClient?.auth.signOut().catch(() => undefined);
+    signOutNetwork().catch(() => undefined);
     localStorage.removeItem(MEMORY_STORAGE_KEY);
     localStorage.removeItem(LEGACY_MEMORY_STORAGE_KEY);
     localStorage.removeItem('qadam_user');

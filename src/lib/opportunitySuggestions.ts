@@ -1,4 +1,4 @@
-import { networkClient } from './network';
+import { submitPublicForm, type PublicFormResult } from './publicForm';
 import { CONTACT_EMAIL } from './pilotRequests';
 
 export type SuggestionType = 'hackathon' | 'grant' | 'internship' | 'other';
@@ -67,19 +67,15 @@ export function validateSuggestion(suggestion: OpportunitySuggestion): Suggestio
   return errors;
 }
 
-// Returns 'stored' when Supabase accepted the suggestion, 'email' when the caller
-// should fall back to the prepared email (no Supabase config or a failed insert).
-export async function submitSuggestion(suggestion: OpportunitySuggestion): Promise<'stored' | 'email'> {
-  if (!networkClient) return 'email';
-  // submitted_by defaults to auth.uid() on the server, so a signed-in learner's id is attached automatically.
-  const { error } = await networkClient.from('opportunity_suggestions').insert({
+// Public writes go through the server so the database can enforce rate limits.
+export async function submitSuggestion(suggestion: OpportunitySuggestion): Promise<PublicFormResult> {
+  return submitPublicForm('suggestion', {
     title: suggestion.title.trim(),
     url: suggestion.url.trim(),
     type: suggestion.type,
     deadline: suggestion.deadline.trim() || null,
     note: suggestion.note.trim(),
   });
-  return error ? 'email' : 'stored';
 }
 
 export function suggestionMailto(suggestion: OpportunitySuggestion): string {

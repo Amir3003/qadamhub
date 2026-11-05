@@ -1,13 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { CheckIcon, CloseIcon } from './Icons';
-import { CONTACT_EMAIL } from '../lib/pilotRequests';
 import {
   OpportunitySuggestion,
   SUGGESTION_TYPES,
   SuggestionErrors,
   submitSuggestion,
-  suggestionMailto,
   validateSuggestion,
 } from '../lib/opportunitySuggestions';
 
@@ -40,7 +38,7 @@ const labelClass = 'block text-[13px] font-semibold text-indigo-950 mb-1.5';
 export const SuggestOpportunityModal: React.FC<SuggestOpportunityModalProps> = ({ open, onClose }) => {
   const [suggestion, setSuggestion] = useState<OpportunitySuggestion>(emptySuggestion);
   const [errors, setErrors] = useState<SuggestionErrors>({});
-  const [status, setStatus] = useState<'idle' | 'sending' | 'stored' | 'email'>('idle');
+  const [status, setStatus] = useState<'idle' | 'sending' | 'stored' | 'limited' | 'error'>('idle');
   const firstFieldRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -93,12 +91,11 @@ export const SuggestOpportunityModal: React.FC<SuggestOpportunityModalProps> = (
     };
     setStatus('sending');
     const result = await submitSuggestion(clean);
-    if (result === 'email') window.location.href = suggestionMailto(clean);
-    else setSuggestion(emptySuggestion);
+    if (result === 'stored') setSuggestion(emptySuggestion);
     setStatus(result);
   };
 
-  const done = status === 'stored' || status === 'email';
+  const done = status === 'stored';
 
   // Portaled to <body>: the page's <main> is its own stacking context, under the mobile nav.
   return createPortal(
@@ -128,12 +125,10 @@ export const SuggestOpportunityModal: React.FC<SuggestOpportunityModalProps> = (
               <CheckIcon size={22} />
             </div>
             <h3 className="text-[19px] font-bold text-indigo-950">
-              {status === 'stored' ? 'Thank you. We will review it and add it to the radar if it is open to you.' : 'Your email app should open now.'}
+              Thank you. We will review it and add it to the radar if it is open to you.
             </h3>
             <p className="text-[15px] leading-relaxed text-teal-950">
-              {status === 'stored'
-                ? 'Suggestions are checked by hand, so it can take a few days.'
-                : `Press Send in your email app to finish. If it did not open, write to ${CONTACT_EMAIL}.`}
+              Suggestions are checked by hand, so it can take a few days.
             </p>
             <button
               type="button"
@@ -145,6 +140,8 @@ export const SuggestOpportunityModal: React.FC<SuggestOpportunityModalProps> = (
           </div>
         ) : (
           <form onSubmit={handleSubmit} noValidate className="px-5 sm:px-7 py-6 space-y-4">
+            {status === 'limited' && <p role="alert" className="text-rose-700">Too many suggestions. Please try again later.</p>}
+            {status === 'error' && <p role="alert" className="text-rose-700">Could not send your suggestion. Please try again later.</p>}
             <p className="text-[15px] leading-relaxed text-teal-950">
               Saw a hackathon, grant or internship on Instagram or elsewhere that is not here? Send it to us and we will
               check it and add it.
@@ -229,7 +226,7 @@ export const SuggestOpportunityModal: React.FC<SuggestOpportunityModalProps> = (
 
             <div className="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-3 pt-2">
               <p className="text-[12px] leading-relaxed text-teal-800/80">
-                Only the fields above are sent. Your account id is attached if you are signed in.
+                Only the fields above are sent.
               </p>
               <button
                 type="submit"

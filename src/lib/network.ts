@@ -1,10 +1,14 @@
-import { createClient } from "@supabase/supabase-js";
+import { createClient as createSupabaseClient, type SupabaseClient } from "@supabase/supabase-js";
+import { createClient as createNeonClient } from "@neon/neon-js/supabase";
+import { createClient as createNeonNativeClient } from "@neon/neon-js";
 
+const neonUrl = import.meta.env.VITE_NEON_URL?.trim();
 const url = import.meta.env.VITE_SUPABASE_URL?.trim();
 const key = import.meta.env.VITE_SUPABASE_ANON_KEY?.trim();
-export const networkClient =
-  url && key
-    ? createClient(url, key, {
+export const networkClient: SupabaseClient | null = neonUrl
+  ? (createNeonClient(neonUrl, { auth: { allowAnonymous: true } }) as unknown as SupabaseClient)
+  : url && key
+    ? createSupabaseClient(url, key, {
         auth: {
           // Persist the network sign-in on this device until the user signs out.
           storage: window.localStorage,
@@ -13,6 +17,30 @@ export const networkClient =
         },
       })
     : null;
+
+// Neon’s compatibility adapter does not always notify same-tab subscribers.
+export async function signOutNetwork() {
+  if (!networkClient) return;
+  const result = await networkClient.auth.signOut();
+  if (result.error) throw result.error;
+  window.dispatchEvent(new Event("qadam-network-signed-out"));
+}
+
+// The Neon Supabase adapter currently discards errors returned when sending an OTP.
+// Use the native method for this step so the UI cannot claim an email was sent on failure.
+export async function sendSignInCode(email: string): Promise<void> {
+  if (neonUrl) {
+    // The SDK bundles the OTP plugin at runtime, but its vanilla client type omits it.
+    const auth = createNeonNativeClient(neonUrl).auth as unknown as {
+      emailOtp: { sendVerificationOtp: (args: { email: string; type: 'sign-in' }) => Promise<{ error: { message?: string } | null }> };
+    };
+    const { error } = await auth.emailOtp.sendVerificationOtp({ email, type: 'sign-in' });
+    if (error) throw new Error(error.message || 'Unable to send the sign-in code.');
+    return;
+  }
+  if (!networkClient) throw new Error('The account service is not configured.');
+  checked(await networkClient.auth.signInWithOtp({ email, options: { shouldCreateUser: true } }));
+}
 
 export interface NetworkProfile {
   id: string;

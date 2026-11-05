@@ -53,7 +53,14 @@ export function readJsonObject(request, maxBytes) {
       return null;
     }
   }
-  return body && typeof body === 'object' && !Array.isArray(body) ? body : null;
+  if (!body || typeof body !== 'object' || Array.isArray(body)) return null;
+  // Vercel may already have parsed the body, and Content-Length can be absent.
+  try {
+    if (Buffer.byteLength(JSON.stringify(body), 'utf8') > maxBytes) return null;
+  } catch {
+    return null;
+  }
+  return body;
 }
 
 // Strips control characters and collapses whitespace.

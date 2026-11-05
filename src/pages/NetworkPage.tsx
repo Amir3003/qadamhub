@@ -10,6 +10,7 @@ import {
   isOnline,
   lastSeenLabel,
   networkClient,
+  signOutNetwork,
   type FriendRequest,
   type NetworkMessage,
   type NetworkProfile,
@@ -750,8 +751,7 @@ export function NetworkWorkspace({
             disabled={busy}
             onClick={() =>
               run(async () => {
-                const result = await networkClient!.auth.signOut();
-                if (result.error) throw result.error;
+                await signOutNetwork();
               })
             }
           >

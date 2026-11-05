@@ -1,4 +1,4 @@
-import { networkClient } from './network';
+import { submitPublicForm, type PublicFormResult } from './publicForm';
 
 export const CONTACT_EMAIL = 'a.nagiyev.dev@gmail.com';
 
@@ -29,11 +29,9 @@ export function pilotRequestMailto(request: PilotRequest): string {
   return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\n'))}`;
 }
 
-// Returns 'stored' when Supabase accepted the request, 'email' when the caller
-// should fall back to the prepared email (no Supabase config or a failed insert).
-export async function submitPilotRequest(request: PilotRequest): Promise<'stored' | 'email'> {
-  if (!networkClient) return 'email';
-  const { error } = await networkClient.from('pilot_requests').insert({
+// Public writes go through the server so the database can enforce rate limits.
+export async function submitPilotRequest(request: PilotRequest): Promise<PublicFormResult> {
+  return submitPublicForm('pilot', {
     institution: request.institution,
     contact_name: request.contactName,
     role: request.role,
@@ -43,5 +41,4 @@ export async function submitPilotRequest(request: PilotRequest): Promise<'stored
     cohort_size: request.cohortSize,
     message: request.message,
   });
-  return error ? 'email' : 'stored';
 }

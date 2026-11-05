@@ -1,9 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { CheckIcon, CloseIcon } from './Icons';
 import {
-  CONTACT_EMAIL,
   PilotRequest,
-  pilotRequestMailto,
   submitPilotRequest,
 } from '../lib/pilotRequests';
 import { VALID_CITIES } from '../db/cities';
@@ -48,7 +46,7 @@ export const PilotRequestModal: React.FC<PilotRequestModalProps> = ({ open, onCl
   const [request, setRequest] = useState<PilotRequest>(emptyRequest);
   const [honeypot, setHoneypot] = useState('');
   const [errors, setErrors] = useState<PilotErrors>({});
-  const [status, setStatus] = useState<'idle' | 'sending' | 'stored' | 'email'>('idle');
+  const [status, setStatus] = useState<'idle' | 'sending' | 'stored' | 'limited' | 'error'>('idle');
   const firstFieldRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -103,12 +101,11 @@ export const PilotRequestModal: React.FC<PilotRequestModalProps> = ({ open, onCl
     };
     setStatus('sending');
     const result = await submitPilotRequest(clean);
-    if (result === 'email') window.location.href = pilotRequestMailto(clean);
-    else setRequest(emptyRequest);
+    if (result === 'stored') setRequest(emptyRequest);
     setStatus(result);
   };
 
-  const done = status === 'stored' || status === 'email';
+  const done = status === 'stored';
 
   return (
     <div className="animate-overlay-in fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-6" role="dialog" aria-modal="true" aria-labelledby="pilot-title">
@@ -137,12 +134,10 @@ export const PilotRequestModal: React.FC<PilotRequestModalProps> = ({ open, onCl
               <CheckIcon size={22} />
             </div>
             <h3 className="text-[19px] font-bold text-indigo-950">
-              {status === 'stored' ? 'Thank you. Your request is in.' : 'Your email app should open now.'}
+              Thank you. Your request is in.
             </h3>
             <p className="text-[15px] leading-relaxed text-teal-950">
-              {status === 'stored'
-                ? 'We will reply by email to agree on a short call, the cohort and the start date.'
-                : `Press Send in your email app to finish. If it did not open, write to ${CONTACT_EMAIL}.`}
+              We will reply by email to agree on a short call, the cohort and the start date.
             </p>
             <button
               type="button"
@@ -154,6 +149,8 @@ export const PilotRequestModal: React.FC<PilotRequestModalProps> = ({ open, onCl
           </div>
         ) : (
           <form onSubmit={handleSubmit} noValidate className="px-5 sm:px-7 py-6 space-y-4">
+            {status === 'limited' && <p role="alert" className="text-rose-700">Too many requests. Please try again later.</p>}
+            {status === 'error' && <p role="alert" className="text-rose-700">Could not send your request. Please try again later.</p>}
             <p className="text-[15px] leading-relaxed text-teal-950">
               Free for 4 to 6 weeks with 30 to 50 learners and one staff lead. Tell us about your institution and we will
               reply by email.

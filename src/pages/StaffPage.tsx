@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import type { User } from '@supabase/supabase-js';
 import { AccessCard, NetworkAccess } from '../components/NetworkAccess';
 import { CheckIcon, CopyIcon, LogOutIcon, PlusIcon, RefreshIcon, SearchIcon, UsersIcon } from '../components/Icons';
-import { networkClient } from '../lib/network';
+import { signOutNetwork } from '../lib/network';
 import {
   Cohort,
   Institution,
@@ -373,7 +373,7 @@ function StaffWorkspace({ user }: { user: User }) {
       });
   }, [institutionId]);
 
-  const signOut = () => networkClient?.auth.signOut();
+  const signOut = () => signOutNetwork();
 
   if (institutions === null) {
     return <p className="relative z-10 p-8 text-teal-100 font-mono text-mini text-center" role="status">Loading your institution...</p>;

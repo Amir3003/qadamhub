@@ -5,7 +5,7 @@ import { AccessCard, NetworkAccess } from '../components/NetworkAccess';
 import { OnboardingWizard } from '../components/OnboardingWizard';
 import { useApp } from '../context/AppContext';
 import { isProfileValid } from '../db/userProfile';
-import { networkClient } from '../lib/network';
+import { networkClient, signOutNetwork } from '../lib/network';
 import {
   Membership,
   fetchMembership,
@@ -103,7 +103,7 @@ function StudentGate({ user, initialCode }: { user: User; initialCode: string })
   };
 
   const signOut = async () => {
-    await networkClient?.auth.signOut();
+    await signOutNetwork();
   };
 
   if (phase === 'checking') {

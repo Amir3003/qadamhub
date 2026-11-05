@@ -73,6 +73,11 @@ test("honeypot answers ok without storing anything", withSupabase(async (calls) 
   assert.equal(calls.length, 0);
 }));
 
+test("rejects oversized parsed requests without Content-Length", withSupabase(async (calls) => {
+  assert.equal((await call({ body: { ...valid, extra: "x".repeat(9000) } })).status, 422);
+  assert.equal(calls.length, 0);
+}));
+
 test("stores a clean row with the service role key", withSupabase(async (calls) => {
   const out = await call({
     body: { ...valid, pageUrl: "/student?code=SECRET123#frag", description: "  Line one\n\n\n\nLine two\u0000 with control  " },

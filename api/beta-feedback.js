@@ -4,6 +4,8 @@
 // never read or write it directly. Without the key the endpoint answers 503 and the widget
 // offers email instead.
 import { clientIp, isSameOrigin, rateLimit, readJsonObject, sendJson } from './_lib/security.js';
+import { neon } from '@neondatabase/serverless';
+import { createHmac } from 'node:crypto';
 
 const MAX_BODY_BYTES = 8 * 1024;
 const TYPES = ['bug', 'feature', 'general', 'rating'];
@@ -63,8 +65,14 @@ export default async function handler(request, response) {
   if (!isRating && description.length < 10) return sendJson(response, 422, { status: 'error', message: 'Please describe it in at least 10 characters.' });
   if (description.length > 2000) return sendJson(response, 422, { status: 'error', message: 'Please keep it under 2000 characters.' });
 
-  const target = supabase();
-  if (!target) return sendJson(response, 503, { status: 'error', message: UNAVAILABLE });
+  const neonUrl = process.env.NEON_DATABASE_URL || '';
+  // Never silently write reports to the old database when a Neon build is selected.
+  const useNeon = Boolean(process.env.VITE_NEON_URL || neonUrl);
+  const target = useNeon ? null : supabase();
+  if (useNeon ? !neonUrl : !target) return sendJson(response, 503, { status: 'error', message: UNAVAILABLE });
+  const secret = process.env.FORMS_IP_HASH_SECRET || '';
+  const ip = clientIp(request);
+  if (useNeon && (secret.length < 32 || ip === 'unknown')) return sendJson(response, 503, { status: 'error', message: UNAVAILABLE });
 
   const row = {
     type: body.type,
@@ -76,6 +84,13 @@ export default async function handler(request, response) {
   };
 
   try {
+    if (useNeon) {
+      const sql = neon(neonUrl);
+      const key = createHmac('sha256', secret).update(ip).digest('hex');
+      const result = await sql`select qadam_private.submit_feedback(${key}, ${JSON.stringify(row)}::jsonb) as accepted`;
+      if (!result[0]?.accepted) return sendJson(response, 429, { status: 'error', message: 'Too many reports. Please try again later.' }, { 'Retry-After': '3600' });
+      return sendJson(response, 200, { status: 'ok' });
+    }
     const res = await fetch(`${target.url}/rest/v1/feedback`, {
       method: 'POST',
       headers: {
@@ -109,7 +124,7 @@ export default async function handler(request, response) {
     return sendJson(response, 502, {
       status: 'error',
       message: UNAVAILABLE,
-      reason: timedOut ? 'Supabase request timed out' : 'Supabase request failed',
+      reason: timedOut ? `${useNeon ? 'Neon' : 'Supabase'} request timed out` : `${useNeon ? 'Neon' : 'Supabase'} request failed`,
       dbCode: null,
     });
   }

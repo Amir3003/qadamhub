@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
-import { checked, networkClient } from "../lib/network";
+import { checked, networkClient, sendSignInCode } from "../lib/network";
 
 export function NetworkAccess({
   children,
@@ -26,6 +26,8 @@ export function NetworkAccess({
       return;
     }
     let alive = true;
+    const onSignedOut = () => { setUser(null); setSent(false); setCode(""); setError(""); };
+    window.addEventListener("qadam-network-signed-out", onSignedOut);
     networkClient.auth.getSession().then(({ data, error }) => {
       if (alive) {
         setUser(data.session?.user || null);
@@ -41,6 +43,7 @@ export function NetworkAccess({
     });
     return () => {
       alive = false;
+      window.removeEventListener("qadam-network-signed-out", onSignedOut);
       data.subscription.unsubscribe();
     };
   }, []);
@@ -68,21 +71,20 @@ export function NetworkAccess({
     setError("");
     try {
       if (!sent) {
-        checked(
-          await networkClient!.auth.signInWithOtp({
-            email: email.trim(),
-            options: { shouldCreateUser: true },
-          }),
-        );
+        await sendSignInCode(email.trim());
         setSent(true);
-      } else
-        checked(
+      } else {
+        const result = checked(
           await networkClient!.auth.verifyOtp({
             email: email.trim(),
             token: code.trim(),
             type: "email",
           }),
         );
+        // Neon may not notify same-tab subscribers after OTP sign-in. Use the
+        // verified response immediately instead of requiring a second click.
+        if (result.user) setUser(result.user);
+      }
     } catch (e) {
       setError(
         e instanceof Error ? e.message : "Unable to sign in. Please retry.",
