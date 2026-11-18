@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { mergeOpportunities } from '../backend/merge.mjs';
-import { balancedUrls, confirmedDeadline } from '../backend/radar-quality.mjs';
+import { balancedUrls, confirmedDeadline, isSocialUrl } from '../backend/radar-quality.mjs';
 import { validate } from '../backend/server.mjs';
 import { loadRadar } from '../bot/radar-data.mjs';
 
@@ -92,4 +92,19 @@ test('balancedUrls takes one result from each query in turn and skips duplicates
   // The budget cuts the last queries last, not the first ones.
   assert.deepEqual(balancedUrls(lists, 2), ['https://a.example/1', 'https://b.example/1']);
   assert.deepEqual(balancedUrls([], 5), []);
+});
+
+test('social and video reposts are never published or crawled', () => {
+  for (const url of [
+    'https://www.youtube.com/watch?v=abc', 'https://youtu.be/abc', 'https://www.facebook.com/page/posts/1',
+    'https://m.facebook.com/x', 'https://www.instagram.com/p/1', 'https://www.linkedin.com/posts/1', 'https://x.com/a/status/1',
+  ]) {
+    assert.deepEqual(mergeOpportunities([], [item(url)], '2026-11-01'), [], url);
+  }
+  // Hosts that only contain a social name are not blocked.
+  assert.equal(mergeOpportunities([], [item('https://notyoutube.com/fellowship')], '2026-11-01').length, 1);
+  assert.equal(isSocialUrl('https://www.mbzuai.ac.ae/admissions'), false);
+  // An old social record already in the feed is dropped on the next merge.
+  assert.deepEqual(mergeOpportunities([item('https://www.facebook.com/p/1')], [], '2026-11-01'), []);
+  assert.deepEqual(balancedUrls([['https://www.youtube.com/watch?v=1', 'https://a.example/1']], 5), ['https://a.example/1']);
 });

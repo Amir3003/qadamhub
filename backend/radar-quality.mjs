@@ -18,11 +18,27 @@ export function confirmedDeadline(deadline, quote, source, today) {
   return numericDate || (namedMonth && dayNumber);
 }
 
+// Social networks and video sites repost programs; they are never the official page that
+// CLAUDE.md requires, and a repost can be stale or wrong. Matches the host and its subdomains.
+const SOCIAL_HOSTS = ['youtube.com', 'youtu.be', 'facebook.com', 'fb.com', 'fb.watch', 'instagram.com', 'tiktok.com',
+  'x.com', 'twitter.com', 'linkedin.com', 'lnkd.in', 't.me', 'telegram.me', 'reddit.com', 'pinterest.com', 'threads.net', 'vk.com'];
+
+export function isSocialUrl(url) {
+  let host;
+  try {
+    host = new URL(url).hostname.toLowerCase().replace(/\.$/, '');
+  } catch {
+    return false;
+  }
+  return SOCIAL_HOSTS.some((social) => host === social || host.endsWith(`.${social}`));
+}
+
 export function publishable(item, today) {
   if (!item || !['HACKATHON', 'GRANT', 'INTERNSHIP'].includes(item.type)) return false;
   if (!item.title || /^\s*(unknown|untitled|n\/?a)\s*$/i.test(item.title)) return false;
   if (!item.organization || /^\s*(unknown|n\/?a)\s*$/i.test(item.organization)) return false;
   if (!/^https:\/\/[^\s]+$/i.test(item.url || '')) return false;
+  if (isSocialUrl(item.url)) return false;
   if (!item.deadline || item.deadline < today || !/^\d{4}-\d{2}-\d{2}$/.test(item.deadline)) return false;
   // Directory pages are not evidence for the deadline of any one event.
   const pathname = new URL(item.url).pathname.replace(/\/$/, '');
@@ -40,7 +56,8 @@ export function balancedUrls(lists, max) {
   for (let i = 0; i < longest && out.length < max; i++) {
     for (const list of lists) {
       const url = list[i];
-      if (out.length < max && /^https?:\/\//.test(url || '') && !seen.has(url)) {
+      // Social and video pages would be dropped later anyway, so they do not use the page budget.
+      if (out.length < max && /^https?:\/\//.test(url || '') && !isSocialUrl(url) && !seen.has(url)) {
         seen.add(url);
         out.push(url);
       }
