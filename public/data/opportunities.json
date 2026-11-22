@@ -30,5 +30,21 @@
     "skills": [],
     "firstSeen": "2026-11-01",
     "lastSeen": "2026-11-01"
+  },
+  {
+    "id": "scan-db009b8e8878",
+    "type": "GRANT",
+    "title": "Technovation Girls",
+    "summary": "",
+    "location": "Online + optional local chapters",
+    "countries": [],
+    "organization": "Technovation",
+    "url": "https://redwoodacademy.ai/resources/teen-coding-competitions",
+    "deadline": "2027-05-05",
+    "deadlineEvidence": "submissions due May 5, 2027",
+    "eligibility": "Girls ages 8–18 (nonbinary/trans participants welcome); international",
+    "skills": [],
+    "firstSeen": "2026-11-22",
+    "lastSeen": "2026-11-22"
   }
 ]
