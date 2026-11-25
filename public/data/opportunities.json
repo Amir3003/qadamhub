@@ -1,5 +1,21 @@
 [
   {
+    "id": "scan-0733f43a71bf",
+    "type": "GRANT",
+    "title": "NYC Founder Fellowship 2027 (Chloe Capital)",
+    "summary": "A three-month accelerator for tech founders from underrepresented and historically marginalized backgrounds who are actively raising a Seed – Series A round. Fifteen companies from New York City will be selected for the 2027 cohort.",
+    "location": "New York City",
+    "countries": [],
+    "organization": "Chloe Capital (in partnership with New York City Economic Development Corporation)",
+    "url": "https://grantedai.com/grants/nyc-founder-fellowship-2027-chloe-capital-chloe-capital-in-partnership-with-new-yo-9f135d72",
+    "deadline": "2026-12-16",
+    "deadlineEvidence": "Applications for NYC Founder Fellowship 2027 (Chloe Capital) are due December 16, 2026.",
+    "eligibility": "NYC-based tech founders from underrepresented backgrounds building innovative technology solutions across Energy, Workforce, and Health",
+    "skills": [],
+    "firstSeen": "2026-11-25",
+    "lastSeen": "2026-11-25"
+  },
+  {
     "id": "scan-6585aef7bed6",
     "type": "GRANT",
     "title": "Summer Fellowship (US)",
